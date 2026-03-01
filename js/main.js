@@ -63,10 +63,15 @@ if (loginForm) {
 
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Reload user to ensure displayName is updated
+            await user.reload();
+
             // Save user to localStorage
             localStorage.setItem("currentUser", JSON.stringify({
-                email: userCredential.user.email,
-                name: userCredential.user.displayName
+                email: user.email,
+                name: user.displayName || user.email.split('@')[0] // fallback
             }));
 
             alert("Login successful!");
