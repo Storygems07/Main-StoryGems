@@ -1,5 +1,6 @@
 // js/main.js
 import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase.js';
+import { updateProfile } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
 // ===== SIGNUP LOGIC =====
 const signupForm = document.getElementById("signupForm");
@@ -8,22 +9,33 @@ if (signupForm) {
     signupForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
+        const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            document.getElementById("signupError").innerText = "Passwords do not match!";
+            document.getElementById("signupError").style.display = "block";
             return;
         }
 
         createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                alert("Signup successful! Please login.");
-                window.location.href = "login.html";
+            .then((userCredential) => {
+                // Save displayName (user's name)
+                updateProfile(userCredential.user, { displayName: name })
+                    .then(() => {
+                        alert("Signup successful! Please login.");
+                        window.location.href = "login.html";
+                    })
+                    .catch((error) => {
+                        document.getElementById("signupError").innerText = error.message;
+                        document.getElementById("signupError").style.display = "block";
+                    });
             })
             .catch((error) => {
-                alert(error.message);
+                document.getElementById("signupError").innerText = error.message;
+                document.getElementById("signupError").style.display = "block";
             });
     });
 }
@@ -40,12 +52,17 @@ if (loginForm) {
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                localStorage.setItem("currentUser", JSON.stringify(userCredential.user));
+                // Save user to localStorage
+                localStorage.setItem("currentUser", JSON.stringify({
+                    email: userCredential.user.email,
+                    name: userCredential.user.displayName
+                }));
                 alert("Login successful!");
                 window.location.href = "index.html";
             })
             .catch((error) => {
-                alert(error.message);
+                document.getElementById("loginError").innerText = error.message;
+                document.getElementById("loginError").style.display = "block";
             });
     });
 }
@@ -74,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (user && greeting) {
-        greeting.innerHTML = `Hello, ${user.email}`;
+        greeting.innerHTML = `Hi, ${user.name}`; // display user name
         if (logoutBtn) logoutBtn.style.display = "block";
     }
 });
