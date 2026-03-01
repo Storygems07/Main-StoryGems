@@ -78,3 +78,19 @@ function logout() {
     localStorage.removeItem("currentUser");
     window.location.href = "login.html";
 }
+
+
+
+
+
+// ===== NAVBAR USER DISPLAY =====
+document.addEventListener("DOMContentLoaded", function () {
+    const user = JSON.parse(localStorage.getItem("currentUser"));
+    const greeting = document.getElementById("userGreeting");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (user && greeting) {
+        greeting.innerHTML = `Hello, ${user.name}`;
+        logoutBtn.style.display = "block";
+    }
+});
