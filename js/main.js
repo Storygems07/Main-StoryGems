@@ -17,6 +17,7 @@ if (signupForm) {
 
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
 
@@ -27,12 +28,15 @@ if (signupForm) {
 
         let users = getUsers();
 
-        if (users.find(user => user.email === email)) {
-            alert("Email already registered!");
+        // Check email OR phone already exists
+        const exists = users.find(user => user.email === email || user.phone === phone);
+
+        if (exists) {
+            alert("Email or phone already registered!");
             return;
         }
 
-        users.push({ name, email, password });
+        users.push({ name, email, phone, password });
         saveUsers(users);
 
         alert("Signup successful! Please login.");
@@ -47,14 +51,17 @@ if (loginForm) {
     loginForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const email = document.getElementById("loginEmail").value.trim();
+        const input = document.getElementById("loginEmail").value.trim(); // can be email OR phone
         const password = document.getElementById("loginPassword").value;
 
         let users = getUsers();
-        const user = users.find(u => u.email === email && u.password === password);
+
+        const user = users.find(
+            u => (u.email === input || u.phone === input) && u.password === password
+        );
 
         if (!user) {
-            alert("Invalid email or password!");
+            alert("Invalid login details!");
             return;
         }
 
@@ -64,7 +71,6 @@ if (loginForm) {
         window.location.href = "index.html";
     });
 }
-
 // ===== CHECK LOGIN =====
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem("currentUser"));
