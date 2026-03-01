@@ -1,42 +1,43 @@
 // js/main.js
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase.js';
-import { updateProfile } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from './firebase.js';
 
 // ===== SIGNUP LOGIC =====
 const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
-    signupForm.addEventListener("submit", function (e) {
+    signupForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
         const confirmPassword = document.getElementById("confirmPassword").value;
+        const signupError = document.getElementById("signupError");
+
+        signupError.style.display = "none"; // reset error
 
         if (password !== confirmPassword) {
-            document.getElementById("signupError").innerText = "Passwords do not match!";
-            document.getElementById("signupError").style.display = "block";
+            signupError.innerText = "Passwords do not match!";
+            signupError.style.display = "block";
             return;
         }
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Save displayName (user's name)
-                updateProfile(userCredential.user, { displayName: name })
-                    .then(() => {
-                        alert("Signup successful! Please login.");
-                        window.location.href = "login.html";
-                    })
-                    .catch((error) => {
-                        document.getElementById("signupError").innerText = error.message;
-                        document.getElementById("signupError").style.display = "block";
-                    });
-            })
-            .catch((error) => {
-                document.getElementById("signupError").innerText = error.message;
-                document.getElementById("signupError").style.display = "block";
-            });
+        if (password.length < 6) {
+            signupError.innerText = "Password must be at least 6 characters!";
+            signupError.style.display = "block";
+            return;
+        }
+
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(userCredential.user, { displayName: name }); // save name
+
+            alert("Signup successful! Please login.");
+            window.location.href = "login.html";
+        } catch (error) {
+            signupError.innerText = error.message;
+            signupError.style.display = "block";
+        }
     });
 }
 
@@ -44,26 +45,36 @@ if (signupForm) {
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-    loginForm.addEventListener("submit", function (e) {
+    loginForm.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         const email = document.getElementById("loginInput").value.trim();
         const password = document.getElementById("loginPassword").value;
+        let loginError = document.getElementById("loginError");
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Save user to localStorage
-                localStorage.setItem("currentUser", JSON.stringify({
-                    email: userCredential.user.email,
-                    name: userCredential.user.displayName
-                }));
-                alert("Login successful!");
-                window.location.href = "index.html";
-            })
-            .catch((error) => {
-                document.getElementById("loginError").innerText = error.message;
-                document.getElementById("loginError").style.display = "block";
-            });
+        if (!loginError) {
+            loginError = document.createElement("p");
+            loginError.id = "loginError";
+            loginError.className = "auth-error";
+            loginForm.prepend(loginError);
+        }
+
+        loginError.style.display = "none";
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            // Save user to localStorage
+            localStorage.setItem("currentUser", JSON.stringify({
+                email: userCredential.user.email,
+                name: userCredential.user.displayName
+            }));
+
+            alert("Login successful!");
+            window.location.href = "index.html";
+        } catch (error) {
+            loginError.innerText = error.message;
+            loginError.style.display = "block";
+        }
     });
 }
 
@@ -91,10 +102,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (user && greeting) {
-        greeting.innerHTML = `Hi, ${user.name}`; // display user name
+        greeting.innerHTML = `Hi, ${user.name}`;
         if (logoutBtn) logoutBtn.style.display = "block";
     }
 });
 
-// Export functions for other pages
 export { checkAuth, logout };
