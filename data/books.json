@@ -1,1 +1,5 @@
-
+[
+    { "id": "b1", "title": "Mahabharata", "author": "Vyasa" },
+    { "id": "b2", "title": "Ramayana", "author": "Valmiki" },
+    { "id": "b3", "title": "Hitopadesha", "author": "Narayan Pandit" }
+]
