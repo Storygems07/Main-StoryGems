@@ -75,7 +75,7 @@ if (loginForm) {
             }));
 
             alert("Login successful!");
-            window.location.href = "index.html";
+           window.location.href = "confirmation.html";
         } catch (error) {
             loginError.innerText = error.message;
             loginError.style.display = "block";
