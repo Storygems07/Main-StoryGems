@@ -1,1 +1,31 @@
+<h2>My Cart</h2>
+<div id="cartContainer"></div>
+<button onclick="checkout()">Checkout</button>
 
+<script type="module">
+import { auth, onAuthStateChanged } from './firebase.js';
+
+onAuthStateChanged(auth, user => {
+    if (!user) window.location.href = "login.html";
+});
+
+function loadCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const container = document.getElementById('cartContainer');
+    container.innerHTML = '';
+    cart.forEach(id => {
+        const books = JSON.parse(localStorage.getItem('booksData')) || [];
+        const book = books.find(b => b.id === id);
+        if(book) {
+            const div = document.createElement('div');
+            div.textContent = `${book.title} - ${book.author}`;
+            container.appendChild(div);
+        }
+    });
+}
+loadCart();
+
+function checkout() {
+    alert("Checkout page coming soon!");
+}
+</script>
