@@ -33,7 +33,7 @@ if (signupForm) {
             await updateProfile(userCredential.user, { displayName: name }); // save name
 
             alert("Signup successful! Please login.");
-            window.location.href = "login.html";
+          window.location.href = "confirmation.html";
         } catch (error) {
             signupError.innerText = error.message;
             signupError.style.display = "block";
