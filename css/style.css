@@ -287,3 +287,59 @@ body.auth-body {
         font-size: 15px;
     }
 }
+
+
+
+
+
+
+
+
+/* ===== Confirmation Page ===== */
+.confirm-box {
+    background: rgba(255,255,255,0.1);
+    padding: 40px 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    text-align: center;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    max-width: 400px;
+    margin: auto;
+    position: relative;
+    top: 20%;
+}
+
+.confirm-box h1 {
+    margin-bottom: 20px;
+}
+
+.confirm-box p {
+    margin-bottom: 30px;
+    font-size: 1.2rem;
+}
+
+.confirm-box button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #7b1fa2;
+    transition: 0.3s;
+}
+
+.confirm-box button:hover {
+    background-color: #ddd;
+}
+
+/* Background for the body */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #7b1fa2, #ab47bc);
+}
