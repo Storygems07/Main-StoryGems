@@ -3,32 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StoryGems</title>
+    <title>StoryGems - Home</title>
     <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/includeNavbar.js" defer></script>
 </head>
 <body>
+
     <!-- NAVBAR -->
-    <div class="navbar">
-        <div class="logo">StoryGems</div>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="books.html">Books</a></li>
-            <li><a href="plans.html">Plans</a></li>
-            <li><a href="cart.html">Cart</a></li>
-            <li><a href="login.html">Login</a></li>
-        </ul>
-    </div>
+    <div id="navbar"></div>
 
     <!-- HERO SECTION -->
     <section class="hero">
-        <h1 class="hero-title">Discover Your Next Favorite Book</h1>
-        <p class="hero-subtitle">Explore thousands of stories for kids, teens, and adults.</p>
+        <h1 class="hero-title">Welcome to StoryGems</h1>
+        <p class="hero-subtitle">Discover your next favorite book, explore magical worlds, and unlock your imagination.</p>
         <div class="hero-buttons">
             <a href="books.html" class="btn">Explore Books</a>
             <a href="plans.html" class="btn btn-secondary">View Plans</a>
-        </div>
-        <div class="hero-image">
-            <img src="images/hero-books.png" alt="Books Illustration">
         </div>
     </section>
 
@@ -38,76 +28,66 @@
         <div class="featured-cards">
             <div class="featured-card">
                 <img src="images/book1.jpg" alt="Book 1">
-                <h3>Harry Potter</h3>
-                <p>Magic, Adventure & Friendship</p>
+                <h3>The Magical Journey</h3>
+                <p>Adventure, Mystery, Fun!</p>
             </div>
             <div class="featured-card">
                 <img src="images/book2.jpg" alt="Book 2">
-                <h3>Panchatantra Tales</h3>
-                <p>Wisdom for Every Age</p>
+                <h3>Legends of India</h3>
+                <p>Epic Tales and Mythology</p>
             </div>
             <div class="featured-card">
                 <img src="images/book3.jpg" alt="Book 3">
-                <h3>Lord of the Rings</h3>
-                <p>Epic Fantasy Adventure</p>
+                <h3>Stories for Teens</h3>
+                <p>Thrills, Fun, and Learning</p>
             </div>
         </div>
     </section>
 
-    <!-- PLANS SECTION -->
+    <!-- PLANS -->
     <section class="plans">
         <h2>Our Plans</h2>
         <div class="plan-cards">
             <div class="card">
-                <div class="plan-icon">📖</div>
-                <h3>1 Month</h3>
-                <p>Unlimited books for one month.</p>
+                <h3>Monthly Plan</h3>
+                <p>Unlimited access for 1 month</p>
+                <span class="plan-icon">📖</span>
                 <a href="plans.html" class="btn">Choose Plan</a>
             </div>
             <div class="card">
-                <div class="plan-icon">📚</div>
-                <h3>3 Months</h3>
-                <p>Enjoy reading for 3 months at a discounted rate.</p>
+                <h3>Quarterly Plan</h3>
+                <p>Unlimited access for 3 months</p>
+                <span class="plan-icon">📚</span>
                 <a href="plans.html" class="btn">Choose Plan</a>
             </div>
             <div class="card">
-                <div class="plan-icon">🏆</div>
-                <h3>1 Year</h3>
-                <p>Full year access to all books and updates.</p>
+                <h3>Yearly Plan</h3>
+                <p>Unlimited access for 1 year</p>
+                <span class="plan-icon">🏆</span>
                 <a href="plans.html" class="btn">Choose Plan</a>
             </div>
         </div>
     </section>
 
-    <!-- CATEGORIES SECTION -->
+    <!-- CATEGORIES -->
     <section class="categories">
-        <h2>Book Categories</h2>
+        <h2>Explore Categories</h2>
         <div class="category-cards">
-            <a href="books.html#kids" class="category-card kids">
-                <div class="category-icon">🧸</div>
-                Kids
-            </a>
-            <a href="books.html#teens" class="category-card teens">
-                <div class="category-icon">📖</div>
-                Teens
-            </a>
-            <a href="books.html#adults" class="category-card adults">
-                <div class="category-icon">🏆</div>
-                Adults
-            </a>
+            <div class="category-card kids" onclick="location.href='books.html'">Kids</div>
+            <div class="category-card teens" onclick="location.href='books.html'">Teens</div>
+            <div class="category-card adults" onclick="location.href='books.html'">Adults</div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>© 2026 StoryGems. All Rights Reserved.</p>
+        <p>&copy; 2026 StoryGems. All rights reserved.</p>
         <div class="socials">
-            <a href="#">Instagram</a>
-            <a href="#">YouTube</a>
-            <a href="#">Facebook</a>
+            <a href="#">Instagram</a> |
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
 </body>
 </html>
