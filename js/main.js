@@ -1,11 +1,18 @@
 // js/main.js
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from './firebase.js';
+import { 
+    auth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    onAuthStateChanged, 
+    updateProfile 
+} from './firebase.js';
 
-// ===== SIGNUP LOGIC =====
+// ================= SIGNUP LOGIC =================
 const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
-    signupForm.addEventListener("submit", async function (e) {
+    signupForm.addEventListener("submit", async function(e) {
         e.preventDefault();
 
         const name = document.getElementById("name").value.trim();
@@ -30,10 +37,10 @@ if (signupForm) {
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(userCredential.user, { displayName: name }); // save name
+            await updateProfile(userCredential.user, { displayName: name });
 
             alert("Signup successful! Please login.");
-          window.location.href = "confirmation.html";
+            window.location.href = "confirmation.html";
         } catch (error) {
             signupError.innerText = error.message;
             signupError.style.display = "block";
@@ -41,11 +48,11 @@ if (signupForm) {
     });
 }
 
-// ===== LOGIN LOGIC =====
+// ================= LOGIN LOGIC =================
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-    loginForm.addEventListener("submit", async function (e) {
+    loginForm.addEventListener("submit", async function(e) {
         e.preventDefault();
 
         const email = document.getElementById("loginInput").value.trim();
@@ -71,11 +78,11 @@ if (loginForm) {
             // Save user to localStorage
             localStorage.setItem("currentUser", JSON.stringify({
                 email: user.email,
-                name: user.displayName || user.email.split('@')[0] // fallback
+                name: user.displayName || user.email.split('@')[0]
             }));
 
             alert("Login successful!");
-           window.location.href = "confirmation.html";
+            window.location.href = "confirmation.html";
         } catch (error) {
             loginError.innerText = error.message;
             loginError.style.display = "block";
@@ -83,7 +90,7 @@ if (loginForm) {
     });
 }
 
-// ===== CHECK LOGIN =====
+// ================= CHECK LOGIN =================
 function checkAuth() {
     onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -92,7 +99,7 @@ function checkAuth() {
     });
 }
 
-// ===== LOGOUT =====
+// ================= LOGOUT FUNCTION =================
 function logout() {
     signOut(auth).then(() => {
         localStorage.removeItem("currentUser");
@@ -100,7 +107,7 @@ function logout() {
     });
 }
 
-// ===== NAVBAR USER DISPLAY =====
+// ================= NAVBAR USER DISPLAY =================
 document.addEventListener("DOMContentLoaded", function () {
     const user = JSON.parse(localStorage.getItem("currentUser"));
     const greeting = document.getElementById("userGreeting");
