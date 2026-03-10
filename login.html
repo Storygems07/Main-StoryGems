@@ -6,16 +6,22 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="auth-body">
+
+  <!-- Navbar -->
+  <div id="navbar"></div>
+  <script type="module" src="js/includeNavbar.js"></script>
+
   <div class="auth-container">
     <h2>Welcome Back</h2>
     <form id="loginForm">
       <input type="text" id="loginInput" placeholder="Email" required>
       <input type="password" id="loginPassword" placeholder="Password" required>
-      <p id="loginError" class="auth-error"></p> <!-- Firebase error placeholder -->
+      <p id="loginError" class="auth-error"></p>
       <button type="submit">Login</button>
     </form>
     <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
   </div>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
