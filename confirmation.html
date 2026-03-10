@@ -6,7 +6,7 @@
   <title>Login Confirmation - StoryGems</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    body {
+    body.confirm-body {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -15,6 +15,7 @@
       color: #fff;
       font-family: 'Arial', sans-serif;
       text-align: center;
+      flex-direction: column;
     }
     .confirm-box {
       background: rgba(255,255,255,0.1);
@@ -45,7 +46,13 @@
     }
   </style>
 </head>
-<body>
+<body class="confirm-body">
+
+  <!-- Navbar dynamically loaded -->
+  <div id="navbar"></div>
+  <script type="module" src="js/includeNavbar.js"></script>
+
+  <!-- Confirmation Box -->
   <div class="confirm-box">
     <h1 id="welcomeMsg">Hi, User!</h1>
     <p>You have successfully logged in.</p>
