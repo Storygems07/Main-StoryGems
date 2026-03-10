@@ -1,31 +1,52 @@
-<h2>My Cart</h2>
-<div id="cartContainer"></div>
-<button onclick="checkout()">Checkout</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Cart - StoryGems</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-<script type="module">
-import { auth, onAuthStateChanged } from './firebase.js';
+  <!-- Navbar dynamically loaded -->
+  <div id="navbar"></div>
+  <script type="module" src="js/includeNavbar.js"></script>
 
-onAuthStateChanged(auth, user => {
-    if (!user) window.location.href = "login.html";
-});
+  <!-- Cart Section -->
+  <h2 style="text-align:center; margin-top:30px;">My Cart</h2>
+  <div id="cartContainer" class="category-cards"></div>
+  <button onclick="checkout()">Checkout</button>
 
-function loadCart() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const container = document.getElementById('cartContainer');
-    container.innerHTML = '';
-    cart.forEach(id => {
-        const books = JSON.parse(localStorage.getItem('booksData')) || [];
-        const book = books.find(b => b.id === id);
-        if(book) {
-            const div = document.createElement('div');
-            div.textContent = `${book.title} - ${book.author}`;
-            container.appendChild(div);
-        }
+  <!-- Cart JS -->
+  <script type="module">
+    import { auth, onAuthStateChanged } from './firebase.js';
+
+    onAuthStateChanged(auth, user => {
+        if (!user) window.location.href = "login.html";
     });
-}
-loadCart();
 
-function checkout() {
-    alert("Checkout page coming soon!");
-}
-</script>
+    function loadCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const container = document.getElementById('cartContainer');
+        container.innerHTML = '';
+        const books = JSON.parse(localStorage.getItem('booksData')) || [];
+        cart.forEach(id => {
+            const book = books.find(b => b.id === id);
+            if(book) {
+                const div = document.createElement('div');
+                div.textContent = `${book.title} - ${book.author}`;
+                container.appendChild(div);
+            }
+        });
+    }
+    loadCart();
+
+    function checkout() {
+        alert("Checkout page coming soon!");
+    }
+
+    window.checkout = checkout; // make it global for button
+  </script>
+
+</body>
+</html>
