@@ -1,4 +1,23 @@
-<script type="module" src="js/main.js"></script>
-<script>
-    checkAuth();
-</script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - StoryGems</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div id="navbar"></div>
+  <script type="module" src="js/includeNavbar.js"></script>
+
+  <h2 style="text-align:center; margin-top:30px;">My Orders</h2>
+  <div id="ordersContainer"></div>
+
+  <script type="module" src="js/main.js"></script>
+  <script>
+    checkAuth(); // ensures user is logged in
+  </script>
+</body>
+</html>
