@@ -1,4 +1,3 @@
-// js/main.js
 import { 
     auth, 
     createUserWithEmailAndPassword, 
@@ -8,11 +7,11 @@ import {
     updateProfile 
 } from './firebase.js';
 
-// ================= SIGNUP LOGIC =================
+// ================= SIGNUP =================
 const signupForm = document.getElementById("signupForm");
 
 if (signupForm) {
-    signupForm.addEventListener("submit", async function(e) {
+    signupForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const name = document.getElementById("name").value.trim();
@@ -21,7 +20,7 @@ if (signupForm) {
         const confirmPassword = document.getElementById("confirmPassword").value;
         const signupError = document.getElementById("signupError");
 
-        signupError.style.display = "none"; // reset error
+        if (signupError) signupError.style.display = "none";
 
         if (password !== confirmPassword) {
             signupError.innerText = "Passwords do not match!";
@@ -42,17 +41,19 @@ if (signupForm) {
             alert("Signup successful! Please login.");
             window.location.href = "confirmation.html";
         } catch (error) {
-            signupError.innerText = error.message;
-            signupError.style.display = "block";
+            if (signupError) {
+                signupError.innerText = error.message;
+                signupError.style.display = "block";
+            }
         }
     });
 }
 
-// ================= LOGIN LOGIC =================
+// ================= LOGIN =================
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-    loginForm.addEventListener("submit", async function(e) {
+    loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const email = document.getElementById("loginInput").value.trim();
@@ -71,11 +72,8 @@ if (loginForm) {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-
-            // Reload user to ensure displayName is updated
             await user.reload();
 
-            // Save user to localStorage
             localStorage.setItem("currentUser", JSON.stringify({
                 email: user.email,
                 name: user.displayName || user.email.split('@')[0]
@@ -90,7 +88,7 @@ if (loginForm) {
     });
 }
 
-// ================= CHECK LOGIN =================
+// ================= CHECK AUTH =================
 function checkAuth() {
     onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -99,7 +97,7 @@ function checkAuth() {
     });
 }
 
-// ================= LOGOUT FUNCTION =================
+// ================= LOGOUT =================
 function logout() {
     signOut(auth).then(() => {
         localStorage.removeItem("currentUser");
@@ -107,14 +105,14 @@ function logout() {
     });
 }
 
-// ================= NAVBAR USER DISPLAY =================
-document.addEventListener("DOMContentLoaded", function () {
+// ================= NAVBAR GREETING =================
+document.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("currentUser"));
     const greeting = document.getElementById("userGreeting");
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (user && greeting) {
-        greeting.innerHTML = `Hi, ${user.name}`;
+        greeting.textContent = `Hi, ${user.name}`;
         if (logoutBtn) logoutBtn.style.display = "block";
     }
 });
