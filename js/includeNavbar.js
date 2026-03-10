@@ -1,23 +1,46 @@
 // js/includeNavbar.js
-import { logout } from './main.js';  // use your main.js logout function
+
+import { logout } from './main.js';
 
 async function includeNavbar() {
-    // Load navbar HTML from components
-    const navbarContainer = document.getElementById("navbar");
-    const response = await fetch('components/navbar.html');
-    navbarContainer.innerHTML = await response.text();
 
-    // Get elements
+    const navbarContainer = document.getElementById("navbar");
+
+    // load navbar html
+    const response = await fetch("components/navbar.html");
+    const navbarHTML = await response.text();
+
+    navbarContainer.innerHTML = navbarHTML;
+
+    // elements
     const greeting = document.getElementById("userGreeting");
     const logoutBtn = document.getElementById("logoutBtn");
+    const loginBtn = document.getElementById("loginBtn");
+    const signupBtn = document.getElementById("signupBtn");
 
-    // Check if user is logged in
     const user = JSON.parse(localStorage.getItem("currentUser"));
-    if (user) {
-        greeting.innerHTML = `Hi, ${user.name}`;
-        logoutBtn.style.display = "block";
+
+    if(user){
+
+        greeting.textContent = `Hi, ${user.name}`;
+
+        if(logoutBtn) logoutBtn.style.display = "inline-block";
+        if(loginBtn) loginBtn.style.display = "none";
+        if(signupBtn) signupBtn.style.display = "none";
+
+        // logout click
+        logoutBtn.addEventListener("click", logout);
+
+    } else {
+
+        if(logoutBtn) logoutBtn.style.display = "none";
+        if(loginBtn) loginBtn.style.display = "inline-block";
+        if(signupBtn) signupBtn.style.display = "inline-block";
+
+        if(greeting) greeting.textContent = "";
+
     }
+
 }
 
-// Run it
 includeNavbar();
