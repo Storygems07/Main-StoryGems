@@ -141,17 +141,6 @@ body {
     text-align: center;
 }
 
-.featured-card img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-.featured-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-}
-
 /* ================== PLANS ================== */
 .plans {
     padding: 80px 20px;
@@ -555,9 +544,14 @@ footer .socials a:hover {
     box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
 
-@media (max-width: 768px) {
-    .plans-container {
-        flex-direction: column;
-        align-items: center;
-    }
+/* ================== SCROLL ANIMATION ================== */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.scroll-reveal.show {
+    opacity: 1;
+    transform: translateY(0);
 }
