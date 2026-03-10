@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module" src="js/includeNavbar.js" defer></script>
+    <script type="module" src="js/scrollAnimations.js" defer></script>
 </head>
 <body>
 
@@ -27,17 +28,17 @@
     <section class="featured">
         <h2>Featured Books</h2>
         <div class="featured-cards">
-            <div class="featured-card">
+            <div class="featured-card scroll-reveal">
                 <img src="images/book1.jpg" alt="Book 1">
                 <h3>The Magical Journey</h3>
                 <p>Adventure, Mystery, Fun!</p>
             </div>
-            <div class="featured-card">
+            <div class="featured-card scroll-reveal">
                 <img src="images/book2.jpg" alt="Book 2">
                 <h3>Legends of India</h3>
                 <p>Epic Tales and Mythology</p>
             </div>
-            <div class="featured-card">
+            <div class="featured-card scroll-reveal">
                 <img src="images/book3.jpg" alt="Book 3">
                 <h3>Stories for Teens</h3>
                 <p>Thrills, Fun, and Learning</p>
@@ -49,19 +50,19 @@
     <section class="plans">
         <h2>Our Plans</h2>
         <div class="plan-cards">
-            <div class="card">
+            <div class="card plan-card scroll-reveal">
                 <h3>Monthly Plan</h3>
                 <p>Unlimited access for 1 month</p>
                 <span class="plan-icon">📖</span>
                 <a href="plans.html" class="btn">Choose Plan</a>
             </div>
-            <div class="card">
+            <div class="card plan-card scroll-reveal">
                 <h3>Quarterly Plan</h3>
                 <p>Unlimited access for 3 months</p>
                 <span class="plan-icon">📚</span>
                 <a href="plans.html" class="btn">Choose Plan</a>
             </div>
-            <div class="card">
+            <div class="card plan-card scroll-reveal">
                 <h3>Yearly Plan</h3>
                 <p>Unlimited access for 1 year</p>
                 <span class="plan-icon">🏆</span>
@@ -74,9 +75,9 @@
     <section class="categories">
         <h2>Explore Categories</h2>
         <div class="category-cards">
-            <div class="category-card kids" onclick="location.href='books.html'">Kids</div>
-            <div class="category-card teens" onclick="location.href='books.html'">Teens</div>
-            <div class="category-card adults" onclick="location.href='books.html'">Adults</div>
+            <div class="category-card kids scroll-reveal" onclick="location.href='books.html'">Kids</div>
+            <div class="category-card teens scroll-reveal" onclick="location.href='books.html'">Teens</div>
+            <div class="category-card adults scroll-reveal" onclick="location.href='books.html'">Adults</div>
         </div>
     </section>
 
