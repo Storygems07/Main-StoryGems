@@ -366,7 +366,7 @@ body.confirm-body {
 /* ================== FOOTER ================== */
 footer {
     padding: 40px 20px;
-    background: #4a148c;
+    background: linear-gradient(135deg, #7b1fa2, #ab47bc);
     color: #fff;
     text-align: center;
 }
@@ -376,10 +376,14 @@ footer .socials a {
     text-decoration: none;
     font-weight: bold;
     margin: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.3s;
 }
 
 footer .socials a:hover {
-    text-decoration: underline;
+    color: #ffeb3b; /* highlight on hover */
 }
 
 /* ================== RESPONSIVE ================== */
