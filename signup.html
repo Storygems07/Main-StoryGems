@@ -6,10 +6,15 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="auth-body">
+
+  <!-- Navbar -->
+  <div id="navbar"></div>
+  <script type="module" src="js/includeNavbar.js"></script>
+
   <div class="auth-container">
     <h2>Create Account</h2>
     <form id="signupForm">
-      <input type="text" id="name" placeholder="Full Name" required> <!-- Added Name -->
+      <input type="text" id="name" placeholder="Full Name" required>
       <input type="email" id="email" placeholder="Email Address" required>
       <input type="password" id="password" placeholder="Password" required>
       <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
@@ -18,6 +23,7 @@
     </form>
     <p>Already have an account? <a href="login.html">Login</a></p>
   </div>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
