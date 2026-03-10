@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Books - StoryGems</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StoryGems Books</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-  <!-- Navbar dynamically loaded -->
-  <div id="navbar"></div>
-  <script type="module" src="js/includeNavbar.js"></script>
+<!-- Navbar -->
+<div id="navbar"></div>
+<script type="module" src="js/includeNavbar.js"></script>
 
-  <!-- Books Section -->
-  <h2 style="text-align:center; margin-top:30px;">Books</h2>
-  <div id="booksContainer" class="category-cards"></div>
+<section class="books-page">
 
-  <script type="module" src="js/books.js"></script>
+<h1 class="books-title">Choose Your Reading Category</h1>
+<p class="books-subtitle">Find stories perfect for every age</p>
+
+<div class="category-container">
+
+<a href="kids.html" class="category-card kids">
+<div class="category-icon">🧸</div>
+<h2>Kids</h2>
+<p>Mythology, Panchatantra, Moral Stories</p>
+</a>
+
+<a href="teens.html" class="category-card teens">
+<div class="category-icon">📘</div>
+<h2>Teens</h2>
+<p>Adventure, Fantasy, Mystery</p>
+</a>
+
+<a href="adults.html" class="category-card adults">
+<div class="category-icon">📚</div>
+<h2>Adults</h2>
+<p>Classics, Philosophy, Literature</p>
+</a>
+
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 StoryGems</p>
+</footer>
+
 </body>
+
 </html>
