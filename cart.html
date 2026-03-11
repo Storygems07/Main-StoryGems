@@ -1,52 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Cart - StoryGems</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<title>My Cart - StoryGems</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
-  <!-- Navbar dynamically loaded -->
-  <div id="navbar"></div>
-  <script type="module" src="js/includeNavbar.js"></script>
+<div id="navbar"></div>
+<script type="module" src="js/includeNavbar.js"></script>
 
-  <!-- Cart Section -->
-  <h2 style="text-align:center; margin-top:30px;">My Cart</h2>
-  <div id="cartContainer" class="category-cards"></div>
-  <button onclick="checkout()">Checkout</button>
+<h2 style="text-align:center;margin-top:30px;">My Cart</h2>
 
-  <!-- Cart JS -->
-  <script type="module">
-    import { auth, onAuthStateChanged } from './firebase.js';
+<div id="cartContainer" class="category-cards"></div>
 
-    onAuthStateChanged(auth, user => {
-        if (!user) window.location.href = "login.html";
-    });
+<h3 id="totalPrice" style="text-align:center;"></h3>
 
-    function loadCart() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const container = document.getElementById('cartContainer');
-        container.innerHTML = '';
-        const books = JSON.parse(localStorage.getItem('booksData')) || [];
-        cart.forEach(id => {
-            const book = books.find(b => b.id === id);
-            if(book) {
-                const div = document.createElement('div');
-                div.textContent = `${book.title} - ${book.author}`;
-                container.appendChild(div);
-            }
-        });
-    }
-    loadCart();
+<button onclick="checkout()" style="display:block;margin:auto;">Checkout</button>
 
-    function checkout() {
-        alert("Checkout page coming soon!");
-    }
+<script type="module">
 
-    window.checkout = checkout; // make it global for button
-  </script>
+import { auth, onAuthStateChanged } from './firebase.js';
+
+onAuthStateChanged(auth,user=>{
+if(!user) window.location.href="login.html";
+});
+
+
+function loadCart(){
+
+const cart = JSON.parse(localStorage.getItem('cart')) || [];
+const books = JSON.parse(localStorage.getItem('booksData')) || [];
+
+const container = document.getElementById('cartContainer');
+const totalText = document.getElementById('totalPrice');
+
+container.innerHTML="";
+
+let total=0;
+
+cart.forEach((id,index)=>{
+
+const book = books.find(b=>b.id===id);
+
+if(book){
+
+total+=Number(book.price);
+
+const div=document.createElement('div');
+
+div.className="category-card";
+
+div.innerHTML=`
+<h3>${book.title}</h3>
+<p>${book.author}</p>
+<p>₹${book.price}</p>
+<button onclick="removeItem(${index})">Remove</button>
+`;
+
+container.appendChild(div);
+
+}
+
+});
+
+totalText.innerText="Total: ₹"+total;
+
+}
+
+function removeItem(index){
+
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+cart.splice(index,1);
+
+localStorage.setItem('cart', JSON.stringify(cart));
+
+loadCart();
+
+}
+
+function checkout(){
+
+window.location.href="checkout.html";
+
+}
+
+window.removeItem=removeItem;
+window.checkout=checkout;
+
+loadCart();
+
+</script>
 
 </body>
 </html>
