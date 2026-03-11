@@ -1,120 +1,152 @@
 import { 
-    auth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    signOut, 
-    onAuthStateChanged, 
-    updateProfile 
+auth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged,
+updateProfile
 } from './firebase.js';
 
-// ================= SIGNUP =================
+
 const signupForm = document.getElementById("signupForm");
 
-if (signupForm) {
-    signupForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+if(signupForm){
 
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-        const confirmPassword = document.getElementById("confirmPassword").value;
-        const signupError = document.getElementById("signupError");
+signupForm.addEventListener("submit", async (e)=>{
 
-        if (signupError) signupError.style.display = "none";
+e.preventDefault();
 
-        if (password !== confirmPassword) {
-            signupError.innerText = "Passwords do not match!";
-            signupError.style.display = "block";
-            return;
-        }
+const name = document.getElementById("name").value.trim();
+const email = document.getElementById("email").value.trim();
+const phone = document.getElementById("phone").value.trim();
+const address = document.getElementById("address").value.trim();
+const city = document.getElementById("city").value.trim();
+const state = document.getElementById("state").value.trim();
+const pincode = document.getElementById("pincode").value.trim();
 
-        if (password.length < 6) {
-            signupError.innerText = "Password must be at least 6 characters!";
-            signupError.style.display = "block";
-            return;
-        }
+const password = document.getElementById("password").value;
+const confirmPassword = document.getElementById("confirmPassword").value;
 
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await updateProfile(userCredential.user, { displayName: name });
+const signupError = document.getElementById("signupError");
 
-            alert("Signup successful! Please login.");
-            window.location.href = "confirmation.html";
-        } catch (error) {
-            if (signupError) {
-                signupError.innerText = error.message;
-                signupError.style.display = "block";
-            }
-        }
-    });
+signupError.style.display="none";
+
+if(password!==confirmPassword){
+
+signupError.innerText="Passwords do not match";
+signupError.style.display="block";
+return;
+
 }
 
-// ================= LOGIN =================
-const loginForm = document.getElementById("loginForm");
+if(password.length<6){
 
-if (loginForm) {
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
+signupError.innerText="Password must be at least 6 characters";
+signupError.style.display="block";
+return;
 
-        const email = document.getElementById("loginInput").value.trim();
-        const password = document.getElementById("loginPassword").value;
-        let loginError = document.getElementById("loginError");
-
-        if (!loginError) {
-            loginError = document.createElement("p");
-            loginError.id = "loginError";
-            loginError.className = "auth-error";
-            loginForm.prepend(loginError);
-        }
-
-        loginError.style.display = "none";
-
-        try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            await user.reload();
-
-            localStorage.setItem("currentUser", JSON.stringify({
-                email: user.email,
-                name: user.displayName || user.email.split('@')[0]
-            }));
-
-            alert("Login successful!");
-            window.location.href = "confirmation.html";
-        } catch (error) {
-            loginError.innerText = error.message;
-            loginError.style.display = "block";
-        }
-    });
 }
 
-// ================= CHECK AUTH =================
-function checkAuth() {
-    onAuthStateChanged(auth, (user) => {
-        if (!user) {
-            window.location.href = "login.html";
-        }
-    });
-}
+try{
 
-// ================= LOGOUT =================
-function logout() {
-    signOut(auth).then(() => {
-        localStorage.removeItem("currentUser");
-        window.location.href = "login.html";
-    });
-}
+const userCredential = await createUserWithEmailAndPassword(auth,email,password);
 
-// ================= NAVBAR GREETING =================
-document.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-    const greeting = document.getElementById("userGreeting");
-    const logoutBtn = document.getElementById("logoutBtn");
-
-    if (user && greeting) {
-        greeting.textContent = `Hi, ${user.name}`;
-        if (logoutBtn) logoutBtn.style.display = "block";
-    }
+await updateProfile(userCredential.user,{
+displayName:name
 });
 
-export { checkAuth, logout };
+const userData = {
+name,
+email,
+phone,
+address,
+city,
+state,
+pincode
+};
+
+localStorage.setItem("userProfile", JSON.stringify(userData));
+
+alert("Signup successful!");
+
+window.location.href="login.html";
+
+}catch(error){
+
+signupError.innerText=error.message;
+signupError.style.display="block";
+
+}
+
+});
+
+}
+
+
+
+const loginForm=document.getElementById("loginForm");
+
+if(loginForm){
+
+loginForm.addEventListener("submit", async (e)=>{
+
+e.preventDefault();
+
+const email=document.getElementById("loginInput").value.trim();
+const password=document.getElementById("loginPassword").value;
+
+let loginError=document.getElementById("loginError");
+
+if(!loginError){
+
+loginError=document.createElement("p");
+loginError.className="auth-error";
+loginForm.prepend(loginError);
+
+}
+
+loginError.style.display="none";
+
+try{
+
+const userCredential = await signInWithEmailAndPassword(auth,email,password);
+
+const user=userCredential.user;
+
+localStorage.setItem("currentUser", JSON.stringify({
+
+email:user.email,
+name:user.displayName || user.email.split("@")[0]
+
+}));
+
+alert("Login successful!");
+
+window.location.href="books.html";
+
+}catch(error){
+
+loginError.innerText=error.message;
+loginError.style.display="block";
+
+}
+
+});
+
+}
+
+
+
+function logout(){
+
+signOut(auth).then(()=>{
+
+localStorage.removeItem("currentUser");
+
+window.location.href="login.html";
+
+});
+
+}
+
+export {logout};
