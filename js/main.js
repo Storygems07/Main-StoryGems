@@ -1,7 +1,10 @@
-//js/main.js
+// js/main.js
+
 import {
 auth,
 db,
+doc,
+setDoc,
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 signOut,
@@ -9,27 +12,34 @@ onAuthStateChanged,
 updateProfile
 } from './firebase.js';
 
-import {
-doc,
-setDoc
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 
+/* =========================
+   SIGNUP
+========================= */
 
 const signupForm = document.getElementById("signupForm");
 
-if(signupForm){
+if (signupForm) {
 
-signupForm.addEventListener("submit", async (e)=>{
+signupForm.addEventListener("submit", async (e) => {
 
 e.preventDefault();
 
 const name = document.getElementById("name").value.trim();
 const email = document.getElementById("email").value.trim();
 const phone = document.getElementById("phone").value.trim();
-const address = document.getElementById("address").value.trim();
-const city = document.getElementById("city").value.trim();
+
+const country = document.getElementById("country").value;
 const state = document.getElementById("state").value.trim();
+const city = document.getElementById("city").value.trim();
+const area = document.getElementById("area").value.trim();
+
+const apartment = document.getElementById("apartment").value.trim();
+const floor = document.getElementById("floor").value.trim();
+const door = document.getElementById("door").value.trim();
+
+const landmark = document.getElementById("landmark").value.trim();
 const pincode = document.getElementById("pincode").value.trim();
 
 const password = document.getElementById("password").value;
@@ -37,54 +47,77 @@ const confirmPassword = document.getElementById("confirmPassword").value;
 
 const signupError = document.getElementById("signupError");
 
-signupError.style.display="none";
+signupError.style.display = "none";
 
-if(password!==confirmPassword){
 
-signupError.innerText="Passwords do not match";
-signupError.style.display="block";
+/* Password check */
+
+if (password !== confirmPassword) {
+
+signupError.innerText = "Passwords do not match";
+signupError.style.display = "block";
 return;
 
 }
 
-if(password.length<6){
+if (password.length < 6) {
 
-signupError.innerText="Password must be at least 6 characters";
-signupError.style.display="block";
+signupError.innerText = "Password must be at least 6 characters";
+signupError.style.display = "block";
 return;
 
 }
 
-try{
 
-const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+try {
+
+/* Create account */
+
+const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
 const user = userCredential.user;
 
-await updateProfile(user,{
-displayName:name
+
+/* Add display name */
+
+await updateProfile(user, {
+displayName: name
 });
 
-await setDoc(doc(db,"users",user.uid),{
+
+/* Save user profile in Firestore */
+
+await setDoc(doc(db, "users", user.uid), {
 
 name,
 email,
 phone,
-address,
-city,
+
+country,
 state,
+city,
+area,
+
+apartment,
+floor,
+door,
+
+landmark,
 pincode
 
 });
 
+
 alert("Signup successful!");
 
-window.location.href="login.html";
+window.location.href = "login.html";
 
-}catch(error){
+}
 
-signupError.innerText=error.message;
-signupError.style.display="block";
+catch (error) {
+
+signupError.innerText = error.message;
+signupError.style.display = "block";
 
 }
 
@@ -94,50 +127,61 @@ signupError.style.display="block";
 
 
 
-const loginForm=document.getElementById("loginForm");
+/* =========================
+   LOGIN
+========================= */
 
-if(loginForm){
+const loginForm = document.getElementById("loginForm");
 
-loginForm.addEventListener("submit", async (e)=>{
+if (loginForm) {
+
+loginForm.addEventListener("submit", async (e) => {
 
 e.preventDefault();
 
-const email=document.getElementById("loginInput").value.trim();
-const password=document.getElementById("loginPassword").value;
+const email = document.getElementById("loginInput").value.trim();
+const password = document.getElementById("loginPassword").value;
 
-let loginError=document.getElementById("loginError");
+let loginError = document.getElementById("loginError");
 
-if(!loginError){
+if (!loginError) {
 
-loginError=document.createElement("p");
-loginError.className="auth-error";
+loginError = document.createElement("p");
+loginError.className = "auth-error";
 loginForm.prepend(loginError);
 
 }
 
-loginError.style.display="none";
+loginError.style.display = "none";
 
-try{
 
-const userCredential = await signInWithEmailAndPassword(auth,email,password);
+try {
 
-const user=userCredential.user;
+const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+const user = userCredential.user;
+
+
+/* Save current user locally */
 
 localStorage.setItem("currentUser", JSON.stringify({
 
-email:user.email,
-name:user.displayName || user.email.split("@")[0]
+email: user.email,
+name: user.displayName || user.email.split("@")[0]
 
 }));
 
+
 alert("Login successful!");
 
-window.location.href="books.html";
+window.location.href = "books.html";
 
-}catch(error){
+}
 
-loginError.innerText=error.message;
-loginError.style.display="block";
+catch (error) {
+
+loginError.innerText = error.message;
+loginError.style.display = "block";
 
 }
 
@@ -147,16 +191,20 @@ loginError.style.display="block";
 
 
 
-function logout(){
+/* =========================
+   LOGOUT
+========================= */
 
-signOut(auth).then(()=>{
+function logout() {
+
+signOut(auth).then(() => {
 
 localStorage.removeItem("currentUser");
 
-window.location.href="login.html";
+window.location.href = "login.html";
 
 });
 
 }
 
-export {logout};
+export { logout };
