@@ -13,9 +13,13 @@ updateProfile
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 
 import {
-getFirestore
+getFirestore,
+doc,
+setDoc
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
+
+// Firebase configuration
 const firebaseConfig = {
 apiKey: "AIzaSyAoa8B1K0lxOV54BrRweYvmjxM5YYIiBvQ",
 authDomain: "storygems-6ac57.firebaseapp.com",
@@ -26,17 +30,23 @@ appId: "1:872029087113:web:7a9f30109379b21aaced58",
 measurementId: "G-Y0HJE06TVN"
 };
 
-const app = initializeApp(firebaseConfig);
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-const auth = getAuth(app);
 
+// Services
+const auth = getAuth(app);
 const db = getFirestore(app);
 
+
+// Export everything needed
 export {
 auth,
 db,
+doc,
+setDoc,
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 signOut,
