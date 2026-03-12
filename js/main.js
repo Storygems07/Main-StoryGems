@@ -1,11 +1,19 @@
-import { 
+//js/main.js
+import {
 auth,
+db,
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 signOut,
 onAuthStateChanged,
 updateProfile
 } from './firebase.js';
+
+import {
+doc,
+setDoc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
 
 
 const signupForm = document.getElementById("signupForm");
@@ -51,11 +59,14 @@ try{
 
 const userCredential = await createUserWithEmailAndPassword(auth,email,password);
 
-await updateProfile(userCredential.user,{
+const user = userCredential.user;
+
+await updateProfile(user,{
 displayName:name
 });
 
-const userData = {
+await setDoc(doc(db,"users",user.uid),{
+
 name,
 email,
 phone,
@@ -63,9 +74,8 @@ address,
 city,
 state,
 pincode
-};
 
-localStorage.setItem("userProfile", JSON.stringify(userData));
+});
 
 alert("Signup successful!");
 
