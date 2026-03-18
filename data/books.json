@@ -1,5 +1,51 @@
 [
-    { "id": "b1", "title": "Mahabharata", "author": "Vyasa" },
-    { "id": "b2", "title": "Ramayana", "author": "Valmiki" },
-    { "id": "b3", "title": "Hitopadesha", "author": "Narayan Pandit" }
+  {
+    "id": "b1",
+    "title": "Mahabharata",
+    "author": "Vyasa",
+    "category": "kids",
+    "price": 200
+  },
+  {
+    "id": "b2",
+    "title": "Ramayana",
+    "author": "Valmiki",
+    "category": "kids",
+    "price": 180
+  },
+  {
+    "id": "b3",
+    "title": "Hitopadesha",
+    "author": "Narayan Pandit",
+    "category": "kids",
+    "price": 150
+  },
+  {
+    "id": "b4",
+    "title": "Harry Potter",
+    "author": "J.K. Rowling",
+    "category": "teens",
+    "price": 350
+  },
+  {
+    "id": "b5",
+    "title": "Percy Jackson",
+    "author": "Rick Riordan",
+    "category": "teens",
+    "price": 300
+  },
+  {
+    "id": "b6",
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "category": "adults",
+    "price": 400
+  },
+  {
+    "id": "b7",
+    "title": "Rich Dad Poor Dad",
+    "author": "Robert Kiyosaki",
+    "category": "adults",
+    "price": 350
+  }
 ]
