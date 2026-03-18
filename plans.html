@@ -1,52 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StoryGems Plans</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>StoryGems Plans</title>
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+/* same styles from new code */
+body{
+background: linear-gradient(135deg,#eef2ff,#fdfbff);
+font-family: 'Poppins', sans-serif;
+}
+
+.plans-page{
+padding:80px 20px;
+text-align:center;
+}
+
+.plans-container{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+}
+
+.plan-card{
+background:white;
+padding:30px;
+border-radius:20px;
+width:280px;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.plan-features{
+list-style:none;
+text-align:left;
+}
+
+.btn{
+margin-top:20px;
+padding:12px 25px;
+background:linear-gradient(135deg,#6c4ab6,#8b6cff);
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* popup */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.popup-box{
+background:white;
+padding:30px;
+border-radius:18px;
+max-width:420px;
+}
+
+</style>
+
 </head>
+
 <body>
 
-  <div id="navbar"></div>
-  <script type="module" src="js/includeNavbar.js"></script>
+<!-- NAVBAR -->
+<div id="navbar"></div>
+<script type="module" src="js/includeNavbar.js"></script>
 
-  <section class="plans-page">
-    <h1 class="plans-title">Choose Your Plan</h1>
-    <p class="plans-subtitle">Enjoy unlimited access to magical stories</p>
+<section class="plans-page">
 
-    <div class="plans-container">
-      <div class="plan-card">
-        <h2>1 Month Plan</h2>
-        <p>Access all books for 1 month</p>
-        <span class="plan-icon">📖</span>
-        <a href="checkout.html?plan=1month" class="btn">Select Plan</a>
-      </div>
+<h1>Choose Your Plan 📚</h1>
+<p>A magical monthly reading experience ✨</p>
 
-      <div class="plan-card">
-        <h2>3 Month Plan</h2>
-        <p>Access all books for 3 months</p>
-        <span class="plan-icon">📚</span>
-        <a href="checkout.html?plan=3month" class="btn">Select Plan</a>
-      </div>
+<div class="plans-container">
 
-      <div class="plan-card">
-        <h2>6 Month Plan</h2>
-        <p>Access all books for 6 months</p>
-        <span class="plan-icon">🏆</span>
-        <a href="checkout.html?plan=6month" class="btn">Select Plan</a>
-      </div>
-    </div>
-  </section>
+<div class="plan-card">
+<h2>2 Month Plan</h2>
+<ul class="plan-features">
+<li>📦 2 Books</li>
+<li>🎁 6 Gifts</li>
+<li>🎲 Blind Date Available</li>
+</ul>
+<button class="btn selectPlan" data-plan="2">Select Plan</button>
+</div>
 
-  <footer>
-    <p>&copy; 2026 StoryGems. All rights reserved.</p>
-    <div class="socials">
-      <a href="#">Instagram</a> | <a href="#">YouTube</a> | <a href="#">Facebook</a>
-    </div>
-  </footer>
+<div class="plan-card">
+<h2>4 Month Plan</h2>
+<ul class="plan-features">
+<li>📦 4 Books</li>
+<li>🎁 12 Gifts</li>
+<li>🎲 Blind Date Available</li>
+</ul>
+<button class="btn selectPlan" data-plan="4">Select Plan</button>
+</div>
 
-<script type="module" src="js/plans.js"></script>
-  
+<div class="plan-card">
+<h2>6 Month Plan</h2>
+<ul class="plan-features">
+<li>📦 6 Books</li>
+<li>🎁 18 Gifts</li>
+<li>🎲 Blind Date Available</li>
+</ul>
+<button class="btn selectPlan" data-plan="6">Select Plan</button>
+</div>
+
+</div>
+
+</section>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+<div class="popup-box">
+
+<h2>📚 How It Works</h2>
+
+<p>Choose categories → Select books or Blind Date 🎁 → Get 1 book every month</p>
+<p>🎁 3 gifts every month</p>
+
+<p><b>Extra:</b> ₹200 delivery + ₹49 blind date</p>
+
+<button id="continueBtn">Continue</button>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+<p>&copy; 2026 StoryGems</p>
+</footer>
+
+<script>
+
+let selectedPlan = 2;
+
+document.querySelectorAll(".selectPlan").forEach(btn=>{
+btn.onclick=()=>{
+selectedPlan = btn.dataset.plan;
+document.getElementById("popup").style.display="flex";
+};
+});
+
+document.getElementById("continueBtn").onclick=()=>{
+window.location.href = `categories.html?plan=${selectedPlan}`;
+};
+
+</script>
+
 </body>
 </html>
