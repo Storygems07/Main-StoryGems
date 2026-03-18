@@ -11,9 +11,9 @@
 
 body{
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#eef2ff,#fdfbff);
+background:linear-gradient(135deg,#fdfbff,#eef2ff);
+padding:30px;
 text-align:center;
-padding:40px;
 }
 
 h1{
@@ -21,68 +21,49 @@ color:#5a3ff2;
 margin-bottom:20px;
 }
 
-.month{
+.books-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+max-width:1000px;
+margin:auto;
+}
+
+.book-card{
 background:white;
-padding:20px;
-margin:20px auto;
-max-width:700px;
+padding:15px;
 border-radius:15px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+text-align:left;
 }
 
-.options{
-display:flex;
-justify-content:center;
-gap:15px;
-margin-bottom:15px;
+.book-card h3{
+margin:5px 0;
 }
 
-.option{
-padding:10px 15px;
-border:2px solid #ddd;
-border-radius:10px;
-cursor:pointer;
+.book-card p{
+color:#555;
+font-size:14px;
 }
 
-.option.active{
-background:#6c4ab6;
-color:white;
-border:none;
-}
-
-.books{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-justify-content:center;
-}
-
-.book{
-padding:8px 12px;
-background:#eee;
-border-radius:8px;
-cursor:pointer;
-}
-
-.book.selected{
-background:#6c4ab6;
-color:white;
-}
-
-.total{
-margin-top:20px;
+.price{
 font-weight:bold;
-font-size:18px;
+margin-top:10px;
 }
 
-.btn{
-margin-top:20px;
-padding:12px 25px;
-background:linear-gradient(135deg,#6c4ab6,#8f6ed5);
+button{
+margin-top:10px;
+width:100%;
+padding:10px;
+background:#6c4ab6;
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
+}
+
+button:hover{
+background:#5a3ff2;
 }
 
 </style>
@@ -91,22 +72,12 @@ cursor:pointer;
 
 <body>
 
-<!-- NAVBAR -->
 <div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
-<h1>Select Your Books 📚</h1>
+<h1>Explore Books 📚</h1>
 
-<div id="container"></div>
-
-<p class="total" id="totalPrice">Total: ₹0</p>
-
-<button class="btn" id="continueBtn">Continue</button>
-
-<!-- FOOTER -->
-<footer>
-<p>© 2026 StoryGems</p>
-</footer>
+<div class="books-container" id="booksContainer"></div>
 
 <script type="module" src="js/books.js"></script>
 
