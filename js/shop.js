@@ -1,24 +1,25 @@
 // js/shop.js
 
-const category = localStorage.getItem("category");
+const age = localStorage.getItem("ageGroup");
 
 // safety
-if(!category){
+if(!age){
 window.location.href = "books.html";
 }
 
-document.getElementById("title").innerText = category + " Books 📚";
+document.getElementById("title").innerText =
+age.toUpperCase() + " Books 📚";
 
 const container = document.getElementById("booksContainer");
 
-// FETCH FROM JSON
+// LOAD BOOKS
 async function loadBooks(){
 
 const res = await fetch("data/books.json");
 const books = await res.json();
 
-// filter
-const filtered = books.filter(b => b.category === category);
+// 🔥 FILTER BY AGE (IMPORTANT FIX)
+const filtered = books.filter(b => b.category === age);
 
 filtered.forEach(book => {
 
@@ -27,6 +28,7 @@ div.className = "card";
 
 div.innerHTML = `
 <h3>${book.title}</h3>
+<p>${book.author}</p>
 <p class="price">₹${book.price}</p>
 <button onclick="addToCart('${book.id}')">Add to Cart</button>
 `;
