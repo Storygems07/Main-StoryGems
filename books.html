@@ -6,46 +6,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StoryGems Books</title>
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+font-family:'Poppins',sans-serif;
+background:linear-gradient(135deg,#eef2ff,#fdfbff);
+text-align:center;
+padding:40px;
+}
+
+h1{
+color:#5a3ff2;
+margin-bottom:20px;
+}
+
+.month{
+background:white;
+padding:20px;
+margin:20px auto;
+max-width:600px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.options{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-bottom:15px;
+}
+
+.option{
+padding:10px 15px;
+border:2px solid #ddd;
+border-radius:10px;
+cursor:pointer;
+}
+
+.option.active{
+background:#6c4ab6;
+color:white;
+border:none;
+}
+
+.books{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+}
+
+.book{
+padding:8px 12px;
+background:#eee;
+border-radius:8px;
+cursor:pointer;
+}
+
+.book.selected{
+background:#6c4ab6;
+color:white;
+}
+
+.total{
+margin-top:20px;
+font-weight:bold;
+font-size:18px;
+}
+
+.btn{
+margin-top:20px;
+padding:12px 25px;
+background:#6c4ab6;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<!-- Navbar -->
+<!-- NAVBAR -->
 <div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
-<section class="books-page">
+<h1>Select Your Books 📚</h1>
 
-<h1 class="books-title">Choose Your Reading Category</h1>
-<p class="books-subtitle">Find stories perfect for every age</p>
+<div id="container"></div>
 
-<div class="category-container">
+<p class="total" id="totalPrice">Total: ₹0</p>
 
-<a href="kids.html" class="category-card kids">
-<div class="category-icon">🧸</div>
-<h2>Kids</h2>
-<p>Mythology, Panchatantra, Moral Stories</p>
-</a>
+<button class="btn" id="continueBtn">Continue</button>
 
-<a href="teens.html" class="category-card teens">
-<div class="category-icon">📘</div>
-<h2>Teens</h2>
-<p>Adventure, Fantasy, Mystery</p>
-</a>
-
-<a href="adults.html" class="category-card adults">
-<div class="category-icon">📚</div>
-<h2>Adults</h2>
-<p>Classics, Philosophy, Literature</p>
-</a>
-
-</div>
-
-</section>
-
+<!-- FOOTER -->
 <footer>
 <p>© 2026 StoryGems</p>
 </footer>
+
+<script type="module" src="js/books.js"></script>
 
 </body>
 
