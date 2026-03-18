@@ -1,86 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoryGems Books</title>
-<link rel="stylesheet" href="css/style.css">
+<title>StoryGems | Choose Age</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
+margin:0;
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#fdfbff,#eef2ff);
-padding:30px;
+background:linear-gradient(135deg,#eef2ff,#fdfbff);
+}
+
+.container{
 text-align:center;
+padding:60px 20px;
 }
 
 h1{
-color:#5a3ff2;
-margin-bottom:20px;
+font-size:32px;
+color:#4b3ac7;
+margin-bottom:10px;
 }
 
-.books-container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-max-width:1000px;
-margin:auto;
+p{
+color:#666;
+margin-bottom:40px;
 }
 
-.book-card{
+.cards{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+}
+
+.card{
 background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
-text-align:left;
-}
-
-.book-card h3{
-margin:5px 0;
-}
-
-.book-card p{
-color:#555;
-font-size:14px;
-}
-
-.price{
-font-weight:bold;
-margin-top:10px;
-}
-
-button{
-margin-top:10px;
-width:100%;
-padding:10px;
-background:#6c4ab6;
-color:white;
-border:none;
-border-radius:10px;
+padding:40px;
+width:220px;
+border-radius:20px;
 cursor:pointer;
+box-shadow:0 15px 40px rgba(0,0,0,0.1);
+transition:0.3s;
 }
 
-button:hover{
-background:#5a3ff2;
+.card:hover{
+transform:translateY(-10px) scale(1.05);
+}
+
+.icon{
+font-size:50px;
+margin-bottom:10px;
+}
+
+.title{
+font-size:20px;
+font-weight:600;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div id="navbar"></div>
-<script type="module" src="js/includeNavbar.js"></script>
+<div class="container">
+<h1>Choose Your Reading World 📚</h1>
+<p>Select age group to explore perfect books</p>
 
-<h1>Explore Books 📚</h1>
+<div class="cards">
 
-<div class="books-container" id="booksContainer"></div>
+<div class="card" onclick="selectAge('kids')">
+<div class="icon">🧸</div>
+<div class="title">Kids</div>
+</div>
 
-<script type="module" src="js/books.js"></script>
+<div class="card" onclick="selectAge('teens')">
+<div class="icon">📘</div>
+<div class="title">Teens</div>
+</div>
+
+<div class="card" onclick="selectAge('adults')">
+<div class="icon">📚</div>
+<div class="title">Adults</div>
+</div>
+
+</div>
+</div>
+
+<script>
+function selectAge(age){
+localStorage.setItem("ageGroup", age);
+window.location.href="category.html";
+}
+</script>
 
 </body>
-
 </html>
