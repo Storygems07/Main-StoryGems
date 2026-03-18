@@ -46,13 +46,26 @@ loadBooks();
 // CART SYSTEM
 function addToCart(bookId){
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-cart.push(bookId);
+// find book
+fetch("data/books.json")
+.then(res=>res.json())
+.then(data=>{
 
-localStorage.setItem("cart", JSON.stringify(cart));
+const book = data.find(b=>b.id===bookId);
+
+cart.push({
+id: book.id,
+title: book.title,
+price: book.price
+});
+
+localStorage.setItem('cart', JSON.stringify(cart));
 
 alert("📚 Book added to cart!");
+
+});
 
 }
 
