@@ -1,5 +1,6 @@
 // js/books.js
 
+
 import { auth, onAuthStateChanged } from './firebase.js';
 
 // 🔐 AUTH CHECK
@@ -9,102 +10,129 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// GET DATA
+// 📦 DATA
 const plan = parseInt(localStorage.getItem("plan")) || 2;
 const categories = JSON.parse(localStorage.getItem("categories")) || [];
 
-// SAMPLE BOOKS (later you can filter by category)
-const books = [
-    { title: "Atomic Habits", price: 300 },
-    { title: "Ikigai", price: 250 },
-    { title: "Rich Dad Poor Dad", price: 350 },
-    { title: "The Alchemist", price: 280 },
-    { title: "Deep Work", price: 320 },
-    { title: "Think Like a Monk", price: 300 }
-];
-
-const container = document.getElementById("container");
-
+let books = [];
 let selections = [];
 
-// 📦 CREATE MONTHS
-for (let i = 1; i <= plan; i++) {
+// 📚 LOAD BOOKS FROM JSON
+async function loadBooks() {
+    try {
+        const res = await fetch("data/books.json");
+        const data = await res.json();
 
-    const div = document.createElement("div");
-    div.className = "month";
+        // FILTER BASED ON CATEGORY
+        books = data.filter(b => categories.includes(b.category));
 
-    div.innerHTML = `
-    <h3>Month ${i}</h3>
+        // if no category selected, show all
+        if (books.length === 0) {
+            books = data;
+        }
 
-    <div class="options">
-        <div class="option" data-type="own">Choose Book</div>
-        <div class="option" data-type="blind">Blind Date 🎁 (+₹49)</div>
-    </div>
+        renderMonths();
 
-    <div class="books">
-        ${books.map(b => `<div class="book" data-price="${b.price}">${b.title}</div>`).join("")}
-    </div>
-    `;
+    } catch (err) {
+        console.error("Error loading books:", err);
+    }
+}
 
-    container.appendChild(div);
+loadBooks();
+
+// 🧩 CREATE MONTH UI
+function renderMonths() {
+
+    const container = document.getElementById("container");
+    container.innerHTML = "";
+
+    for (let i = 1; i <= plan; i++) {
+
+        const div = document.createElement("div");
+        div.className = "month";
+
+        div.innerHTML = `
+        <h3>Month ${i}</h3>
+
+        <div class="options">
+            <div class="option" data-type="own">Choose Book</div>
+            <div class="option" data-type="blind">Blind Date 🎁 (+₹49)</div>
+        </div>
+
+        <div class="books">
+            ${books.map(b => `
+                <div class="book" data-price="${b.price}">
+                    ${b.title} - ₹${b.price}
+                </div>
+            `).join("")}
+        </div>
+        `;
+
+        container.appendChild(div);
+    }
+
+    attachEvents();
 }
 
 // 🎯 EVENTS
-document.querySelectorAll(".month").forEach((monthDiv, index) => {
+function attachEvents() {
 
-    const options = monthDiv.querySelectorAll(".option");
-    const bookEls = monthDiv.querySelectorAll(".book");
+    document.querySelectorAll(".month").forEach((monthDiv, index) => {
 
-    let type = null;
-    let selectedBook = null;
-    let bookPrice = 0;
+        const options = monthDiv.querySelectorAll(".option");
+        const bookEls = monthDiv.querySelectorAll(".book");
 
-    options.forEach(opt => {
-        opt.onclick = () => {
+        let type = null;
+        let selectedBook = null;
+        let bookPrice = 0;
 
-            options.forEach(o => o.classList.remove("active"));
-            opt.classList.add("active");
+        options.forEach(opt => {
+            opt.onclick = () => {
 
-            type = opt.dataset.type;
+                options.forEach(o => o.classList.remove("active"));
+                opt.classList.add("active");
 
-            if (type === "blind") {
-                monthDiv.querySelector(".books").style.display = "none";
-                selectedBook = "Hidden";
-                bookPrice = 300; // avg
-            } else {
-                monthDiv.querySelector(".books").style.display = "flex";
-            }
+                type = opt.dataset.type;
 
-            update();
-        };
+                if (type === "blind") {
+                    monthDiv.querySelector(".books").style.display = "none";
+                    selectedBook = "Hidden (Surprise Book)";
+                    bookPrice = 300; // default avg
+                } else {
+                    monthDiv.querySelector(".books").style.display = "flex";
+                }
+
+                update();
+            };
+        });
+
+        bookEls.forEach(book => {
+            book.onclick = () => {
+
+                bookEls.forEach(b => b.classList.remove("selected"));
+                book.classList.add("selected");
+
+                selectedBook = book.innerText;
+                bookPrice = parseInt(book.dataset.price);
+
+                update();
+            };
+        });
+
+        function update() {
+
+            selections[index] = {
+                month: index + 1,
+                type: type,
+                book: selectedBook,
+                price: bookPrice
+            };
+
+            calculate();
+        }
+
     });
-
-    bookEls.forEach(book => {
-        book.onclick = () => {
-
-            bookEls.forEach(b => b.classList.remove("selected"));
-            book.classList.add("selected");
-
-            selectedBook = book.innerText;
-            bookPrice = parseInt(book.dataset.price);
-
-            update();
-        };
-    });
-
-    function update() {
-
-        selections[index] = {
-            month: index + 1,
-            type: type,
-            book: selectedBook,
-            price: bookPrice
-        };
-
-        calculate();
-    }
-
-});
+}
 
 // 💰 PRICE CALCULATION
 function calculate() {
@@ -116,7 +144,7 @@ function calculate() {
         if (!sel) return;
 
         total += sel.price || 0;
-        total += 200; // packaging
+        total += 200; // packaging + eco
 
         if (sel.type === "blind") {
             total += 49;
