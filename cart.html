@@ -4,6 +4,56 @@
 <meta charset="UTF-8">
 <title>My Cart - StoryGems</title>
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+body{
+font-family:'Poppins',sans-serif;
+background:#fdfbff;
+padding:30px;
+}
+
+h2{
+text-align:center;
+}
+
+.cart-container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.item{
+display:flex;
+justify-content:space-between;
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+.total{
+text-align:right;
+margin-top:15px;
+font-weight:bold;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+background:#6c4ab6;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+.remove-btn{
+background:red;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -11,88 +61,16 @@
 <div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
-<h2 style="text-align:center;margin-top:30px;">My Cart</h2>
+<h2>My Cart 🛒</h2>
 
-<div id="cartContainer" class="category-cards"></div>
+<div class="cart-container">
+  <div id="cartItems"></div>
+  <p class="total" id="totalPrice"></p>
 
-<h3 id="totalPrice" style="text-align:center;"></h3>
+  <button onclick="checkout()">Checkout</button>
+</div>
 
-<button onclick="checkout()" style="display:block;margin:auto;">Checkout</button>
-
-<script type="module">
-
-import { auth, onAuthStateChanged } from './firebase.js';
-
-onAuthStateChanged(auth,user=>{
-if(!user) window.location.href="login.html";
-});
-
-
-function loadCart(){
-
-const cart = JSON.parse(localStorage.getItem('cart')) || [];
-const books = JSON.parse(localStorage.getItem('booksData')) || [];
-
-const container = document.getElementById('cartContainer');
-const totalText = document.getElementById('totalPrice');
-
-container.innerHTML="";
-
-let total=0;
-
-cart.forEach((id,index)=>{
-
-const book = books.find(b=>b.id===id);
-
-if(book){
-
-total+=Number(book.price);
-
-const div=document.createElement('div');
-
-div.className="category-card";
-
-div.innerHTML=`
-<h3>${book.title}</h3>
-<p>${book.author}</p>
-<p>₹${book.price}</p>
-<button onclick="removeItem(${index})">Remove</button>
-`;
-
-container.appendChild(div);
-
-}
-
-});
-
-totalText.innerText="Total: ₹"+total;
-
-}
-
-function removeItem(index){
-
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-cart.splice(index,1);
-
-localStorage.setItem('cart', JSON.stringify(cart));
-
-loadCart();
-
-}
-
-function checkout(){
-
-window.location.href="checkout.html";
-
-}
-
-window.removeItem=removeItem;
-window.checkout=checkout;
-
-loadCart();
-
-</script>
+<script type="module" src="js/cart.js"></script>
 
 </body>
 </html>
