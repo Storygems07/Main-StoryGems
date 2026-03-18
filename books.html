@@ -22,7 +22,6 @@ padding:60px 20px;
 h1{
 font-size:32px;
 color:#4b3ac7;
-margin-bottom:10px;
 }
 
 p{
@@ -53,18 +52,15 @@ transform:translateY(-10px) scale(1.05);
 
 .icon{
 font-size:50px;
-margin-bottom:10px;
-}
-
-.title{
-font-size:20px;
-font-weight:600;
 }
 
 </style>
 </head>
 
 <body>
+
+<div id="navbar"></div>
+<script type="module" src="js/includeNavbar.js"></script>
 
 <div class="container">
 <h1>Choose Your Reading World 📚</h1>
@@ -74,17 +70,17 @@ font-weight:600;
 
 <div class="card" onclick="selectAge('kids')">
 <div class="icon">🧸</div>
-<div class="title">Kids</div>
+<h2>Kids</h2>
 </div>
 
 <div class="card" onclick="selectAge('teens')">
 <div class="icon">📘</div>
-<div class="title">Teens</div>
+<h2>Teens</h2>
 </div>
 
 <div class="card" onclick="selectAge('adults')">
 <div class="icon">📚</div>
-<div class="title">Adults</div>
+<h2>Adults</h2>
 </div>
 
 </div>
@@ -93,7 +89,7 @@ font-weight:600;
 <script>
 function selectAge(age){
 localStorage.setItem("ageGroup", age);
-window.location.href="category.html";
+window.location.href="shop.html";
 }
 </script>
 
