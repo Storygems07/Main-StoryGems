@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Select Categories - StoryGems</title>
+
+<style>
+
+body{
+font-family: 'Poppins', sans-serif;
+background: linear-gradient(135deg,#eef2ff,#fdfbff);
+text-align:center;
+padding:60px 20px;
+}
+
+h1{
+color:#5a3ff2;
+}
+
+.sub{
+color:#666;
+margin-bottom:30px;
+}
+
+.container{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:15px;
+width:180px;
+cursor:pointer;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card.active{
+border:2px solid #6c4ab6;
+background:#f0ebff;
+}
+
+.count{
+margin:20px 0;
+font-weight:bold;
+color:#333;
+}
+
+.btn{
+padding:12px 25px;
+background:#6c4ab6;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Select Categories 📚</h1>
+<p class="sub" id="infoText"></p>
+
+<div class="container">
+
+<div class="card">Kids</div>
+<div class="card">Teens</div>
+<div class="card">Adults</div>
+
+</div>
+
+<p class="count" id="countText">Selected: 0</p>
+
+<button class="btn" id="continueBtn">Continue</button>
+
+<script>
+
+// GET PLAN
+const params = new URLSearchParams(window.location.search);
+const plan = parseInt(params.get("plan")) || 2;
+
+document.getElementById("infoText").innerText =
+`Select ${plan} categories (You can repeat later)`;
+
+// SELECT LOGIC
+const cards = document.querySelectorAll(".card");
+let selected = [];
+
+cards.forEach(card => {
+
+card.addEventListener("click", () => {
+
+const value = card.innerText;
+
+if(card.classList.contains("active")){
+card.classList.remove("active");
+selected = selected.filter(v => v !== value);
+}else{
+
+if(selected.length >= plan){
+alert(`You can select only ${plan} categories`);
+return;
+}
+
+card.classList.add("active");
+selected.push(value);
+
+}
+
+document.getElementById("countText").innerText =
+`Selected: ${selected.length} / ${plan}`;
+
+});
+
+});
+
+// CONTINUE
+document.getElementById("continueBtn").addEventListener("click", () => {
+
+if(selected.length !== plan){
+alert(`Please select exactly ${plan} categories`);
+return;
+}
+
+// SAVE
+localStorage.setItem("categories", JSON.stringify(selected));
+localStorage.setItem("plan", plan);
+
+// NEXT PAGE
+window.location.href = "books.html";
+
+});
+
+</script>
+
+</body>
+</html>
