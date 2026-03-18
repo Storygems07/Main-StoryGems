@@ -5,22 +5,157 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout - StoryGems</title>
   <link rel="stylesheet" href="css/style.css">
+
+  <style>
+
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#fdfbff,#eef2ff);
+      padding:30px;
+    }
+
+    .container{
+      max-width:800px;
+      margin:auto;
+      background:white;
+      padding:25px;
+      border-radius:15px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    h1{
+      text-align:center;
+      color:#5a3ff2;
+    }
+
+    .summary{
+      margin-top:20px;
+    }
+
+    .summary div{
+      padding:12px;
+      border-bottom:1px solid #eee;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .total{
+      font-size:20px;
+      font-weight:bold;
+      margin-top:15px;
+      text-align:right;
+    }
+
+    form{
+      margin-top:25px;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:12px;
+      margin-top:10px;
+      border-radius:8px;
+      border:1px solid #ccc;
+    }
+
+    button{
+      margin-top:20px;
+      padding:14px;
+      width:100%;
+      background:#6c4ab6;
+      color:white;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:16px;
+    }
+
+    button:hover{
+      background:#5a3ff2;
+    }
+
+  </style>
 </head>
+
 <body>
 
-  <!-- Navbar dynamically loaded -->
-  <div id="navbar"></div>
-  <script type="module" src="js/includeNavbar.js"></script>
+<!-- Navbar -->
+<div id="navbar"></div>
+<script type="module" src="js/includeNavbar.js"></script>
 
-  <!-- Checkout Section -->
-  <h2 style="text-align:center; margin-top:30px;">Checkout</h2>
-  <p style="text-align:center;">Checkout page coming soon!</p>
+<div class="container">
 
-  <!-- JS -->
-  <script type="module">
-    import { checkAuth } from './js/main.js';
-    checkAuth();
-  </script>
+  <h1>Checkout 🧾</h1>
+
+  <div class="summary" id="summary"></div>
+
+  <p class="total" id="total">Total: ₹0</p>
+
+  <form id="checkoutForm">
+    <input type="text" placeholder="Full Name" required>
+    <input type="text" placeholder="Phone Number" required>
+    <textarea placeholder="Full Address" required></textarea>
+    <input type="text" placeholder="Pincode" required>
+
+    <button type="submit">Place Order</button>
+  </form>
+
+</div>
+
+<!-- Auth + Logic -->
+<script type="module">
+
+import { checkAuth } from './js/main.js';
+checkAuth();
+
+// GET DATA
+const data = JSON.parse(localStorage.getItem("booksData")) || [];
+
+const summary = document.getElementById("summary");
+const totalEl = document.getElementById("total");
+
+let total = 0;
+
+// SHOW DATA
+data.forEach(item => {
+
+  let price = item.price || 300;
+  let extra = 200;
+
+  if(item.type === "blind"){
+    extra += 49;
+  }
+
+  let final = price + extra;
+  total += final;
+
+  const div = document.createElement("div");
+
+  div.innerHTML = `
+    <span>Month ${item.month} - ${item.type === "blind" ? "🎁 Blind Date" : item.book}</span>
+    <span>₹${final}</span>
+  `;
+
+  summary.appendChild(div);
+
+});
+
+totalEl.innerText = `Total Payable: ₹${total}`;
+
+// SUBMIT
+document.getElementById("checkoutForm").onsubmit = (e)=>{
+
+  e.preventDefault();
+
+  alert("🎉 Order Placed Successfully!");
+
+  localStorage.removeItem("booksData");
+
+  window.location.href = "index.html";
+
+};
+
+</script>
 
 </body>
 </html>
