@@ -1,60 +1,153 @@
 // js/books.js
+
 import { auth, onAuthStateChanged } from './firebase.js';
 
+// 🔐 AUTH CHECK
 onAuthStateChanged(auth, (user) => {
     if (!user) {
         window.location.href = "login.html";
     }
 });
 
-async function loadBooks() {
+// GET DATA
+const plan = parseInt(localStorage.getItem("plan")) || 2;
+const categories = JSON.parse(localStorage.getItem("categories")) || [];
 
-try {
+// SAMPLE BOOKS (later you can filter by category)
+const books = [
+    { title: "Atomic Habits", price: 300 },
+    { title: "Ikigai", price: 250 },
+    { title: "Rich Dad Poor Dad", price: 350 },
+    { title: "The Alchemist", price: 280 },
+    { title: "Deep Work", price: 320 },
+    { title: "Think Like a Monk", price: 300 }
+];
 
-const response = await fetch('data/books.json');
-const books = await response.json();
+const container = document.getElementById("container");
 
-localStorage.setItem("booksData", JSON.stringify(books));
+let selections = [];
 
-const container = document.getElementById('booksContainer');
+// 📦 CREATE MONTHS
+for (let i = 1; i <= plan; i++) {
 
-books.forEach(book => {
+    const div = document.createElement("div");
+    div.className = "month";
 
-const card = document.createElement('div');
+    div.innerHTML = `
+    <h3>Month ${i}</h3>
 
-card.className = 'category-card';
+    <div class="options">
+        <div class="option" data-type="own">Choose Book</div>
+        <div class="option" data-type="blind">Blind Date 🎁 (+₹49)</div>
+    </div>
 
-card.innerHTML = `
-<h3>${book.title}</h3>
-<p>${book.author}</p>
-<p>₹${book.price}</p>
-<button onclick="addToCart('${book.id}')">Add to Cart</button>
-`;
+    <div class="books">
+        ${books.map(b => `<div class="book" data-price="${b.price}">${b.title}</div>`).join("")}
+    </div>
+    `;
 
-container.appendChild(card);
+    container.appendChild(div);
+}
+
+// 🎯 EVENTS
+document.querySelectorAll(".month").forEach((monthDiv, index) => {
+
+    const options = monthDiv.querySelectorAll(".option");
+    const bookEls = monthDiv.querySelectorAll(".book");
+
+    let type = null;
+    let selectedBook = null;
+    let bookPrice = 0;
+
+    options.forEach(opt => {
+        opt.onclick = () => {
+
+            options.forEach(o => o.classList.remove("active"));
+            opt.classList.add("active");
+
+            type = opt.dataset.type;
+
+            if (type === "blind") {
+                monthDiv.querySelector(".books").style.display = "none";
+                selectedBook = "Hidden";
+                bookPrice = 300; // avg
+            } else {
+                monthDiv.querySelector(".books").style.display = "flex";
+            }
+
+            update();
+        };
+    });
+
+    bookEls.forEach(book => {
+        book.onclick = () => {
+
+            bookEls.forEach(b => b.classList.remove("selected"));
+            book.classList.add("selected");
+
+            selectedBook = book.innerText;
+            bookPrice = parseInt(book.dataset.price);
+
+            update();
+        };
+    });
+
+    function update() {
+
+        selections[index] = {
+            month: index + 1,
+            type: type,
+            book: selectedBook,
+            price: bookPrice
+        };
+
+        calculate();
+    }
 
 });
 
-} catch(err) {
+// 💰 PRICE CALCULATION
+function calculate() {
 
-console.error("Error loading books:", err);
+    let total = 0;
 
+    selections.forEach(sel => {
+
+        if (!sel) return;
+
+        total += sel.price || 0;
+        total += 200; // packaging
+
+        if (sel.type === "blind") {
+            total += 49;
+        }
+
+    });
+
+    document.getElementById("totalPrice").innerText =
+        `Total: ₹${total}`;
 }
 
-}
+// ➡️ CONTINUE
+document.getElementById("continueBtn").onclick = () => {
 
-loadBooks();
+    if (selections.length !== plan) {
+        alert("Complete all months");
+        return;
+    }
 
-function addToCart(bookId){
+    for (let s of selections) {
+        if (!s || !s.type) {
+            alert("Select option for all months");
+            return;
+        }
+        if (s.type === "own" && !s.book) {
+            alert("Select a book");
+            return;
+        }
+    }
 
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    localStorage.setItem("booksData", JSON.stringify(selections));
 
-cart.push(bookId);
-
-localStorage.setItem('cart', JSON.stringify(cart));
-
-alert("Book added to cart!");
-
-}
-
-window.addToCart = addToCart;
+    window.location.href = "checkout.html";
+};
