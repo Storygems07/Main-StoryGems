@@ -23,7 +23,7 @@ padding:60px 20px 30px;
 }
 
 .header h1{
-font-size:38px;
+font-size:36px;
 color:#4b3ac7;
 }
 
@@ -31,7 +31,7 @@ color:#4b3ac7;
 color:#666;
 }
 
-/* PLANS GRID */
+/* PLANS */
 .plans{
 display:flex;
 justify-content:center;
@@ -47,44 +47,33 @@ width:280px;
 padding:30px;
 border-radius:20px;
 box-shadow:0 15px 40px rgba(0,0,0,0.08);
-transition:0.4s;
-position:relative;
-overflow:hidden;
+transition:0.3s;
+cursor:pointer;
 }
 
 .card:hover{
-transform:translateY(-12px) scale(1.04);
+transform:translateY(-10px) scale(1.04);
 }
 
-/* POPULAR TAG */
-.popular{
-position:absolute;
-top:15px;
-right:-40px;
-background:#ff5e7d;
+/* BEST PLAN */
+.card.best{
+background:linear-gradient(135deg,#6c4ab6,#8b6cff);
 color:white;
-padding:5px 40px;
-transform:rotate(45deg);
-font-size:12px;
+}
+
+.card.best li{
+color:white;
 }
 
 /* TITLE */
 .card h2{
 text-align:center;
-margin-bottom:10px;
-}
-
-/* PRICE */
-.price{
-text-align:center;
-font-size:28px;
-color:#6c4ab6;
-margin:10px 0;
 }
 
 /* FEATURES */
 .features{
 margin-top:20px;
+padding-left:20px;
 }
 
 .features li{
@@ -94,35 +83,62 @@ color:#555;
 
 /* BUTTON */
 .btn{
-margin-top:25px;
+margin-top:20px;
 width:100%;
 padding:12px;
 border:none;
 border-radius:10px;
-background:linear-gradient(135deg,#6c4ab6,#8b6cff);
+background:#6c4ab6;
 color:white;
-font-size:15px;
 cursor:pointer;
-transition:0.3s;
-}
-
-.btn:hover{
-opacity:0.9;
-}
-
-/* HIGHLIGHT CARD */
-.card.best{
-background:linear-gradient(135deg,#6c4ab6,#8b6cff);
-color:white;
-}
-
-.card.best .features li{
-color:white;
+font-size:15px;
 }
 
 .card.best .btn{
 background:white;
 color:#6c4ab6;
+}
+
+/* POPUP */
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.popup-box{
+background:white;
+padding:30px;
+border-radius:15px;
+max-width:400px;
+width:90%;
+}
+
+.popup-box h2{
+text-align:center;
+}
+
+.popup-box p{
+font-size:14px;
+color:#555;
+line-height:1.5;
+}
+
+.popup-btn{
+margin-top:15px;
+width:100%;
+padding:12px;
+border:none;
+background:#6c4ab6;
+color:white;
+border-radius:10px;
+cursor:pointer;
 }
 
 </style>
@@ -131,8 +147,8 @@ color:#6c4ab6;
 <body>
 
 <div class="header">
-<h1>Choose Your Plan ✨</h1>
-<p>Get books delivered monthly with surprise gifts 🎁</p>
+<h1>Choose Your Plan 📚</h1>
+<p>Monthly books + surprise gifts delivered to your door ✨</p>
 </div>
 
 <div class="plans">
@@ -140,24 +156,20 @@ color:#6c4ab6;
 <!-- 2 MONTH -->
 <div class="card">
 <h2>2 Months</h2>
-<div class="price">₹599</div>
 
 <ul class="features">
 <li>📦 2 Books (1/month)</li>
-<li>🎁 6 Surprise Gifts</li>
-<li>🎲 Blind Date Option</li>
-<li>🚚 Premium Delivery</li>
+<li>🎁 6 Gifts (3/month)</li>
+<li>🎲 Blind Date Available</li>
+<li>🚚 Delivery Included</li>
 </ul>
 
-<button class="btn" onclick="selectPlan(2)">Choose Plan</button>
+<button class="btn" onclick="selectPlan(2)">Select Plan</button>
 </div>
 
-<!-- 4 MONTH (BEST) -->
+<!-- 4 MONTH -->
 <div class="card best">
-<div class="popular">POPULAR</div>
-
-<h2>4 Months</h2>
-<div class="price">₹1099</div>
+<h2>4 Months ⭐</h2>
 
 <ul class="features">
 <li>📦 4 Books</li>
@@ -166,31 +178,71 @@ color:#6c4ab6;
 <li>🚚 Free Delivery</li>
 </ul>
 
-<button class="btn" onclick="selectPlan(4)">Choose Plan</button>
+<button class="btn" onclick="selectPlan(4)">Select Plan</button>
 </div>
 
 <!-- 6 MONTH -->
 <div class="card">
 <h2>6 Months</h2>
-<div class="price">₹1499</div>
 
 <ul class="features">
 <li>📦 6 Books</li>
 <li>🎁 18 Gifts</li>
-<li>🎲 Blind Date Option</li>
-<li>🚚 Premium Delivery</li>
+<li>🎲 Blind Date Available</li>
+<li>🚚 Delivery Included</li>
 </ul>
 
-<button class="btn" onclick="selectPlan(6)">Choose Plan</button>
+<button class="btn" onclick="selectPlan(6)">Select Plan</button>
 </div>
 
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+
+<div class="popup-box">
+
+<h2>📚 How It Works</h2>
+
+<p><b>1. Choose Categories</b><br>
+Pick Kids, Teens or Adults.</p>
+
+<p><b>2. Select Book Type</b><br>
+Choose your own OR try Blind Date 🎁</p>
+
+<p><b>3. Blind Date</b><br>
+We secretly pick a book for you. Surprise!</p>
+
+<p><b>4. Monthly Delivery</b><br>
+You get 1 book every month based on your plan.</p>
+
+<p><b>5. Gifts</b><br>
+3 surprise gifts every month ✨</p>
+
+<hr>
+
+<p>📦 ₹200/month → Delivery & Packaging</p>
+<p>🎁 ₹49 → Blind Date</p>
+
+<button class="popup-btn" onclick="goNext()">Continue</button>
+
+</div>
 </div>
 
 <script>
+
+let selectedPlan = 2;
+
 function selectPlan(plan){
-localStorage.setItem("plan",plan);
-window.location.href="subscription.html";
+selectedPlan = plan;
+document.getElementById("popup").style.display = "flex";
 }
+
+function goNext(){
+localStorage.setItem("plan", selectedPlan);
+window.location.href = "subscription.html";
+}
+
 </script>
 
 </body>
