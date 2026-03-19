@@ -8,50 +8,112 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
+
+/* GLOBAL */
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#fdfbff);
 }
 
-.container{
+/* HERO */
+.hero{
 text-align:center;
-padding:60px 20px;
+padding:80px 20px 40px;
 }
 
-h1{
-font-size:32px;
+.hero h1{
+font-size:36px;
 color:#4b3ac7;
+margin-bottom:10px;
 }
 
-p{
+.hero p{
 color:#666;
-margin-bottom:40px;
+font-size:16px;
 }
 
+/* GRID */
 .cards{
 display:flex;
 justify-content:center;
-gap:30px;
+gap:40px;
 flex-wrap:wrap;
+padding:40px 20px;
 }
 
+/* CARD */
 .card{
+position:relative;
+width:260px;
+height:260px;
+border-radius:25px;
 background:white;
-padding:40px;
-width:220px;
-border-radius:20px;
 cursor:pointer;
-box-shadow:0 15px 40px rgba(0,0,0,0.1);
-transition:0.3s;
+overflow:hidden;
+transition:0.4s;
+box-shadow:0 20px 50px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
+/* GRADIENT BORDER EFFECT */
+.card::before{
+content:"";
+position:absolute;
+inset:0;
+border-radius:25px;
+padding:2px;
+background:linear-gradient(135deg,#6c4ab6,#8b6cff,#a084ff);
+-webkit-mask:
+linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+}
+
+/* HOVER */
 .card:hover{
-transform:translateY(-10px) scale(1.05);
+transform:translateY(-15px) scale(1.05);
 }
 
+/* ICON */
 .icon{
-font-size:50px;
+font-size:60px;
+margin-bottom:15px;
+}
+
+/* TITLE */
+.card h2{
+margin:0;
+font-size:22px;
+}
+
+/* SUBTEXT */
+.card p{
+font-size:13px;
+color:#777;
+margin-top:5px;
+}
+
+/* FOOTER TEXT */
+.note{
+text-align:center;
+margin-top:20px;
+color:#888;
+font-size:13px;
+}
+
+/* ANIMATION */
+.fade-in{
+animation:fade 0.8s ease;
+}
+
+@keyframes fade{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
 
 </style>
@@ -59,31 +121,41 @@ font-size:50px;
 
 <body>
 
+<!-- NAVBAR -->
 <div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
-<div class="container">
+<!-- HERO -->
+<div class="hero fade-in">
 <h1>Choose Your Reading World 📚</h1>
-<p>Select age group to explore perfect books</p>
+<p>Select an age group to discover the perfect books curated for you</p>
+</div>
 
-<div class="cards">
+<!-- CARDS -->
+<div class="cards fade-in">
 
 <div class="card" onclick="selectAge('kids')">
 <div class="icon">🧸</div>
 <h2>Kids</h2>
+<p>Fun, moral & mythology stories</p>
 </div>
 
 <div class="card" onclick="selectAge('teens')">
 <div class="icon">📘</div>
 <h2>Teens</h2>
+<p>Adventure, fantasy & mystery</p>
 </div>
 
 <div class="card" onclick="selectAge('adults')">
 <div class="icon">📚</div>
 <h2>Adults</h2>
+<p>Self-help, classics & growth</p>
 </div>
 
 </div>
+
+<div class="note">
+✨ Handpicked books curated specially for every age group
 </div>
 
 <script>
