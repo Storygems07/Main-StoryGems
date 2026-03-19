@@ -2,15 +2,10 @@
 
 const age = localStorage.getItem("ageGroup");
 
-// safety
-if(!age){
-window.location.href = "books.html";
-}
-
-document.getElementById("title").innerText =
-age.toUpperCase() + " Books 📚";
-
 const container = document.getElementById("booksContainer");
+const searchInput = document.getElementById("search");
+
+let allBooks = [];
 
 // LOAD BOOKS
 async function loadBooks(){
@@ -18,17 +13,25 @@ async function loadBooks(){
 const res = await fetch("data/books.json");
 const books = await res.json();
 
-// 🔥 FILTER BY AGE (IMPORTANT FIX)
-const filtered = books.filter(b => b.category === age);
+allBooks = books.filter(b => b.category === age);
 
-filtered.forEach(book => {
+renderBooks(allBooks);
+
+}
+
+function renderBooks(data){
+
+container.innerHTML = "";
+
+data.forEach(book => {
 
 const div = document.createElement("div");
 div.className = "card";
 
 div.innerHTML = `
+<div class="img"></div>
 <h3>${book.title}</h3>
-<p>${book.author}</p>
+<p class="author">${book.author}</p>
 <p class="price">₹${book.price}</p>
 <button onclick="addToCart('${book.id}')">Add to Cart</button>
 `;
@@ -39,9 +42,20 @@ container.appendChild(div);
 
 }
 
-loadBooks();
+// SEARCH
+searchInput.addEventListener("input", () => {
 
-// ADD TO CART
+const value = searchInput.value.toLowerCase();
+
+const filtered = allBooks.filter(b =>
+b.title.toLowerCase().includes(value)
+);
+
+renderBooks(filtered);
+
+});
+
+// CART
 function addToCart(id){
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -55,3 +69,5 @@ alert("Added to cart 🛒");
 }
 
 window.addToCart = addToCart;
+
+loadBooks();
