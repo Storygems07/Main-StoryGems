@@ -13,12 +13,13 @@ async function loadBooks(){
 const res = await fetch("data/books.json");
 const books = await res.json();
 
+// filter by age
 allBooks = books.filter(b => b.category === age);
 
 renderBooks(allBooks);
-
 }
 
+// RENDER
 function renderBooks(data){
 
 container.innerHTML = "";
@@ -29,10 +30,11 @@ const div = document.createElement("div");
 div.className = "card";
 
 div.innerHTML = `
-<div class="img"></div>
-<h3>${book.title}</h3>
-<p class="author">${book.author}</p>
-<p class="price">₹${book.price}</p>
+<div class="img">${book.image || "📖"}</div>
+<div class="title">${book.title}</div>
+<div class="author">${book.author}</div>
+<div class="rating">${getStars(book.rating)}</div>
+<div class="price">₹${book.price}</div>
 <button onclick="addToCart('${book.id}')">Add to Cart</button>
 `;
 
@@ -40,6 +42,15 @@ container.appendChild(div);
 
 });
 
+}
+
+// ⭐ STARS
+function getStars(rating=4){
+let stars = "";
+for(let i=1;i<=5;i++){
+stars += i <= rating ? "⭐" : "☆";
+}
+return stars;
 }
 
 // SEARCH
