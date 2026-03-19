@@ -2,38 +2,52 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>StoryGems | Books</title>
+
+<title>StoryGems Books</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:#f8f9ff;
+background:#f5f7ff;
 }
 
-.container{
-padding:40px;
-text-align:center;
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:white;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
-h1{
+.header h2{
 color:#4b3ac7;
 }
 
-.grid{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:25px;
-margin-top:30px;
+/* SEARCH */
+.search{
+padding:10px;
+border-radius:8px;
+border:1px solid #ddd;
 }
 
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+padding:30px;
+}
+
+/* CARD */
 .card{
 background:white;
 padding:20px;
-width:230px;
 border-radius:15px;
 box-shadow:0 10px 30px rgba(0,0,0,0.08);
 transition:0.3s;
@@ -43,33 +57,54 @@ transition:0.3s;
 transform:translateY(-8px);
 }
 
+/* IMAGE PLACEHOLDER */
+.img{
+height:150px;
+background:linear-gradient(135deg,#dfe3ff,#f1f3ff);
+border-radius:10px;
+margin-bottom:15px;
+}
+
+/* TITLE */
+.card h3{
+margin:0;
+}
+
+/* AUTHOR */
+.author{
+color:#777;
+font-size:14px;
+}
+
+/* PRICE */
 .price{
 color:#6c4ab6;
 font-weight:bold;
 margin:10px 0;
 }
 
+/* BUTTON */
 button{
-padding:10px;
 width:100%;
+padding:10px;
 border:none;
+border-radius:8px;
 background:#6c4ab6;
 color:white;
-border-radius:8px;
 cursor:pointer;
 }
+
 </style>
 </head>
 
 <body>
 
-<div id="navbar"></div>
-<script type="module" src="js/includeNavbar.js"></script>
-
-<div class="container">
-<h1 id="title">Books</h1>
-<div id="booksContainer" class="grid"></div>
+<div class="header">
+<h2 id="title">Books</h2>
+<input type="text" id="search" class="search" placeholder="Search books...">
 </div>
+
+<div id="booksContainer" class="grid"></div>
 
 <script type="module" src="js/shop.js"></script>
 
