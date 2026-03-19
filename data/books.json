@@ -1,10 +1,65 @@
 [
-  { "id": "b1", "title": "Ramayana", "price": 200, "category": "Mythology" },
-  { "id": "b2", "title": "Mahabharata", "price": 250, "category": "Mythology" },
-  { "id": "b3", "title": "Panchatantra Tales", "price": 150, "category": "Panchatantra" },
-
-  { "id": "b4", "title": "Harry Potter", "price": 400, "category": "Fantasy" },
-  { "id": "b5", "title": "Sherlock Holmes", "price": 300, "category": "Mystery" },
-
-  { "id": "b6", "title": "Atomic Habits", "price": 350, "category": "Self Help" }
+  {
+    "id": "b1",
+    "title": "Mahabharata",
+    "author": "Vyasa",
+    "category": "kids",
+    "price": 200,
+    "rating": 5,
+    "image": "📘"
+  },
+  {
+    "id": "b2",
+    "title": "Ramayana",
+    "author": "Valmiki",
+    "category": "kids",
+    "price": 180,
+    "rating": 5,
+    "image": "📙"
+  },
+  {
+    "id": "b3",
+    "title": "Hitopadesha",
+    "author": "Narayan Pandit",
+    "category": "kids",
+    "price": 150,
+    "rating": 4,
+    "image": "📗"
+  },
+  {
+    "id": "b4",
+    "title": "Harry Potter",
+    "author": "J.K. Rowling",
+    "category": "teens",
+    "price": 350,
+    "rating": 5,
+    "image": "🧙‍♂️"
+  },
+  {
+    "id": "b5",
+    "title": "Percy Jackson",
+    "author": "Rick Riordan",
+    "category": "teens",
+    "price": 300,
+    "rating": 4,
+    "image": "⚡"
+  },
+  {
+    "id": "b6",
+    "title": "Atomic Habits",
+    "author": "James Clear",
+    "category": "adults",
+    "price": 400,
+    "rating": 5,
+    "image": "📖"
+  },
+  {
+    "id": "b7",
+    "title": "Rich Dad Poor Dad",
+    "author": "Robert Kiyosaki",
+    "category": "adults",
+    "price": 350,
+    "rating": 5,
+    "image": "💰"
+  }
 ]
