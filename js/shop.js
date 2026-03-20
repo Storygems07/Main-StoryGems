@@ -87,15 +87,18 @@ searchInput.addEventListener("input", () => {
 });
 
 // 🛒 ADD TO CART (NORMAL BOOK CART)
-function addToCart(id) {
+function addToCart(id){
 
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-  cart.push({ id: id, qty: 1 });
+cart.push({id});
 
-  localStorage.setItem("cart", JSON.stringify(cart));
+localStorage.setItem("cart", JSON.stringify(cart));
 
-  alert("Added to cart 🛒");
+// 🔥 UPDATE BADGE LIVE
+document.getElementById("cartCount").innerText = cart.length;
+
+alert("Added to cart 🛒");
 
 }
 
