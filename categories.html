@@ -5,43 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StoryGems | Categories</title>
 
+<link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-
 body{
-margin:0;
-font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#fdfbff,#eef2ff);
 }
 
-/* NAV SPACE */
-.top-bar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 30px;
-}
-
-.back{
-cursor:pointer;
-font-size:14px;
-color:#555;
-}
-
-.back:hover{
-color:#000;
-}
-
-/* MAIN */
 .container{
 text-align:center;
-padding:30px 20px;
+padding:40px 20px;
 }
 
 h1{
 color:#4b3ac7;
-margin-bottom:10px;
 }
 
 p{
@@ -76,24 +54,26 @@ color:white;
 font-size:40px;
 margin-bottom:10px;
 }
-  
 
+.nav-btn{
+display:block;
+margin:40px auto;
+padding:14px 28px;
+background:linear-gradient(135deg,#6366f1,#7c3aed);
+color:white;
+border:none;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+}
 </style>
-
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<div id="navbar"></div><button 
+<div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-<div class="back" onclick="goBack()">← Back</div>
-</div>
-
-<!-- CONTENT -->
 <div class="container">
 
 <h1>Select Category ✨</h1>
@@ -101,35 +81,32 @@ margin-bottom:10px;
 
 <div id="categories" class="grid"></div>
 
+<button class="nav-btn" onclick="goBack()">← Back to Books</button>
+
 </div>
 
 <script>
 
-// 🚫 SAFETY CHECK
 const age = localStorage.getItem("ageGroup");
 
 if(!age){
 window.location.href = "books.html";
 }
 
-// 🎯 SUBTITLE
 document.getElementById("subtitle").innerText =
 "Showing categories for " + age.toUpperCase();
 
-// 📚 DATA
 const data = {
 kids: [
 {name:"Mythology", icon:"🕉️"},
 {name:"Moral Stories", icon:"🌟"},
 {name:"Panchatantra", icon:"🐾"}
 ],
-
 teens: [
 {name:"Fantasy", icon:"🧙"},
 {name:"Adventure", icon:"🏕️"},
 {name:"Mystery", icon:"🕵️"}
 ],
-
 adults: [
 {name:"Self Help", icon:"💡"},
 {name:"Philosophy", icon:"📖"},
@@ -139,9 +116,7 @@ adults: [
 
 const container = document.getElementById("categories");
 
-// 🎨 CREATE CARDS
 data[age].forEach(cat=>{
-
 const div=document.createElement("div");
 div.className="card";
 
@@ -156,10 +131,8 @@ window.location.href="shop.html";
 };
 
 container.appendChild(div);
-
 });
 
-// 🔙 BACK BUTTON
 function goBack(){
 window.location.href = "books.html";
 }
