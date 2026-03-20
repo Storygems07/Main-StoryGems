@@ -5,22 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StoryGems | Shop</title>
 
-  <link rel="stylesheet" href="css/style.css">
-  
+<link rel="stylesheet" href="css/style.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 
-/* GLOBAL */
+/* PAGE */
 body{
-margin:0;
-font-family:'Poppins',sans-serif;
 background:#f5f6fa;
 }
 
 /* HEADER */
 .header{
-padding:20px;
+padding:20px 30px;
 background:white;
 box-shadow:0 5px 20px rgba(0,0,0,0.05);
 display:flex;
@@ -36,23 +33,23 @@ color:#4b3ac7;
 /* SEARCH */
 .search{
 padding:10px;
-width:250px;
-border-radius:8px;
+width:260px;
+border-radius:10px;
 border:1px solid #ddd;
 }
 
 /* GRID */
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-gap:20px;
+grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+gap:25px;
 padding:30px;
 }
 
 /* CARD */
 .card{
 background:white;
-border-radius:15px;
+border-radius:18px;
 padding:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.06);
 transition:0.3s;
@@ -61,13 +58,14 @@ flex-direction:column;
 }
 
 .card:hover{
-transform:translateY(-8px);
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.12);
 }
 
 /* IMAGE */
 .img{
 height:180px;
-border-radius:10px;
+border-radius:12px;
 background:#eee;
 display:flex;
 align-items:center;
@@ -107,12 +105,32 @@ padding:10px;
 border:none;
 background:#6c4ab6;
 color:white;
-border-radius:8px;
+border-radius:10px;
 cursor:pointer;
 }
 
 button:hover{
-opacity:0.9;
+background:#5a38a8;
+}
+
+/* 🔥 BOTTOM BACK BUTTON */
+.bottom-back{
+display:block;
+margin:40px auto 60px;
+padding:14px 30px;
+background:#6366f1;
+color:white;
+border:none;
+border-radius:12px;
+font-weight:600;
+cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+.bottom-back:hover{
+background:#4f46e5;
+transform:translateY(-2px);
 }
 
 </style>
@@ -132,6 +150,9 @@ opacity:0.9;
 
 <!-- BOOKS -->
 <div class="grid" id="booksContainer"></div>
+
+<!-- ✅ CENTER BACK BUTTON -->
+<button class="bottom-back" onclick="goBack()">← Back to Categories</button>
 
 <script type="module" src="js/shop.js"></script>
 
