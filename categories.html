@@ -6,7 +6,6 @@
 <title>StoryGems | Categories</title>
 
 <link rel="stylesheet" href="css/style.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -16,15 +15,6 @@ background:linear-gradient(135deg,#fdfbff,#eef2ff);
 .container{
 text-align:center;
 padding:40px 20px;
-}
-
-h1{
-color:#4b3ac7;
-}
-
-p{
-color:#666;
-margin-bottom:30px;
 }
 
 .grid{
@@ -50,20 +40,13 @@ background:#6c4ab6;
 color:white;
 }
 
-.icon{
-font-size:40px;
-margin-bottom:10px;
-}
-
 .nav-btn{
-display:block;
-margin:40px auto;
+margin-top:40px;
 padding:14px 28px;
-background:linear-gradient(135deg,#6366f1,#7c3aed);
+background:#6366f1;
 color:white;
 border:none;
 border-radius:12px;
-font-weight:600;
 cursor:pointer;
 }
 </style>
@@ -81,7 +64,7 @@ cursor:pointer;
 
 <div id="categories" class="grid"></div>
 
-<button class="nav-btn" onclick="goBack()">← Back to Books</button>
+<button class="nav-btn" onclick="goHome()">← Back to Home</button>
 
 </div>
 
@@ -97,20 +80,17 @@ document.getElementById("subtitle").innerText =
 "Showing categories for " + age.toUpperCase();
 
 const data = {
-kids: [
+kids:[
 {name:"Mythology", icon:"🕉️"},
-{name:"Moral Stories", icon:"🌟"},
-{name:"Panchatantra", icon:"🐾"}
+{name:"Moral Stories", icon:"🌟"}
 ],
-teens: [
+teens:[
 {name:"Fantasy", icon:"🧙"},
-{name:"Adventure", icon:"🏕️"},
-{name:"Mystery", icon:"🕵️"}
+{name:"Adventure", icon:"🏕️"}
 ],
-adults: [
+adults:[
 {name:"Self Help", icon:"💡"},
-{name:"Philosophy", icon:"📖"},
-{name:"Classics", icon:"🏛️"}
+{name:"Classics", icon:"📖"}
 ]
 };
 
@@ -119,22 +99,16 @@ const container = document.getElementById("categories");
 data[age].forEach(cat=>{
 const div=document.createElement("div");
 div.className="card";
-
-div.innerHTML=`
-<div class="icon">${cat.icon}</div>
-<h3>${cat.name}</h3>
-`;
-
+div.innerHTML=`<h3>${cat.name}</h3>`;
 div.onclick=()=>{
 localStorage.setItem("category",cat.name);
 window.location.href="shop.html";
 };
-
 container.appendChild(div);
 });
 
-function goBack(){
-window.location.href = "books.html";
+function goHome(){
+window.location.href="index.html";
 }
 
 </script>
