@@ -7,78 +7,106 @@ const searchInput = document.getElementById("search");
 
 let allBooks = [];
 
-// LOAD BOOKS
-async function loadBooks(){
+// 📦 LOAD BOOKS
+async function loadBooks() {
+  try {
+    const res = await fetch("data/books.json");
+    const books = await res.json();
 
-const res = await fetch("data/books.json");
-const books = await res.json();
+    // filter by age group
+    allBooks = books.filter(b => b.category === age);
 
-// filter by age
-allBooks = books.filter(b => b.category === age);
+    renderBooks(allBooks);
 
-renderBooks(allBooks);
+  } catch (err) {
+    console.error("Error loading books:", err);
+    container.innerHTML = "<p>Failed to load books 😢</p>";
+  }
 }
 
-// RENDER
-function renderBooks(data){
+// 🎨 RENDER BOOKS
+function renderBooks(data) {
 
-container.innerHTML = "";
+  container.innerHTML = "";
 
-data.forEach(book => {
+  if (data.length === 0) {
+    container.innerHTML = "<p>No books found 📭</p>";
+    return;
+  }
 
-const div = document.createElement("div");
-div.className = "card";
+  data.forEach(book => {
 
-div.innerHTML = `
-<div class="img">${book.image || "📖"}</div>
-<div class="title">${book.title}</div>
-<div class="author">${book.author}</div>
-<div class="rating">${getStars(book.rating)}</div>
-<div class="price">₹${book.price}</div>
-<button onclick="addToCart('${book.id}')">Add to Cart</button>
-`;
+    const div = document.createElement("div");
+    div.className = "card";
 
-container.appendChild(div);
+    div.innerHTML = `
+      <div class="img" onclick="openProduct('${book.id}')">
+        <img src="${book.image || 'https://via.placeholder.com/150'}" />
+      </div>
 
-});
+      <div class="title" onclick="openProduct('${book.id}')">
+        ${book.title}
+      </div>
 
+      <div class="author">by ${book.author}</div>
+
+      <div class="rating">${getStars(book.rating)}</div>
+
+      <div class="price">₹${book.price}</div>
+
+      <button onclick="addToCart('${book.id}')">
+        Add to Cart 🛒
+      </button>
+    `;
+
+    container.appendChild(div);
+
+  });
 }
 
-// ⭐ STARS
-function getStars(rating=4){
-let stars = "";
-for(let i=1;i<=5;i++){
-stars += i <= rating ? "⭐" : "☆";
-}
-return stars;
+// ⭐ STAR RENDER
+function getStars(rating = 4) {
+  let stars = "";
+  for (let i = 1; i <= 5; i++) {
+    stars += i <= rating ? "⭐" : "☆";
+  }
+  return stars;
 }
 
-// SEARCH
+// 🔍 SEARCH
 searchInput.addEventListener("input", () => {
 
-const value = searchInput.value.toLowerCase();
+  const value = searchInput.value.toLowerCase();
 
-const filtered = allBooks.filter(b =>
-b.title.toLowerCase().includes(value)
-);
+  const filtered = allBooks.filter(b =>
+    b.title.toLowerCase().includes(value)
+  );
 
-renderBooks(filtered);
+  renderBooks(filtered);
 
 });
 
-// CART
-function addToCart(id){
+// 🛒 ADD TO CART (NORMAL BOOK CART)
+function addToCart(id) {
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-cart.push({id});
+  cart.push({ id: id, qty: 1 });
 
-localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("cart", JSON.stringify(cart));
 
-alert("Added to cart 🛒");
+  alert("Added to cart 🛒");
 
 }
 
-window.addToCart = addToCart;
+// 📖 OPEN PRODUCT PAGE
+function openProduct(id) {
+  window.location.href = `product.html?id=${id}`;
+}
 
+// expose globally
+window.addToCart = addToCart;
+window.openProduct = openProduct;
+
+// 🚀 INIT
 loadBooks();
