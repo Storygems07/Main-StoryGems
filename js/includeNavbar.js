@@ -4,7 +4,7 @@ import { logout } from './main.js';
 
 async function includeNavbar() {
 
-    // ONLY NAVBAR (NO BACK BUTTON)
+    // ADD NAVBAR ONLY (NO BACK BUTTON)
     document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
 
     const navbarContainer = document.getElementById("navbar");
