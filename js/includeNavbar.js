@@ -1,9 +1,11 @@
-
 // js/includeNavbar.js
 
 import { logout } from './main.js';
 
 async function includeNavbar() {
+
+    // ONLY NAVBAR (NO BACK BUTTON)
+    document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
 
     const navbarContainer = document.getElementById("navbar");
 
@@ -12,8 +14,10 @@ async function includeNavbar() {
 
     navbarContainer.innerHTML = navbarHTML;
 
+    // UPDATE CART COUNT
     updateCartCount();
 
+    // USER LOGIC
     const greeting = document.getElementById("userGreeting");
     const logoutBtn = document.getElementById("logoutBtn");
     const loginBtn = document.getElementById("loginBtn");
@@ -35,12 +39,14 @@ async function includeNavbar() {
     }
 }
 
-// CART COUNT
-export function updateCartCount(){
+// CART BADGE
+function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const countEl = document.getElementById("cartCount");
 
     if (countEl) countEl.innerText = cart.length;
 }
+
+window.updateCartCount = updateCartCount;
 
 includeNavbar();
