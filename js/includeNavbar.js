@@ -3,14 +3,21 @@
 import { logout } from './main.js';
 
 async function includeNavbar() {
+
+    // 🔹 CREATE NAVBAR + BACK BUTTON AUTOMATICALLY
+    document.body.insertAdjacentHTML("afterbegin", `
+        <div id="navbar"></div>
+        <button class="back-btn" onclick="goBack()">← Back</button>
+    `);
+
     const navbarContainer = document.getElementById("navbar");
 
-    // load navbar html
     const response = await fetch("components/navbar.html");
     const navbarHTML = await response.text();
+
     navbarContainer.innerHTML = navbarHTML;
 
-    // elements
+    // USER LOGIC
     const greeting = document.getElementById("userGreeting");
     const logoutBtn = document.getElementById("logoutBtn");
     const loginBtn = document.getElementById("loginBtn");
@@ -19,23 +26,24 @@ async function includeNavbar() {
     const user = JSON.parse(localStorage.getItem("currentUser"));
 
     if (user) {
-        if (greeting) greeting.textContent = `Hi, ${user.name}`;
-        if (logoutBtn) logoutBtn.style.display = "inline-block";
-        if (loginBtn) loginBtn.style.display = "none";
-        if (signupBtn) signupBtn.style.display = "none";
+        greeting.textContent = `Hi, ${user.name} ❤️`;
+        logoutBtn.style.display = "inline-block";
+        loginBtn.style.display = "none";
+        signupBtn.style.display = "none";
 
-        logoutBtn?.addEventListener("click", logout);
+        logoutBtn.addEventListener("click", logout);
     } else {
-        if (logoutBtn) logoutBtn.style.display = "none";
-        if (loginBtn) loginBtn.style.display = "inline-block";
-        if (signupBtn) signupBtn.style.display = "inline-block";
-        if (greeting) greeting.textContent = "";
+        logoutBtn.style.display = "none";
+        loginBtn.style.display = "inline-block";
+        signupBtn.style.display = "inline-block";
     }
 }
-function goHome(){
-  window.location.href = "index.html";
+
+// BACK BUTTON
+function goBack(){
+    window.history.back();
 }
 
-window.goHome = goHome;
+window.goBack = goBack;
 
 includeNavbar();
