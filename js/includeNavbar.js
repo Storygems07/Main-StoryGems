@@ -4,13 +4,11 @@ import { logout } from './main.js';
 
 async function includeNavbar() {
 
-    // ADD NAVBAR ONLY (NO BACK BUTTON)
-    document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
-
     const navbarContainer = document.getElementById("navbar");
 
     const response = await fetch("components/navbar.html");
     const navbarHTML = await response.text();
+
     navbarContainer.innerHTML = navbarHTML;
 
     updateCartCount();
@@ -44,7 +42,5 @@ function updateCartCount() {
 
     if (countEl) countEl.innerText = cart.length;
 }
-
-window.updateCartCount = updateCartCount;
 
 includeNavbar();
