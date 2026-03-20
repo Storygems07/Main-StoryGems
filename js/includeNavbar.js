@@ -46,4 +46,23 @@ function goBack(){
 
 window.goBack = goBack;
 
+
+
+
+// 🛒 CART COUNT
+function updateCartCount(){
+
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const countEl = document.getElementById("cartCount");
+
+if(countEl){
+countEl.innerText = cart.length;
+}
+
+}
+
+updateCartCount();
+
+
 includeNavbar();
