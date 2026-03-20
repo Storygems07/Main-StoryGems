@@ -139,6 +139,31 @@ display:none;
 }
 }
 
+.back-btn{
+position:fixed;
+top:80px;
+left:20px;
+
+padding:10px 16px;
+
+background:var(--primary);
+color:white;
+
+border:none;
+border-radius:10px;
+
+cursor:pointer;
+
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+
+transition:0.3s;
+z-index:999;
+}
+
+.back-btn:hover{
+transform:translateY(-2px);
+background:#4f46e5;
+}
 
 /* ================= HERO ================= */
 
