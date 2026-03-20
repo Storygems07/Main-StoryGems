@@ -8,6 +8,77 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
+
+  /* NAVBAR */
+.navbar{
+position:sticky;
+top:0;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:rgba(255,255,255,0.5);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(200,200,200,0.3);
+z-index:1000;
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
+transition:all 0.3s ease;
+}
+
+.navbar .logo{
+font-size:24px;
+font-weight:700;
+color:#4b3ac7;
+letter-spacing:1px;
+cursor:pointer;
+}
+
+.navbar .nav-links{
+list-style:none;
+display:flex;
+gap:30px;
+margin:0;
+padding:0;
+}
+
+.navbar .nav-links li a{
+text-decoration:none;
+color:#333;
+font-weight:500;
+position:relative;
+transition:all 0.3s ease;
+}
+
+.navbar .nav-links li a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-4px;
+width:0%;
+height:2px;
+background:linear-gradient(135deg,#6c4ab6,#a084ff);
+transition:0.3s;
+border-radius:2px;
+}
+
+.navbar .nav-links li a:hover::after{
+width:100%;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.navbar{
+flex-direction:column;
+padding:15px 20px;
+}
+.navbar .nav-links{
+flex-direction:column;
+gap:15px;
+margin-top:10px;
+}
+}
+  
   
 /* GLOBAL */
 body{
