@@ -566,3 +566,23 @@ align-items:center;
 }
 
 }
+
+/* CART BADGE */
+.cart-link{
+position:relative;
+}
+
+.cart-badge{
+position:absolute;
+top:-8px;
+right:-12px;
+
+background:#ff4d4d;
+color:white;
+
+font-size:12px;
+padding:3px 7px;
+border-radius:50%;
+
+font-weight:600;
+}
