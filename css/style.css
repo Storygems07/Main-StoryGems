@@ -16,6 +16,7 @@ body{
 background:#f4f7ff;
 color:#333;
 line-height:1.6;
+padding-top:80px; /* FIX NAVBAR OVERLAP */
 }
 
 /* ================= COLOR SYSTEM ================= */
@@ -38,7 +39,7 @@ line-height:1.6;
 
 }
 
-/* ===== PREMIUM NAVBAR ===== */
+/* ================= NAVBAR ================= */
 
 .navbar{
 display:flex;
@@ -47,14 +48,17 @@ align-items:center;
 
 padding:15px 40px;
 
-background:rgba(255,255,255,0.7);
+background:rgba(255,255,255,0.85);
 backdrop-filter:blur(12px);
 
-position:sticky;
+position:fixed; /* FIXED */
 top:0;
+left:0;
+width:100%;
+
 z-index:1000;
 
-box-shadow:0 8px 25px rgba(0,0,0,0.08);
+box-shadow:var(--shadow-soft);
 }
 
 /* LEFT */
@@ -69,6 +73,7 @@ cursor:pointer;
 .nav-center{
 display:flex;
 gap:25px;
+align-items:center;
 }
 
 .nav-center a{
@@ -132,16 +137,32 @@ font-weight:500;
 color:#555;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-.nav-center{
-display:none;
+/* ================= CART BADGE ================= */
+
+.cart-link{
+position:relative;
 }
+
+.cart-badge{
+position:absolute;
+top:-8px;
+right:-12px;
+
+background:#ff4d4d;
+color:white;
+
+font-size:12px;
+padding:3px 7px;
+border-radius:50%;
+
+font-weight:600;
 }
+
+/* ================= BACK BUTTON ================= */
 
 .back-btn{
 position:fixed;
-top:80px;
+top:90px;
 left:20px;
 
 padding:10px 16px;
@@ -168,7 +189,6 @@ background:#4f46e5;
 /* ================= HERO ================= */
 
 .hero{
-
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -177,370 +197,221 @@ align-items:center;
 text-align:center;
 
 min-height:90vh;
-
 padding:120px 20px;
 
 background:linear-gradient(135deg,#a18cd1,#fbc2eb);
 
 color:white;
-
 }
 
 .hero-title{
-
 font-size:3.5rem;
 font-weight:700;
-
 margin-bottom:15px;
-
 }
 
 .hero-subtitle{
-
 font-size:1.3rem;
-
 opacity:0.95;
-
 margin-bottom:35px;
-
-}
-
-.hero-buttons{
-
-display:flex;
-gap:20px;
-
 }
 
 /* ================= BUTTONS ================= */
 
 .btn{
-
 padding:14px 30px;
-
 border-radius:30px;
-
 font-weight:600;
-
 text-decoration:none;
-
 transition:0.3s;
-
+cursor:pointer;
+border:none;
 }
 
 .btn:hover{
-
 transform:translateY(-3px);
-
 box-shadow:var(--shadow-medium);
-
 }
 
 .btn-primary{
-
 background:white;
-
 color:var(--primary);
-
 }
 
 .btn-secondary{
-
 border:2px solid white;
-
 color:white;
-
 }
 
 .btn-secondary:hover{
-
 background:white;
-
 color:var(--primary);
-
 }
 
-/* ================= FEATURED BOOKS ================= */
+/* ================= BOOK CARDS (SHOP PAGE) ================= */
 
-.featured{
-
-padding:100px 20px;
-
-text-align:center;
-
-}
-
-.featured h2{
-
-font-size:2.4rem;
-
-margin-bottom:50px;
-
-}
-
-.featured-cards{
-
-display:flex;
-flex-wrap:wrap;
-
-justify-content:center;
-
-gap:35px;
-
-}
-
-.featured-card{
-
-background:var(--card);
-
-padding:25px;
-
-width:220px;
-
-border-radius:20px;
-
-box-shadow:var(--shadow-soft);
-
-transition:0.35s;
-
-}
-
-.featured-card:hover{
-
-transform:translateY(-12px) scale(1.05);
-
-box-shadow:var(--shadow-medium);
-
-}
-
-/* ================= PLANS ================= */
-
-.plans{
-
-padding:100px 20px;
-
-text-align:center;
-
-}
-
-.plan-cards{
-
-display:flex;
-
-flex-wrap:wrap;
-
-justify-content:center;
-
-gap:35px;
-
-}
-
-.plan-cards .card{
-
-background:var(--gradient-soft);
-
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
 padding:40px;
-
-width:260px;
-
-border-radius:22px;
-
-box-shadow:var(--shadow-soft);
-
-transition:0.35s;
-
 }
 
-.plan-cards .card:hover{
-
-transform:translateY(-12px) scale(1.05);
-
-}
-
-/* ================= CATEGORIES ================= */
-
-.categories{
-
-padding:100px 20px;
-
-text-align:center;
-
-}
-
-.category-cards{
-
-display:flex;
-
-flex-wrap:wrap;
-
-justify-content:center;
-
-gap:35px;
-
-}
-
-.category-card{
-
-padding:60px 40px;
-
-border-radius:25px;
-
-font-size:1.4rem;
-
-font-weight:600;
-
-color:white;
-
-cursor:pointer;
-
-transition:0.35s;
-
-box-shadow:var(--shadow-soft);
-
-}
-
-.category-card:hover{
-
-transform:translateY(-10px) scale(1.05);
-
-}
-
-/* category gradients */
-
-.kids{
-
-background:linear-gradient(135deg,#f6d365,#fda085);
-
-}
-
-.teens{
-
-background:linear-gradient(135deg,#84fab0,#8fd3f4);
-
-}
-
-.adults{
-
-background:linear-gradient(135deg,#a18cd1,#fbc2eb);
-
-}
-
-/* ================= AUTH PAGE ================= */
-
-body.auth-body{
-
-background:linear-gradient(135deg,#a18cd1,#fbc2eb);
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-min-height:100vh;
-
-}
-
-.auth-container{
-
+.card{
 background:white;
-
-padding:50px 40px;
-
-border-radius:20px;
-
-width:100%;
-
-max-width:420px;
-
-box-shadow:var(--shadow-medium);
-
+padding:20px;
+border-radius:15px;
+box-shadow:var(--shadow-soft);
+transition:0.3s;
 text-align:center;
-
 }
 
-.auth-container input{
-
-width:100%;
-
-padding:14px;
-
-margin-bottom:20px;
-
-border-radius:10px;
-
-border:1px solid #ddd;
-
+.card:hover{
+transform:translateY(-8px);
+box-shadow:var(--shadow-medium);
 }
 
-.auth-container button{
-
-width:100%;
-
-padding:14px;
-
-border:none;
-
+.card .img{
+height:150px;
+background:#eee;
 border-radius:10px;
+margin-bottom:15px;
 
-background:var(--gradient-main);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:40px;
+}
 
-color:white;
-
+.card .title{
 font-weight:600;
+margin-bottom:5px;
+}
 
+.card .author{
+font-size:14px;
+color:#666;
+margin-bottom:5px;
+}
+
+.card .rating{
+color:#f5b50a;
+margin-bottom:5px;
+}
+
+.card .price{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.card button{
+background:var(--primary);
+color:white;
+border:none;
+padding:10px;
+border-radius:8px;
 cursor:pointer;
+width:100%;
+}
 
+.card button:hover{
+background:#4f46e5;
+}
+
+/* ================= CATEGORY CARDS ================= */
+
+.cards{
+display:flex;
+justify-content:center;
+gap:30px;
+flex-wrap:wrap;
+margin-top:40px;
+}
+
+.card{
+width:220px;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+display:flex;
+justify-content:center;
+margin:20px;
+}
+
+.search-box input{
+width:300px;
+padding:10px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+/* ================= SUBSCRIPTION ================= */
+
+.month{
+background:white;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+box-shadow:var(--shadow-soft);
+}
+
+.options{
+display:flex;
+gap:10px;
+margin:15px 0;
+}
+
+.option{
+flex:1;
+padding:10px;
+border-radius:10px;
+border:2px solid #ddd;
+text-align:center;
+cursor:pointer;
+}
+
+.option.active{
+background:var(--primary);
+color:white;
+border:none;
+}
+
+.books{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.book{
+padding:8px 12px;
+background:#eee;
+border-radius:8px;
+cursor:pointer;
+}
+
+.book.selected{
+background:var(--primary);
+color:white;
+}
+
+/* ================= TOTAL ================= */
+
+.total{
+text-align:center;
+font-size:20px;
+margin-top:20px;
+font-weight:bold;
 }
 
 /* ================= FOOTER ================= */
 
 footer{
-
 background:white;
-
 padding:60px 20px;
-
 text-align:center;
-
 color:#777;
-
-}
-
-footer a{
-
-text-decoration:none;
-
-margin:0 10px;
-
-color:#555;
-
-}
-
-footer a:hover{
-
-color:var(--primary);
-
-}
-
-/* ================= SCROLL ANIMATION ================= */
-
-.scroll-reveal{
-
-opacity:0;
-
-transform:translateY(40px);
-
-transition:all 0.8s;
-
-}
-
-.scroll-reveal.show{
-
-opacity:1;
-
-transform:translateY(0);
-
 }
 
 /* ================= RESPONSIVE ================= */
@@ -548,41 +419,24 @@ transform:translateY(0);
 @media(max-width:768px){
 
 .navbar{
-padding:15px 25px;
+padding:15px 20px;
+}
+
+.nav-center{
+display:none;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.cards{
+flex-direction:column;
+align-items:center;
 }
 
 .hero-title{
 font-size:2.4rem;
 }
 
-.featured-cards,
-.plan-cards,
-.category-cards{
-
-flex-direction:column;
-
-align-items:center;
-
-}
-
-}
-
-/* CART BADGE */
-.cart-link{
-position:relative;
-}
-
-.cart-badge{
-position:absolute;
-top:-8px;
-right:-12px;
-
-background:#ff4d4d;
-color:white;
-
-font-size:12px;
-padding:3px 7px;
-border-radius:50%;
-
-font-weight:600;
 }
