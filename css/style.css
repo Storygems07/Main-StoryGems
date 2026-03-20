@@ -38,74 +38,107 @@ line-height:1.6;
 
 }
 
-/* ================= NAVBAR ================= */
+/* ===== PREMIUM NAVBAR ===== */
 
 .navbar{
-
 display:flex;
 justify-content:space-between;
 align-items:center;
 
-padding:20px 60px;
+padding:15px 40px;
 
-background:white;
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(12px);
 
 position:sticky;
 top:0;
+z-index:1000;
 
-z-index:100;
-
-box-shadow:var(--shadow-soft);
-
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
 }
 
-.logo{
-
-font-size:2rem;
+/* LEFT */
+.nav-left .logo{
+font-size:1.8rem;
 font-weight:700;
 color:var(--primary);
-
+cursor:pointer;
 }
 
-.nav-links{
-
-list-style:none;
+/* CENTER */
+.nav-center{
 display:flex;
-gap:30px;
-
+gap:25px;
 }
 
-.nav-links a{
+.nav-center a{
+text-decoration:none;
+color:#333;
+font-weight:500;
+position:relative;
+padding:5px 0;
+}
 
+/* HOVER LINE */
+.nav-center a::after{
+content:"";
+position:absolute;
+left:0;
+bottom:-5px;
+width:0%;
+height:2px;
+background:var(--primary);
+transition:0.3s;
+}
+
+.nav-center a:hover::after{
+width:100%;
+}
+
+/* RIGHT */
+.nav-right{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.nav-right a{
 text-decoration:none;
 color:#444;
 font-weight:500;
-position:relative;
-
 }
 
-.nav-links a::after{
-
-content:"";
-position:absolute;
-
-left:0;
-bottom:-5px;
-
-width:0%;
-height:2px;
-
+/* SIGNUP BUTTON */
+.signup{
 background:var(--primary);
-
-transition:0.3s;
-
+color:white !important;
+padding:8px 15px;
+border-radius:8px;
 }
 
-.nav-links a:hover::after{
-
-width:100%;
-
+/* LOGOUT */
+#logoutBtn{
+padding:8px 15px;
+background:#ff4d6d;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
 }
+
+/* USER TEXT */
+#userGreeting{
+font-weight:500;
+color:#555;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.nav-center{
+display:none;
+}
+}
+
 
 /* ================= HERO ================= */
 
