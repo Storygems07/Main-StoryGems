@@ -1,35 +1,11 @@
-
 // js/includeNavbar.js
 
 import { logout } from './main.js';
 
 async function includeNavbar() {
 
-    const path = window.location.pathname;
-
-    const isHome =
-        path.includes("index.html") ||
-        path === "/" ||
-        path === "";
-
-    const isShop = path.includes("shop.html");
-
-    // ❌ CLEAR OLD BACK BUTTON (IMPORTANT FIX)
-    const oldBtn = document.querySelector(".back-btn");
-    if (oldBtn) oldBtn.remove();
-
-    // ✅ ADD NAVBAR ONLY
+    // ONLY NAVBAR (NO BACK BUTTON)
     document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
-
-    // ✅ ADD BACK BUTTON ONLY WHEN NEEDED
-    if (!isHome && !isShop) {
-        const btn = document.createElement("button");
-        btn.className = "back-btn";
-        btn.innerText = "← Back";
-        btn.onclick = goBack;
-
-        document.body.appendChild(btn);
-    }
 
     const navbarContainer = document.getElementById("navbar");
 
@@ -61,13 +37,7 @@ async function includeNavbar() {
     }
 }
 
-// BACK
-function goBack() {
-    window.history.back();
-}
-window.goBack = goBack;
-
-// CART
+// CART COUNT
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const countEl = document.getElementById("cartCount");
