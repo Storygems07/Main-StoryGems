@@ -10,15 +10,30 @@
 
 <style>
 
+/* BASE */
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#fdfbff);
+padding-top:80px;
 }
 
-/* NAV SPACE FIX */
-body{
-padding-top:80px;
+/* PROGRESS BAR */
+.progress-container{
+width:100%;
+height:6px;
+background:#ddd;
+position:fixed;
+top:70px;
+left:0;
+z-index:1000;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:linear-gradient(135deg,#6c4ab6,#8b6cff);
+transition:0.4s;
 }
 
 /* HEADER */
@@ -30,7 +45,6 @@ padding:30px 20px;
 .header h1{
 font-size:34px;
 color:#5a3ff2;
-margin-bottom:10px;
 }
 
 .header p{
@@ -58,10 +72,9 @@ transition:0.3s;
 transform:translateY(-5px);
 }
 
-/* TITLE */
-.month h3{
-margin-bottom:15px;
-color:#333;
+.month.completed{
+border:2px solid #6c4ab6;
+box-shadow:0 0 20px rgba(108,74,182,0.3);
 }
 
 /* OPTIONS */
@@ -82,10 +95,6 @@ transition:0.3s;
 font-weight:500;
 }
 
-.option:hover{
-transform:scale(1.03);
-}
-
 .option.active{
 background:linear-gradient(135deg,#6c4ab6,#8b6cff);
 color:white;
@@ -97,7 +106,6 @@ border:none;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
 gap:15px;
-margin-top:10px;
 }
 
 /* BOOK CARD */
@@ -117,9 +125,10 @@ transform:scale(1.07);
 .book.selected{
 background:linear-gradient(135deg,#6c4ab6,#8b6cff);
 color:white;
+transform:scale(1.1);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* IMAGE */
 .book img{
 width:100%;
 height:120px;
@@ -128,40 +137,12 @@ border-radius:10px;
 margin-bottom:5px;
 }
 
-/* PRICE */
 .book p{
 margin:3px 0;
 font-size:14px;
 }
 
-/* TOTAL */
-.total{
-text-align:center;
-font-size:22px;
-font-weight:600;
-margin-top:25px;
-color:#333;
-}
-
-/* BUTTON */
-.btn{
-display:block;
-margin:30px auto;
-padding:14px 35px;
-background:linear-gradient(135deg,#6c4ab6,#8b6cff);
-color:white;
-border:none;
-border-radius:12px;
-font-size:16px;
-cursor:pointer;
-transition:0.3s;
-}
-
-.btn:hover{
-transform:scale(1.05);
-}
-
-/* STICKY TOTAL BAR */
+/* STICKY BAR */
 .sticky-bar{
 position:fixed;
 bottom:0;
@@ -175,10 +156,15 @@ align-items:center;
 box-shadow:0 -5px 20px rgba(0,0,0,0.1);
 }
 
+.sticky-bar span{
+font-size:18px;
+font-weight:600;
+}
+
 .sticky-bar button{
-padding:10px 20px;
+padding:12px 25px;
 border:none;
-background:#6c4ab6;
+background:linear-gradient(135deg,#6c4ab6,#8b6cff);
 color:white;
 border-radius:10px;
 cursor:pointer;
@@ -189,27 +175,39 @@ cursor:pointer;
 
 <body>
 
-<!-- NAVBAR AUTO -->
+<!-- NAVBAR -->
+<div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
-<div class="header">
-<h1>Customize Your Subscription ✨</h1>
-<p>Choose your books or enjoy surprise blind dates 🎁</p>
+<!-- PROGRESS -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
 </div>
 
+<!-- HEADER -->
+<div class="header">
+<h1>Customize Your Subscription ✨</h1>
+<p>Choose your books or enjoy blind date surprises 🎁</p>
+</div>
+
+<!-- CONTENT -->
 <div class="container" id="container"></div>
 
+<!-- STICKY TOTAL -->
 <div class="sticky-bar">
 <span id="totalPrice">Total: ₹0</span>
 <button onclick="continueCheckout()">Continue →</button>
 </div>
+
+<!-- CONFETTI -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
 
 // PLAN
 const plan = parseInt(localStorage.getItem("plan")) || 2;
 
-// BOOKS WITH IMAGES
+// BOOK DATA
 const books = [
 { title:"Atomic Habits", price:300, img:"https://covers.openlibrary.org/b/id/10523338-L.jpg" },
 { title:"Ikigai", price:250, img:"https://covers.openlibrary.org/b/id/9259251-L.jpg" },
@@ -285,6 +283,10 @@ b.onclick=()=>{
 bookEls.forEach(x=>x.classList.remove("selected"));
 b.classList.add("selected");
 
+// click animation
+b.style.transform="scale(1.15)";
+setTimeout(()=>{b.style.transform=""},200);
+
 bookName=b.querySelector("p").innerText;
 price=parseInt(b.dataset.price);
 
@@ -301,7 +303,13 @@ book:bookName,
 price
 };
 
+if(type){
+monthDiv.classList.add("completed");
+}
+
 calculate();
+updateProgress();
+
 }
 
 });
@@ -325,6 +333,16 @@ total+=49;
 document.getElementById("totalPrice").innerText="Total: ₹"+total;
 }
 
+// PROGRESS
+function updateProgress(){
+
+let completed = selections.filter(s => s && s.type).length;
+
+let percent = (completed / plan) * 100;
+
+document.getElementById("progressBar").style.width = percent + "%";
+}
+
 // CONTINUE
 function continueCheckout(){
 
@@ -344,9 +362,18 @@ return;
 }
 }
 
-localStorage.setItem("subscriptionData", JSON.stringify(selections));
+// CONFETTI 🎉
+confetti({
+particleCount:120,
+spread:70,
+origin:{y:0.6}
+});
 
+setTimeout(()=>{
+localStorage.setItem("subscriptionData", JSON.stringify(selections));
 window.location.href="checkout.html";
+},1200);
+
 }
 
 </script>
