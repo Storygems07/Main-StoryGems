@@ -5,115 +5,44 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StoryGems | Choose Age</title>
 
+<!-- ✅ ADDED MAIN CSS -->
+<link rel="stylesheet" href="css/style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 
-  /* NAVBAR */
-.navbar{
-position:sticky;
-top:0;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 40px;
-background:rgba(255,255,255,0.5);
-backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(200,200,200,0.3);
-z-index:1000;
-box-shadow:0 5px 15px rgba(0,0,0,0.05);
-transition:all 0.3s ease;
-}
-
-.navbar .logo{
-font-size:24px;
-font-weight:700;
-color:#4b3ac7;
-letter-spacing:1px;
-cursor:pointer;
-}
-
-.navbar .nav-links{
-list-style:none;
-display:flex;
-gap:30px;
-margin:0;
-padding:0;
-}
-
-.navbar .nav-links li a{
-text-decoration:none;
-color:#333;
-font-weight:500;
-position:relative;
-transition:all 0.3s ease;
-}
-
-.navbar .nav-links li a::after{
-content:'';
-position:absolute;
-left:0;
-bottom:-4px;
-width:0%;
-height:2px;
-background:linear-gradient(135deg,#6c4ab6,#a084ff);
-transition:0.3s;
-border-radius:2px;
-}
-
-.navbar .nav-links li a:hover::after{
-width:100%;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-.navbar{
-flex-direction:column;
-padding:15px 20px;
-}
-.navbar .nav-links{
-flex-direction:column;
-gap:15px;
-margin-top:10px;
-}
-}
-  
-  
 /* GLOBAL */
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:linear-gradient(135deg,#e0e7ff,#fdfbff,#f0f9ff);
-min-height:100vh;
+background:linear-gradient(135deg,#eef2ff,#fdfbff);
 }
 
 /* HERO */
 .hero{
 text-align:center;
-padding:90px 20px 50px;
+padding:80px 20px 40px;
 }
 
 .hero h1{
-font-size:40px;
-color:#3b2fc3;
+font-size:36px;
+color:#4b3ac7;
 margin-bottom:10px;
-font-weight:700;
-letter-spacing:0.5px;
 }
 
 .hero p{
 color:#666;
-font-size:17px;
+font-size:16px;
 }
 
 /* GRID */
 .cards{
 display:flex;
 justify-content:center;
-gap:45px;
+gap:40px;
 flex-wrap:wrap;
-padding:30px 20px;
+padding:40px 20px;
 }
 
 /* CARD */
@@ -121,35 +50,26 @@ padding:30px 20px;
 position:relative;
 width:260px;
 height:260px;
-border-radius:30px;
+border-radius:25px;
+background:white;
 cursor:pointer;
 overflow:hidden;
-
+transition:0.4s;
+box-shadow:0 20px 50px rgba(0,0,0,0.08);
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-
-background:rgba(255,255,255,0.6);
-backdrop-filter:blur(12px);
-
-box-shadow:
-0 10px 30px rgba(0,0,0,0.08),
-inset 0 0 0 rgba(255,255,255,0.3);
-
-transition:all 0.4s ease;
 }
 
-/* GRADIENT BORDER */
+/* GRADIENT BORDER EFFECT */
 .card::before{
 content:"";
 position:absolute;
 inset:0;
-border-radius:30px;
+border-radius:25px;
 padding:2px;
-
 background:linear-gradient(135deg,#6c4ab6,#8b6cff,#a084ff);
-
 -webkit-mask:
 linear-gradient(#fff 0 0) content-box,
 linear-gradient(#fff 0 0);
@@ -157,78 +77,48 @@ linear-gradient(#fff 0 0);
 mask-composite:exclude;
 }
 
-/* HOVER EFFECT */
+/* HOVER */
 .card:hover{
-transform:translateY(-18px) scale(1.06);
-box-shadow:
-0 25px 60px rgba(108,74,182,0.25);
+transform:translateY(-15px) scale(1.05);
 }
 
 /* ICON */
 .icon{
-font-size:65px;
+font-size:60px;
 margin-bottom:15px;
-transition:transform 0.3s ease;
-}
-
-.card:hover .icon{
-transform:scale(1.2) rotate(5deg);
 }
 
 /* TITLE */
 .card h2{
 margin:0;
-font-size:24px;
-font-weight:600;
-color:#222;
+font-size:22px;
 }
 
 /* SUBTEXT */
 .card p{
-font-size:14px;
-color:#666;
-margin-top:6px;
-text-align:center;
-padding:0 15px;
+font-size:13px;
+color:#777;
+margin-top:5px;
 }
 
 /* FOOTER TEXT */
 .note{
 text-align:center;
-margin-top:25px;
-color:#777;
-font-size:14px;
+margin-top:20px;
+color:#888;
+font-size:13px;
 }
 
-/* FADE ANIMATION */
+/* ANIMATION */
 .fade-in{
-animation:fade 0.9s ease;
+animation:fade 0.8s ease;
 }
 
 @keyframes fade{
-from{
-opacity:0;
-transform:translateY(25px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
 }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-.hero h1{
-font-size:30px;
-}
-.cards{
-gap:25px;
-}
-.card{
-width:220px;
-height:220px;
-}
-}
 </style>
 </head>
 
