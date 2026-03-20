@@ -5,10 +5,17 @@ import { logout } from './main.js';
 async function includeNavbar() {
 
     // 🔹 CREATE NAVBAR + BACK BUTTON AUTOMATICALLY
+  document.body.insertAdjacentHTML("afterbegin", `
+    <div id="navbar"></div>
+`);
+
+const isHome = window.location.pathname.includes("index.html") || window.location.pathname === "/";
+
+if (!isHome) {
     document.body.insertAdjacentHTML("afterbegin", `
-        <div id="navbar"></div>
         <button class="back-btn" onclick="goBack()">← Back</button>
     `);
+}
 
     const navbarContainer = document.getElementById("navbar");
 
