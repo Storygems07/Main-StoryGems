@@ -32,5 +32,10 @@ async function includeNavbar() {
         if (greeting) greeting.textContent = "";
     }
 }
+function goHome(){
+  window.location.href = "index.html";
+}
+
+window.goHome = goHome;
 
 includeNavbar();
