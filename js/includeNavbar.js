@@ -1,3 +1,4 @@
+
 // js/includeNavbar.js
 
 import { logout } from './main.js';
@@ -13,7 +14,6 @@ async function includeNavbar() {
 
     updateCartCount();
 
-    // USER LOGIC
     const greeting = document.getElementById("userGreeting");
     const logoutBtn = document.getElementById("logoutBtn");
     const loginBtn = document.getElementById("loginBtn");
@@ -36,7 +36,7 @@ async function includeNavbar() {
 }
 
 // CART COUNT
-function updateCartCount() {
+export function updateCartCount(){
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const countEl = document.getElementById("cartCount");
 
