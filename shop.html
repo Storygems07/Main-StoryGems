@@ -14,6 +14,7 @@ body{
 background:#f5f6fa;
 }
 
+/* HEADER */
 .header{
 padding:20px 30px;
 background:white;
@@ -28,6 +29,7 @@ flex-wrap:wrap;
 color:#4b3ac7;
 }
 
+/* SEARCH */
 .search{
 padding:10px;
 width:260px;
@@ -35,6 +37,7 @@ border-radius:10px;
 border:1px solid #ddd;
 }
 
+/* GRID */
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
@@ -42,43 +45,58 @@ gap:25px;
 padding:30px;
 }
 
+/* CARD */
 .card{
 background:white;
 border-radius:18px;
 padding:15px;
 box-shadow:0 10px 25px rgba(0,0,0,0.06);
+transition:0.3s;
 display:flex;
 flex-direction:column;
 }
 
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(0,0,0,0.12);
+}
+
+/* IMAGE */
 .img{
 height:180px;
+border-radius:12px;
 background:#eee;
-border-radius:10px;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:40px;
 }
 
-.title{font-weight:600;}
+/* TEXT */
+.title{font-weight:600;margin-top:10px;}
 .author{font-size:13px;color:#777;}
-.rating{color:#f5a623;}
-.price{font-weight:bold;}
+.rating{color:#f5a623;font-size:14px;margin:5px 0;}
+.price{font-weight:bold;margin:5px 0;}
 
+/* BUTTON */
 button{
 margin-top:auto;
 padding:10px;
+border:none;
 background:#6c4ab6;
 color:white;
-border:none;
 border-radius:10px;
 cursor:pointer;
 }
 
+button:hover{
+background:#5a38a8;
+}
+
+/* BOTTOM BACK */
 .bottom-back{
 display:block;
-margin:40px auto;
+margin:40px auto 60px;
 padding:14px 30px;
 background:#6366f1;
 color:white;
@@ -86,6 +104,13 @@ border:none;
 border-radius:12px;
 font-weight:600;
 cursor:pointer;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+.bottom-back:hover{
+background:#4f46e5;
+transform:translateY(-2px);
 }
 
 </style>
@@ -93,23 +118,29 @@ cursor:pointer;
 
 <body>
 
+<!-- NAVBAR -->
 <div id="navbar"></div>
 <script type="module" src="js/includeNavbar.js"></script>
 
+<!-- HEADER -->
 <div class="header">
 <h2>📚 Explore Books</h2>
 <input type="text" id="search" class="search" placeholder="Search books...">
 </div>
 
+<!-- BOOKS -->
 <div class="grid" id="booksContainer"></div>
 
-<button class="bottom-back" onclick="goBack()">← Back to Categories</button>
+<!-- BACK BUTTON -->
+<button class="bottom-back" onclick="goBackToCategory()">
+← Back to Categories
+</button>
 
 <script type="module" src="js/shop.js"></script>
 
 <script>
-function goBack(){
-window.location.href="category.html";
+function goBackToCategory(){
+    window.location.href = "category.html";
 }
 </script>
 
