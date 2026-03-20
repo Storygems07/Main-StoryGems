@@ -1,5 +1,3 @@
-// js/shop.js
-
 const age = localStorage.getItem("ageGroup");
 
 const container = document.getElementById("booksContainer");
@@ -7,24 +5,22 @@ const searchInput = document.getElementById("search");
 
 let allBooks = [];
 
-// 📦 LOAD BOOKS
+// LOAD BOOKS
 async function loadBooks() {
   try {
     const res = await fetch("data/books.json");
     const books = await res.json();
 
-    // filter by age group
     allBooks = books.filter(b => b.category === age);
 
     renderBooks(allBooks);
 
   } catch (err) {
-    console.error("Error loading books:", err);
-    container.innerHTML = "<p>Failed to load books 😢</p>";
+    container.innerHTML = "<p>Error loading books 😢</p>";
   }
 }
 
-// 🎨 RENDER BOOKS
+// RENDER
 function renderBooks(data) {
 
   container.innerHTML = "";
@@ -41,7 +37,7 @@ function renderBooks(data) {
 
     div.innerHTML = `
       <div class="img" onclick="openProduct('${book.id}')">
-        <img src="${book.image || 'https://via.placeholder.com/150'}" />
+        <img src="${book.image || 'https://via.placeholder.com/150'}">
       </div>
 
       <div class="title" onclick="openProduct('${book.id}')">
@@ -60,11 +56,10 @@ function renderBooks(data) {
     `;
 
     container.appendChild(div);
-
   });
 }
 
-// ⭐ STAR RENDER
+// STARS
 function getStars(rating = 4) {
   let stars = "";
   for (let i = 1; i <= 5; i++) {
@@ -73,9 +68,8 @@ function getStars(rating = 4) {
   return stars;
 }
 
-// 🔍 SEARCH
+// SEARCH
 searchInput.addEventListener("input", () => {
-
   const value = searchInput.value.toLowerCase();
 
   const filtered = allBooks.filter(b =>
@@ -83,10 +77,9 @@ searchInput.addEventListener("input", () => {
   );
 
   renderBooks(filtered);
-
 });
 
-// 🛒 ADD TO CART (NORMAL BOOK CART)
+// CART
 function addToCart(id){
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -95,21 +88,19 @@ cart.push({id});
 
 localStorage.setItem("cart", JSON.stringify(cart));
 
-// 🔥 UPDATE BADGE LIVE
-document.getElementById("cartCount").innerText = cart.length;
+// UPDATE BADGE
+window.updateCartCount();
 
 alert("Added to cart 🛒");
 
 }
 
-// 📖 OPEN PRODUCT PAGE
+// OPEN PRODUCT
 function openProduct(id) {
   window.location.href = `product.html?id=${id}`;
 }
 
-// expose globally
 window.addToCart = addToCart;
 window.openProduct = openProduct;
 
-// 🚀 INIT
 loadBooks();
