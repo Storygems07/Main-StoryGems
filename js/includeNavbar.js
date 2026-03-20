@@ -7,13 +7,18 @@ async function includeNavbar() {
     // ADD NAVBAR
     document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
 
-    // BACK BUTTON ONLY IF NOT HOME
-    const isHome =
-        window.location.pathname.includes("index.html") ||
-        window.location.pathname === "/" ||
-        window.location.pathname === "";
+    // 🔥 CONDITIONS
+    const path = window.location.pathname;
 
-    if (!isHome) {
+    const isHome =
+        path.includes("index.html") ||
+        path === "/" ||
+        path === "";
+
+    const isShop = path.includes("shop.html");
+
+    // ❌ NO BACK BUTTON ON HOME + SHOP
+    if (!isHome && !isShop) {
         document.body.insertAdjacentHTML("afterbegin", `
             <button class="back-btn" onclick="goBack()">← Back</button>
         `);
@@ -21,13 +26,12 @@ async function includeNavbar() {
 
     const navbarContainer = document.getElementById("navbar");
 
-    // LOAD HTML
+    // LOAD NAVBAR HTML
     const response = await fetch("components/navbar.html");
     const navbarHTML = await response.text();
-
     navbarContainer.innerHTML = navbarHTML;
 
-    // AFTER NAVBAR LOAD → UPDATE CART
+    // UPDATE CART AFTER LOAD
     updateCartCount();
 
     // USER LOGIC
@@ -68,6 +72,8 @@ function updateCartCount() {
         countEl.innerText = cart.length;
     }
 }
+
+window.updateCartCount = updateCartCount;
 
 // RUN
 includeNavbar();
