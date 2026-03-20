@@ -1,13 +1,10 @@
+
 // js/includeNavbar.js
 
 import { logout } from './main.js';
 
 async function includeNavbar() {
 
-    // ADD NAVBAR
-    document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
-
-    // 🔥 CONDITIONS
     const path = window.location.pathname;
 
     const isHome =
@@ -17,21 +14,29 @@ async function includeNavbar() {
 
     const isShop = path.includes("shop.html");
 
-    // ❌ NO BACK BUTTON ON HOME + SHOP
+    // ❌ CLEAR OLD BACK BUTTON (IMPORTANT FIX)
+    const oldBtn = document.querySelector(".back-btn");
+    if (oldBtn) oldBtn.remove();
+
+    // ✅ ADD NAVBAR ONLY
+    document.body.insertAdjacentHTML("afterbegin", `<div id="navbar"></div>`);
+
+    // ✅ ADD BACK BUTTON ONLY WHEN NEEDED
     if (!isHome && !isShop) {
-        document.body.insertAdjacentHTML("afterbegin", `
-            <button class="back-btn" onclick="goBack()">← Back</button>
-        `);
+        const btn = document.createElement("button");
+        btn.className = "back-btn";
+        btn.innerText = "← Back";
+        btn.onclick = goBack;
+
+        document.body.appendChild(btn);
     }
 
     const navbarContainer = document.getElementById("navbar");
 
-    // LOAD NAVBAR HTML
     const response = await fetch("components/navbar.html");
     const navbarHTML = await response.text();
     navbarContainer.innerHTML = navbarHTML;
 
-    // UPDATE CART AFTER LOAD
     updateCartCount();
 
     // USER LOGIC
@@ -56,24 +61,20 @@ async function includeNavbar() {
     }
 }
 
-// BACK BUTTON
+// BACK
 function goBack() {
     window.history.back();
 }
 window.goBack = goBack;
 
-
-// CART COUNT
+// CART
 function updateCartCount() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const countEl = document.getElementById("cartCount");
 
-    if (countEl) {
-        countEl.innerText = cart.length;
-    }
+    if (countEl) countEl.innerText = cart.length;
 }
 
 window.updateCartCount = updateCartCount;
 
-// RUN
 includeNavbar();
