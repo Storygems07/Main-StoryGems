@@ -1,6 +1,5 @@
 // js/includeNavbar.js
 import { auth, onAuthStateChanged } from './firebase.js';
-import { logout } from './main.js';
 
 async function includeNavbar() {
 
