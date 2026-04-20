@@ -164,12 +164,8 @@ const user = userCredential.user;
 
 /* Save current user locally */
 
-localStorage.setItem("currentUser", JSON.stringify({
-
-email: user.email,
-name: user.displayName || user.email.split("@")[0]
-
-}));
+// DO NOTHING HERE
+// Firebase already keeps user logged in
 
 
 alert("Login successful!");
