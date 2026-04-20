@@ -82,11 +82,25 @@ searchInput.addEventListener("input", () => {
 // CART
 function addToCart(id){
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+import { db, auth } from './firebase.js';
+import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-cart.push({id});
+async function addToCart(id){
 
-localStorage.setItem("cart", JSON.stringify(cart));
+const user = auth.currentUser;
+
+if(!user){
+alert("Please login first");
+return;
+}
+
+await addDoc(collection(db,"cart"),{
+userId: user.uid,
+bookId: id
+});
+
+alert("Added to cart 🛒");
+}
 
 // UPDATE BADGE
 window.updateCartCount();
