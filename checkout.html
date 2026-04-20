@@ -125,130 +125,70 @@ margin-top:15px;
 
 </div>
 
-<script>
-
-const itemsDiv = document.getElementById("items");
-
-// DATA
-import { db, auth } from './js/firebase.js';
+<script type="module">
+import { auth, onAuthStateChanged, db } from './js/firebase.js';
 import {
-collection,
-getDocs,
-query,
-where
+    collection,
+    getDocs,
+    query,
+    where
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-async function loadCheckout(){
+let booksCache = [];
 
-const user = auth.currentUser;
-
-const q = query(
-collection(db,"cart"),
-where("userId","==",user.uid)
-);
-
-const snapshot = await getDocs(q);
-
-snapshot.forEach(doc=>{
-console.log(doc.data());
-});
+async function loadBooks() {
+    const res = await fetch("data/books.json");
+    booksCache = await res.json();
 }
 
-loadCheckout();
-const sub = JSON.parse(localStorage.getItem("subscriptionData")) || [];
+async function loadCheckout(userId) {
 
-// DETECT TYPE
-let isSubscription = sub.length > 0;
+    await loadBooks();
 
-let itemsTotal = 0;
-let delivery = 0;
-let extras = 0;
+    const q = query(
+        collection(db, "cart"),
+        where("userId", "==", userId)
+    );
 
-// =====================
-// 📚 NORMAL BOOKS FLOW
-// =====================
-if(!isSubscription){
+    const snapshot = await getDocs(q);
 
-cart.forEach(item => {
+    const itemsDiv = document.getElementById("items");
 
-const book = books.find(b => b.id === item.id);
+    let total = 0;
 
-if(book){
+    snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        const book = booksCache.find(b => b.id === data.bookId);
 
-itemsTotal += book.price;
+        if (!book) return;
 
-const div = document.createElement("div");
-div.className = "item";
+        total += book.price;
 
-div.innerHTML = `
-<h3>${book.title}</h3>
-<p>${book.author}</p>
-<p>₹${book.price}</p>
-`;
+        const div = document.createElement("div");
+        div.className = "item";
 
-itemsDiv.appendChild(div);
+        div.innerHTML = `
+            <h3>${book.title}</h3>
+            <p>₹${book.price}</p>
+        `;
 
+        itemsDiv.appendChild(div);
+    });
+
+    document.getElementById("finalTotal").innerText = "₹" + total;
 }
 
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        loadCheckout(user.uid);
+    }
 });
 
-// charges
-delivery = 50;
-extras = 10;
-
-}
-
-// =====================
-// 📦 SUBSCRIPTION FLOW
-// =====================
-else{
-
-sub.forEach(s => {
-
-itemsTotal += s.price || 0;
-delivery += 200;
-
-if(s.type === "blind"){
-extras += 49;
-}
-
-const div = document.createElement("div");
-div.className = "item";
-
-div.innerHTML = `
-<h3>Month ${s.month}</h3>
-<p>${s.type === "blind" ? "Blind Date 🎁" : s.book}</p>
-<p>₹${s.price || 0}</p>
-`;
-
-itemsDiv.appendChild(div);
-
-});
-
-}
-
-// TOTAL
-const finalTotal = itemsTotal + delivery + extras;
-
-// DISPLAY
-document.getElementById("itemsTotal").innerText = "₹" + itemsTotal;
-document.getElementById("delivery").innerText = "₹" + delivery;
-document.getElementById("extras").innerText = "₹" + extras;
-document.getElementById("finalTotal").innerText = "₹" + finalTotal;
-
-// ORDER
-function placeOrder(){
-
-alert("🎉 Order Placed Successfully!");
-
-localStorage.removeItem("cart");
-localStorage.removeItem("subscriptionData");
-
-window.location.href = "index.html";
-
-}
-
+window.placeOrder = function () {
+    alert("Order placed 🚀 (Firestore ready)");
+};
 </script>
-
 </body>
 </html>
