@@ -1,8 +1,7 @@
-// GET ID FROM URL
+// js/product.js
 import { db, auth } from './firebase.js';
 import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-// GET ID
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
@@ -10,7 +9,6 @@ let currentBook = null;
 
 // LOAD BOOK
 async function loadBook() {
-
     const res = await fetch("data/books.json");
     const books = await res.json();
 
@@ -25,14 +23,8 @@ async function loadBook() {
 
 loadBook();
 
-// STARS
-function getStars(rating = 4) {
-    return "⭐".repeat(rating) + "☆".repeat(5 - rating);
-}
-
 // ADD TO CART
 async function addToCart() {
-
     const user = auth.currentUser;
 
     if (!user) {
