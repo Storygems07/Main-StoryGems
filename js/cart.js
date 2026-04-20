@@ -11,22 +11,16 @@ import {
 
 let booksCache = [];
 
-// AUTH
 onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = "login.html";
-    } else {
-        loadCart(user.uid);
-    }
+    if (!user) window.location.href = "login.html";
+    else loadCart(user.uid);
 });
 
-// LOAD BOOKS
 async function loadBooks() {
     const res = await fetch("data/books.json");
     booksCache = await res.json();
 }
 
-// LOAD CART
 async function loadCart(userId) {
 
     await loadBooks();
@@ -68,18 +62,17 @@ async function loadCart(userId) {
     totalEl.innerText = "Total: ₹" + total;
 }
 
-// REMOVE
 async function removeItem(id) {
     await deleteDoc(doc(db, "cart", id));
 
     const user = auth.currentUser;
-    loadCart(user.uid);
+    if (user) loadCart(user.uid);
 }
 
-// CHECKOUT
+window.removeItem = removeItem;
+
 function checkout() {
     window.location.href = "checkout.html";
 }
 
-window.removeItem = removeItem;
 window.checkout = checkout;
