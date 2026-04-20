@@ -15,8 +15,6 @@ async function includeNavbar() {
         const loginBtn = document.getElementById("loginBtn");
         const signupBtn = document.getElementById("signupBtn");
 
-        if (!greeting || !logoutBtn || !loginBtn || !signupBtn) return;
-
         if (user) {
             greeting.textContent = `Hi, ${user.displayName || "User"} ❤️`;
             logoutBtn.style.display = "inline-block";
