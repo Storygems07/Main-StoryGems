@@ -23,7 +23,11 @@ async function includeNavbar() {
     const loginBtn = document.getElementById("loginBtn");
     const signupBtn = document.getElementById("signupBtn");
 
-    const user = JSON.parse(localStorage.getItem("currentUser"));
+   onAuthStateChanged(auth, (user) => {
+  if(user){
+    greeting.textContent = `Hi, ${user.displayName}`;
+  }
+});
 
     if (user) {
         if (greeting) greeting.textContent = `Hi, ${user.name} ❤️`;
