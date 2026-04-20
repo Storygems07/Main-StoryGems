@@ -126,7 +126,7 @@ margin-top:15px;
 </div>
 
 <script type="module">
-import { auth, onAuthStateChanged, db } from './js/firebase.js';
+import { db, auth } from './js/firebase.js';
 import {
     collection,
     getDocs,
@@ -134,60 +134,48 @@ import {
     where
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-let booksCache = [];
+const itemsDiv = document.getElementById("items");
 
-async function loadBooks() {
-    const res = await fetch("data/books.json");
-    booksCache = await res.json();
-}
+async function loadCheckout() {
 
-async function loadCheckout(userId) {
-
-    await loadBooks();
+    const user = auth.currentUser;
+    if (!user) return;
 
     const q = query(
         collection(db, "cart"),
-        where("userId", "==", userId)
+        where("userId", "==", user.uid)
     );
 
     const snapshot = await getDocs(q);
 
-    const itemsDiv = document.getElementById("items");
+    let itemsTotal = 0;
 
-    let total = 0;
+    itemsDiv.innerHTML = "";
 
     snapshot.forEach(docSnap => {
         const data = docSnap.data();
-        const book = booksCache.find(b => b.id === data.bookId);
-
-        if (!book) return;
-
-        total += book.price;
 
         const div = document.createElement("div");
         div.className = "item";
 
         div.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>₹${book.price}</p>
+            <p>${data.bookId}</p>
         `;
 
         itemsDiv.appendChild(div);
+
+        itemsTotal += 100; // placeholder price
     });
 
-    document.getElementById("finalTotal").innerText = "₹" + total;
+    document.getElementById("itemsTotal").innerText = "₹" + itemsTotal;
+    document.getElementById("finalTotal").innerText = "₹" + (itemsTotal + 60);
 }
 
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = "login.html";
-    } else {
-        loadCheckout(user.uid);
-    }
-});
+loadCheckout();
 
 window.placeOrder = function () {
-    alert("Order placed 🚀 (Firestore ready)");
+    alert("🎉 Order placed!");
+    window.location.href = "index.html";
 };
 </script>
 </body>
