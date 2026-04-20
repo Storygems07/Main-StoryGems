@@ -2,17 +2,17 @@
 import { auth, onAuthStateChanged, db } from './firebase.js';
 import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-// AUTH CHECK
 onAuthStateChanged(auth, (user) => {
     if (!user) window.location.href = "login.html";
 });
 
-// LOAD BOOKS
 async function loadBooks() {
     const res = await fetch("data/books.json");
     const books = await res.json();
 
     const container = document.getElementById("booksContainer");
+
+    container.innerHTML = "";
 
     books.forEach(book => {
         const card = document.createElement("div");
@@ -31,14 +31,10 @@ async function loadBooks() {
 
 loadBooks();
 
-// ADD TO CART (FIRESTORE ONLY)
 async function addToCart(bookId) {
     const user = auth.currentUser;
 
-    if (!user) {
-        alert("Login first");
-        return;
-    }
+    if (!user) return alert("Login first");
 
     await addDoc(collection(db, "cart"), {
         userId: user.uid,
