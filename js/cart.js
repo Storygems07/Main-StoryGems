@@ -1,5 +1,4 @@
 // js/cart.js
-
 import { auth, onAuthStateChanged, db } from './firebase.js';
 import {
     collection,
@@ -21,7 +20,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// LOAD BOOK DATA
+// LOAD BOOKS
 async function loadBooks() {
     const res = await fetch("data/books.json");
     booksCache = await res.json();
@@ -69,7 +68,7 @@ async function loadCart(userId) {
     totalEl.innerText = "Total: ₹" + total;
 }
 
-// REMOVE ITEM
+// REMOVE
 async function removeItem(id) {
     await deleteDoc(doc(db, "cart", id));
 
@@ -77,11 +76,10 @@ async function removeItem(id) {
     loadCart(user.uid);
 }
 
-window.removeItem = removeItem;
-
 // CHECKOUT
 function checkout() {
     window.location.href = "checkout.html";
 }
 
+window.removeItem = removeItem;
 window.checkout = checkout;
