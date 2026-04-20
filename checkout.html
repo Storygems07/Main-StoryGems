@@ -136,9 +136,8 @@ import {
 
 const itemsDiv = document.getElementById("items");
 
-async function loadCheckout() {
+onAuthStateChanged(auth, async (user) => {
 
-    const user = auth.currentUser;
     if (!user) return;
 
     const q = query(
@@ -148,7 +147,7 @@ async function loadCheckout() {
 
     const snapshot = await getDocs(q);
 
-    let itemsTotal = 0;
+    let total = 0;
 
     itemsDiv.innerHTML = "";
 
@@ -157,26 +156,16 @@ async function loadCheckout() {
 
         const div = document.createElement("div");
         div.className = "item";
-
-        div.innerHTML = `
-            <p>${data.bookId}</p>
-        `;
+        div.innerHTML = `<p>${data.bookId}</p>`;
 
         itemsDiv.appendChild(div);
 
-        itemsTotal += 100; // placeholder price
+        total += 100;
     });
 
-    document.getElementById("itemsTotal").innerText = "₹" + itemsTotal;
-    document.getElementById("finalTotal").innerText = "₹" + (itemsTotal + 60);
-}
-
-loadCheckout();
-
-window.placeOrder = function () {
-    alert("🎉 Order placed!");
-    window.location.href = "index.html";
-};
+    document.getElementById("itemsTotal").innerText = "₹" + total;
+    document.getElementById("finalTotal").innerText = "₹" + (total + 60);
+});
 </script>
 </body>
 </html>
