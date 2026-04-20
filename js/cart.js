@@ -12,7 +12,52 @@ onAuthStateChanged(auth, user => {
 // LOAD CART
 async function loadCart(){
 
-const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    import { db, auth } from './firebase.js';
+import {
+collection,
+getDocs,
+query,
+where,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+async function loadCart(){
+
+const user = auth.currentUser;
+
+const q = query(
+collection(db,"cart"),
+where("userId","==", user.uid)
+);
+
+const snapshot = await getDocs(q);
+
+const container = document.getElementById("cartItems");
+container.innerHTML = "";
+
+snapshot.forEach(docSnap => {
+
+const data = docSnap.data();
+
+const div = document.createElement("div");
+
+div.innerHTML = `
+<p>${data.bookId}</p>
+<button onclick="removeItem('${docSnap.id}')">Remove</button>
+`;
+
+container.appendChild(div);
+});
+}
+
+async function removeItem(id){
+await deleteDoc(doc(db,"cart",id));
+loadCart();
+}
+
+window.removeItem = removeItem;
+
 
 const res = await fetch("data/books.json");
 const books = await res.json();
@@ -57,9 +102,9 @@ function removeItem(index){
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-cart.splice(index, 1);
 
-localStorage.setItem('cart', JSON.stringify(cart));
+
+
 
 loadCart();
 
