@@ -37,8 +37,6 @@ return stars;
 }
 
 // CART
-function addToCart(){
-
 import { db, auth } from './firebase.js';
 import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
@@ -59,4 +57,4 @@ bookId: currentBook.id
 alert("Added to cart 🛒");
 }
 
-loadBook();
+window.addToCart = addToCart;
