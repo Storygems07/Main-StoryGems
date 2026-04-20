@@ -43,30 +43,24 @@ console.error("Error loading books:", err);
 
 loadBooks();
 
-// CART SYSTEM
-function addToCart(bookId){
+import { db, auth } from './firebase.js';
+import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+async function addToCart(bookId){
 
-// find book
-fetch("data/books.json")
-.then(res=>res.json())
-.then(data=>{
+const user = auth.currentUser;
 
-const book = data.find(b=>b.id===bookId);
+if(!user){
+alert("Login first");
+return;
+}
 
-cart.push({
-id: book.id,
-title: book.title,
-price: book.price
+await addDoc(collection(db,"cart"),{
+userId: user.uid,
+bookId: bookId
 });
-
-localStorage.setItem('cart', JSON.stringify(cart));
 
 alert("📚 Book added to cart!");
-
-});
-
 }
 
 window.addToCart = addToCart;
