@@ -24,33 +24,24 @@ async function includeNavbar() {
     const signupBtn = document.getElementById("signupBtn");
 
    onAuthStateChanged(auth, (user) => {
-  if(user){
-    greeting.textContent = `Hi, ${user.displayName}`;
-  }
+ import { auth, onAuthStateChanged } from './firebase.js';
+
+onAuthStateChanged(auth, (user) => {
+
+const greeting = document.getElementById("userGreeting");
+const logoutBtn = document.getElementById("logoutBtn");
+const loginBtn = document.getElementById("loginBtn");
+const signupBtn = document.getElementById("signupBtn");
+
+if (user) {
+    greeting.textContent = `Hi, ${user.displayName || "User"} ❤️`;
+    logoutBtn.style.display = "inline-block";
+    loginBtn.style.display = "none";
+    signupBtn.style.display = "none";
+} else {
+    greeting.textContent = "";
+    logoutBtn.style.display = "none";
+    loginBtn.style.display = "inline-block";
+    signupBtn.style.display = "inline-block";
+}
 });
-
-    if (user) {
-        if (greeting) greeting.textContent = `Hi, ${user.name} ❤️`;
-        if (logoutBtn) logoutBtn.style.display = "inline-block";
-        if (loginBtn) loginBtn.style.display = "none";
-        if (signupBtn) signupBtn.style.display = "none";
-
-        logoutBtn?.addEventListener("click", logout);
-    } else {
-        if (logoutBtn) logoutBtn.style.display = "none";
-        if (loginBtn) loginBtn.style.display = "inline-block";
-        if (signupBtn) signupBtn.style.display = "inline-block";
-    }
-}
-
-// CART BADGE
-function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const countEl = document.getElementById("cartCount");
-
-    if (countEl) countEl.innerText = cart.length;
-}
-
-window.updateCartCount = updateCartCount;
-
-includeNavbar();
