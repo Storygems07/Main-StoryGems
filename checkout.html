@@ -130,8 +130,31 @@ margin-top:15px;
 const itemsDiv = document.getElementById("items");
 
 // DATA
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
-const books = JSON.parse(localStorage.getItem("booksData")) || [];
+import { db, auth } from './js/firebase.js';
+import {
+collection,
+getDocs,
+query,
+where
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+async function loadCheckout(){
+
+const user = auth.currentUser;
+
+const q = query(
+collection(db,"cart"),
+where("userId","==",user.uid)
+);
+
+const snapshot = await getDocs(q);
+
+snapshot.forEach(doc=>{
+console.log(doc.data());
+});
+}
+
+loadCheckout();
 const sub = JSON.parse(localStorage.getItem("subscriptionData")) || [];
 
 // DETECT TYPE
