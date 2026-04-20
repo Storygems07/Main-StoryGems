@@ -127,6 +127,7 @@ margin-top:15px;
 
 <script type="module">
 import { db, auth } from './js/firebase.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
 import {
     collection,
     getDocs,
@@ -139,6 +140,9 @@ const itemsDiv = document.getElementById("items");
 onAuthStateChanged(auth, async (user) => {
 
     if (!user) return;
+
+    const booksRes = await fetch("data/books.json");
+    const books = await booksRes.json();
 
     const q = query(
         collection(db, "cart"),
@@ -154,18 +158,30 @@ onAuthStateChanged(auth, async (user) => {
     snapshot.forEach(docSnap => {
         const data = docSnap.data();
 
+        const book = books.find(b => b.id === data.bookId);
+        if (!book) return;
+
+        total += book.price;
+
         const div = document.createElement("div");
         div.className = "item";
-        div.innerHTML = `<p>${data.bookId}</p>`;
+
+        div.innerHTML = `
+            <h3>${book.title}</h3>
+            <p>₹${book.price}</p>
+        `;
 
         itemsDiv.appendChild(div);
-
-        total += 100;
     });
 
     document.getElementById("itemsTotal").innerText = "₹" + total;
     document.getElementById("finalTotal").innerText = "₹" + (total + 60);
 });
+
+window.placeOrder = function () {
+    alert("🎉 Order placed!");
+    window.location.href = "index.html";
+};
 </script>
 </body>
 </html>
