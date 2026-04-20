@@ -1,133 +1,87 @@
 // js/cart.js
 
-import { auth, onAuthStateChanged } from './firebase.js';
+import { auth, onAuthStateChanged, db } from './firebase.js';
+import {
+    collection,
+    getDocs,
+    query,
+    where,
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-// 🔐 AUTH
-onAuthStateChanged(auth, user => {
+let booksCache = [];
+
+// AUTH
+onAuthStateChanged(auth, (user) => {
     if (!user) {
         window.location.href = "login.html";
+    } else {
+        loadCart(user.uid);
     }
 });
+
+// LOAD BOOK DATA
+async function loadBooks() {
+    const res = await fetch("data/books.json");
+    booksCache = await res.json();
+}
 
 // LOAD CART
-import { db, auth } from './firebase.js';
-import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+async function loadCart(userId) {
 
-async function addToCart(id){
+    await loadBooks();
 
-    const user = auth.currentUser;
+    const q = query(
+        collection(db, "cart"),
+        where("userId", "==", userId)
+    );
 
-    if(!user){
-        alert("Please login first");
-        return;
-    }
+    const snapshot = await getDocs(q);
 
-    await addDoc(collection(db,"cart"),{
-        userId: user.uid,
-        bookId: id
+    const container = document.getElementById("cartItems");
+    const totalEl = document.getElementById("totalPrice");
+
+    container.innerHTML = "";
+
+    let total = 0;
+
+    snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+
+        const book = booksCache.find(b => b.id === data.bookId);
+        if (!book) return;
+
+        total += book.price;
+
+        const div = document.createElement("div");
+        div.className = "item";
+
+        div.innerHTML = `
+            <span>${book.title}</span>
+            <span>₹${book.price}</span>
+            <button onclick="removeItem('${docSnap.id}')">Remove</button>
+        `;
+
+        container.appendChild(div);
     });
 
-    alert("Added to cart 🛒");
+    totalEl.innerText = "Total: ₹" + total;
 }
 
-window.addToCart = addToCart;
+// REMOVE ITEM
+async function removeItem(id) {
+    await deleteDoc(doc(db, "cart", id));
 
-async function loadCart(){
-
-const user = auth.currentUser;
-
-const q = query(
-collection(db,"cart"),
-where("userId","==", user.uid)
-);
-
-const snapshot = await getDocs(q);
-
-const container = document.getElementById("cartItems");
-container.innerHTML = "";
-
-snapshot.forEach(docSnap => {
-
-const data = docSnap.data();
-
-const div = document.createElement("div");
-
-div.innerHTML = `
-<p>${data.bookId}</p>
-<button onclick="removeItem('${docSnap.id}')">Remove</button>
-`;
-
-container.appendChild(div);
-});
-}
-
-async function removeItem(id){
-await deleteDoc(doc(db,"cart",id));
-loadCart();
+    const user = auth.currentUser;
+    loadCart(user.uid);
 }
 
 window.removeItem = removeItem;
 
-
-const res = await fetch("data/books.json");
-const books = await res.json();
-
-const container = document.getElementById("cartItems");
-const totalEl = document.getElementById("totalPrice");
-
-container.innerHTML = "";
-
-let total = 0;
-
-cart.forEach((item, index) => {
-
-const book = books.find(b => b.id === item.id);
-
-if(!book) return;
-
-// 💰 PRICE CALCULATION
-const finalPrice = book.price + 50 + 10;
-
-total += finalPrice;
-
-const div = document.createElement("div");
-div.className = "item";
-
-div.innerHTML = `
-<span>${book.title}</span>
-<span>₹${finalPrice}</span>
-<button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-`;
-
-container.appendChild(div);
-
-});
-
-totalEl.innerText = `Total: ₹${total}`;
-
+// CHECKOUT
+function checkout() {
+    window.location.href = "checkout.html";
 }
 
-// ❌ REMOVE ITEM
-function removeItem(index){
-
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-
-
-
-
-loadCart();
-
-}
-
-// ➡️ CHECKOUT
-function checkout(){
-
-window.location.href = "checkout.html";
-
-}
-
-window.removeItem = removeItem;
 window.checkout = checkout;
-
-loadCart();
