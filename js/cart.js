@@ -75,7 +75,7 @@ async function removeItem(id) {
     await deleteDoc(doc(db, "cart", id));
 
     const user = auth.currentUser;
-    if (user) loadCart(user.uid);
+if (user) loadCart(user.uid);
 }
 
 window.removeItem = removeItem;
