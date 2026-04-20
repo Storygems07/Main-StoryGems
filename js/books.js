@@ -9,35 +9,30 @@ onAuthStateChanged(auth, (user) => {
 
 // LOAD BOOKS
 async function loadBooks() {
-    try {
-        const res = await fetch("data/books.json");
-        const books = await res.json();
+    const res = await fetch("data/books.json");
+    const books = await res.json();
 
-        const container = document.getElementById("booksContainer");
-        container.innerHTML = "";
+    const container = document.getElementById("booksContainer");
+    container.innerHTML = "";
 
-        books.forEach(book => {
-            const card = document.createElement("div");
-            card.className = "book-card";
+    books.forEach(book => {
+        const card = document.createElement("div");
+        card.className = "book-card";
 
-            card.innerHTML = `
-                <h3>${book.title}</h3>
-                <p>${book.author}</p>
-                <p>₹${book.price}</p>
-                <button onclick="addToCart('${book.id}')">Add to Cart</button>
-            `;
+        card.innerHTML = `
+            <h3>${book.title}</h3>
+            <p>${book.author}</p>
+            <p>₹${book.price}</p>
+            <button onclick="addToCart('${book.id}')">Add to Cart</button>
+        `;
 
-            container.appendChild(card);
-        });
-
-    } catch (err) {
-        console.error("Books load error:", err);
-    }
+        container.appendChild(card);
+    });
 }
 
 loadBooks();
 
-// ADD TO CART
+// ADD TO CART (FIRESTORE)
 async function addToCart(bookId) {
     const user = auth.currentUser;
 
