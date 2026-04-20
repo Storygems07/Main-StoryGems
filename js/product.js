@@ -13,10 +13,10 @@ async function loadBook() {
 
     currentBook = books.find(b => b.id === id);
 
-if (!currentBook) {
-    document.body.innerHTML = "<h2>Book not found</h2>";
-    return;
-}
+    if (!currentBook) {
+        document.body.innerHTML = "<h2>Book not found</h2>";
+        return;
+    }
 
     document.getElementById("title").innerText = currentBook.title;
     document.getElementById("author").innerText = "by " + currentBook.author;
