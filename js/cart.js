@@ -10,17 +10,27 @@ onAuthStateChanged(auth, user => {
 });
 
 // LOAD CART
-async function loadCart(){
+import { db, auth } from './firebase.js';
+import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-    import { db, auth } from './firebase.js';
-import {
-collection,
-getDocs,
-query,
-where,
-deleteDoc,
-doc
-} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+async function addToCart(id){
+
+    const user = auth.currentUser;
+
+    if(!user){
+        alert("Please login first");
+        return;
+    }
+
+    await addDoc(collection(db,"cart"),{
+        userId: user.uid,
+        bookId: id
+    });
+
+    alert("Added to cart 🛒");
+}
+
+window.addToCart = addToCart;
 
 async function loadCart(){
 
