@@ -11,17 +11,25 @@ import {
 
 let booksCache = [];
 
+// AUTH
 onAuthStateChanged(auth, (user) => {
-    if (!user) window.location.href = "login.html";
-    else loadCart(user.uid);
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        loadCart(user.uid);
+    }
 });
 
+// LOAD BOOKS
 async function loadBooks() {
     const res = await fetch("data/books.json");
     booksCache = await res.json();
 }
 
+// LOAD CART
 async function loadCart(userId) {
+
+    if (!userId) return;
 
     await loadBooks();
 
@@ -62,6 +70,7 @@ async function loadCart(userId) {
     totalEl.innerText = "Total: ₹" + total;
 }
 
+// REMOVE
 async function removeItem(id) {
     await deleteDoc(doc(db, "cart", id));
 
@@ -71,6 +80,7 @@ async function removeItem(id) {
 
 window.removeItem = removeItem;
 
+// CHECKOUT
 function checkout() {
     window.location.href = "checkout.html";
 }
