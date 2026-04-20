@@ -6,6 +6,7 @@ const id = params.get("id");
 
 let currentBook = null;
 
+// LOAD BOOK
 async function loadBook() {
     const res = await fetch("data/books.json");
     const books = await res.json();
@@ -26,6 +27,7 @@ async function loadBook() {
 
 loadBook();
 
+// ADD TO CART
 async function addToCart() {
     const user = auth.currentUser;
 
