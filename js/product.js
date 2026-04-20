@@ -1,4 +1,3 @@
-// js/product.js
 import { db, auth } from './firebase.js';
 import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
@@ -7,12 +6,16 @@ const id = params.get("id");
 
 let currentBook = null;
 
-// LOAD BOOK
 async function loadBook() {
     const res = await fetch("data/books.json");
     const books = await res.json();
 
     currentBook = books.find(b => b.id === id);
+
+    if (!currentBook) {
+        document.body.innerHTML = "<h2>Book not found</h2>";
+        return;
+    }
 
     document.getElementById("title").innerText = currentBook.title;
     document.getElementById("author").innerText = "by " + currentBook.author;
@@ -23,14 +26,10 @@ async function loadBook() {
 
 loadBook();
 
-// ADD TO CART
 async function addToCart() {
     const user = auth.currentUser;
 
-    if (!user) {
-        alert("Login first");
-        return;
-    }
+    if (!user) return alert("Login first");
 
     await addDoc(collection(db, "cart"), {
         userId: user.uid,
@@ -38,7 +37,7 @@ async function addToCart() {
         createdAt: Date.now()
     });
 
-    alert("Added to cart 🛒");
+    alert("🛒 Added to cart");
 }
 
 window.addToCart = addToCart;
