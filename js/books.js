@@ -2,35 +2,42 @@
 import { auth, onAuthStateChanged, db } from './firebase.js';
 import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
+// AUTH CHECK
 onAuthStateChanged(auth, (user) => {
     if (!user) window.location.href = "login.html";
 });
 
+// LOAD BOOKS
 async function loadBooks() {
-    const res = await fetch("data/books.json");
-    const books = await res.json();
+    try {
+        const res = await fetch("data/books.json");
+        const books = await res.json();
 
-    const container = document.getElementById("booksContainer");
+        const container = document.getElementById("booksContainer");
+        container.innerHTML = "";
 
-    container.innerHTML = "";
+        books.forEach(book => {
+            const card = document.createElement("div");
+            card.className = "book-card";
 
-    books.forEach(book => {
-        const card = document.createElement("div");
-        card.className = "book-card";
+            card.innerHTML = `
+                <h3>${book.title}</h3>
+                <p>${book.author}</p>
+                <p>₹${book.price}</p>
+                <button onclick="addToCart('${book.id}')">Add to Cart</button>
+            `;
 
-        card.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>${book.author}</p>
-            <p>₹${book.price}</p>
-            <button onclick="addToCart('${book.id}')">Add to Cart</button>
-        `;
+            container.appendChild(card);
+        });
 
-        container.appendChild(card);
-    });
+    } catch (err) {
+        console.error("Books load error:", err);
+    }
 }
 
 loadBooks();
 
+// ADD TO CART
 async function addToCart(bookId) {
     const user = auth.currentUser;
 
