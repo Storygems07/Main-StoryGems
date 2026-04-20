@@ -39,14 +39,24 @@ return stars;
 // CART
 function addToCart(){
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+import { db, auth } from './firebase.js';
+import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-cart.push({id: currentBook.id});
+async function addToCart(){
 
-localStorage.setItem("cart", JSON.stringify(cart));
+const user = auth.currentUser;
+
+if(!user){
+alert("Login first");
+return;
+}
+
+await addDoc(collection(db,"cart"),{
+userId: user.uid,
+bookId: currentBook.id
+});
 
 alert("Added to cart 🛒");
-
 }
 
 loadBook();
