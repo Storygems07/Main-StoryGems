@@ -1,50 +1,73 @@
 // js/books.js
-import { auth, onAuthStateChanged, db } from './firebase.js';
-import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-// AUTH CHECK
+import { auth, onAuthStateChanged, db } from './firebase.js';
+import { addDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+// 🔐 AUTH CHECK
 onAuthStateChanged(auth, (user) => {
-    if (!user) window.location.href = "login.html";
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        loadBooks(); // load only after login
+    }
 });
 
-// LOAD BOOKS
+// 📚 LOAD BOOKS FROM FIRESTORE
 async function loadBooks() {
-    const res = await fetch("data/books.json");
-    const books = await res.json();
+    try {
 
-    const container = document.getElementById("booksContainer");
-    container.innerHTML = "";
+        const snapshot = await getDocs(collection(db, "books"));
 
-    books.forEach(book => {
-        const card = document.createElement("div");
-        card.className = "book-card";
+        const books = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
 
-        card.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>${book.author}</p>
-            <p>₹${book.price}</p>
-            <button onclick="addToCart('${book.id}')">Add to Cart</button>
-        `;
+        const container = document.getElementById("booksContainer");
+        container.innerHTML = "";
 
-        container.appendChild(card);
-    });
+        books.forEach(book => {
+
+            const card = document.createElement("div");
+            card.className = "book-card";
+
+            card.innerHTML = `
+                <h3>${book.title}</h3>
+                <p>${book.author}</p>
+                <p>₹${book.paperbackPrice || book.hardcoverPrice}</p>
+                <button onclick="addToCart('${book.id}')">Add to Cart</button>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (err) {
+        console.error("Error loading books:", err);
+    }
 }
 
-loadBooks();
-
-// ADD TO CART (FIRESTORE)
+// 🛒 ADD TO CART
 async function addToCart(bookId) {
+
     const user = auth.currentUser;
 
-    if (!user) return alert("Login first");
+    if (!user) {
+        alert("Login first");
+        return;
+    }
 
-    await addDoc(collection(db, "cart"), {
-        userId: user.uid,
-        bookId,
-        createdAt: Date.now()
-    });
+    try {
+        await addDoc(collection(db, "cart"), {
+            userId: user.uid,
+            bookId: bookId,
+            createdAt: Date.now()
+        });
 
-    alert("📚 Added to cart");
+        alert("📚 Added to cart");
+
+    } catch (err) {
+        console.error("Error adding to cart:", err);
+    }
 }
 
 window.addToCart = addToCart;
