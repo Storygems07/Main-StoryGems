@@ -1,4 +1,5 @@
 // js/cart.js
+
 import { auth, onAuthStateChanged, db } from './firebase.js';
 import {
     collection,
@@ -13,14 +14,21 @@ let booksCache = [];
 
 // AUTH
 onAuthStateChanged(auth, (user) => {
-    if (!user) window.location.href = "login.html";
-    else loadCart(user.uid);
+    if (!user) {
+        window.location.href = "login.html";
+    } else {
+        loadCart(user.uid);
+    }
 });
 
-// LOAD BOOKS
+// LOAD BOOKS FROM FIRESTORE
 async function loadBooks() {
-    const res = await fetch("data/books.json");
-    booksCache = await res.json();
+    const snapshot = await getDocs(collection(db, "books"));
+
+    booksCache = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
 }
 
 // LOAD CART
@@ -43,19 +51,21 @@ async function loadCart(userId) {
     let total = 0;
 
     snapshot.forEach(docSnap => {
+
         const data = docSnap.data();
 
         const book = booksCache.find(b => b.id === data.bookId);
         if (!book) return;
 
-        total += book.price;
+        const price = book.paperbackPrice || book.hardcoverPrice;
+        total += price;
 
         const div = document.createElement("div");
         div.className = "item";
 
         div.innerHTML = `
             <span>${book.title}</span>
-            <span>₹${book.price}</span>
+            <span>₹${price}</span>
             <button onclick="removeItem('${docSnap.id}')">Remove</button>
         `;
 
