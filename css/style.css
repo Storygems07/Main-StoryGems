@@ -46,7 +46,7 @@ scroll-behavior:smooth;
 
 body{
 background:var(--bg);
-color:var(--text);
+color:white;
 padding-top:90px;
 overflow-x:hidden;
 }
@@ -62,7 +62,7 @@ align-items:center;
 
 padding:18px 45px;
 
-background:rgba(255,255,255,0.92);
+background:rgba(31,61,43,0.96);
 
 backdrop-filter:blur(12px);
 
