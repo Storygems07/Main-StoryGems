@@ -1,235 +1,493 @@
-<!-- HERO SECTION -->
-<section class="hero scroll-reveal">
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="hero-content">
+<head>
 
-        <!-- LEFT -->
-        <div class="hero-left">
+    <meta charset="UTF-8">
 
-            <h1 class="hero-title">
-                Discover Books You’ll Love
-            </h1>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-            <p class="hero-subtitle">
-                Explore premium books, discover hidden gems,
-                and get your favorite stories delivered
-                straight to your home.
+    <title>StoryGems - Home</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="css/style.css">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- NAVBAR INCLUDE -->
+    <script type="module"
+            src="js/includeNavbar.js"
+            defer></script>
+
+    <!-- SCROLL REVEAL -->
+    <script defer>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const scrollElements =
+                document.querySelectorAll('.scroll-reveal');
+
+            const elementInView = (el, offset = 100) => {
+
+                const elementTop =
+                    el.getBoundingClientRect().top;
+
+                return elementTop <=
+                    (window.innerHeight - offset);
+
+            };
+
+            const displayScrollElement = (element) => {
+                element.classList.add('show');
+            };
+
+            const hideScrollElement = (element) => {
+                element.classList.remove('show');
+            };
+
+            const handleScrollAnimation = () => {
+
+                scrollElements.forEach(el => {
+
+                    if (elementInView(el, 150)) {
+                        displayScrollElement(el);
+                    } else {
+                        hideScrollElement(el);
+                    }
+
+                });
+
+            };
+
+            window.addEventListener(
+                'scroll',
+                () => { handleScrollAnimation(); }
+            );
+
+            handleScrollAnimation();
+
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
+
+    <!-- HERO SECTION -->
+    <section class="hero scroll-reveal">
+
+        <div class="hero-content">
+
+            <!-- LEFT -->
+            <div class="hero-left">
+
+                <h1 class="hero-title">
+                    Discover Books You’ll Love
+                </h1>
+
+                <p class="hero-subtitle">
+
+                    Explore premium books,
+                    discover hidden gems,
+                    and get your favorite stories
+                    delivered straight to your home.
+
+                </p>
+
+                <div class="hero-buttons">
+
+                    <a href="books.html"
+                       class="btn">
+
+                        Shop Now
+
+                    </a>
+
+                    <a href="#categories"
+                       class="btn btn-secondary">
+
+                        Explore Categories
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+            <div class="hero-right">
+
+                <!-- 📌 UPLOAD YOUR GENERATED IMAGE HERE -->
+                <img src="images/hidden-gems.png"
+                     alt="StoryGems Hero">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="categories scroll-reveal"
+             id="categories">
+
+        <h2 class="section-title">
+            Shop Categories
+        </h2>
+
+        <div class="category-grid">
+
+            <div class="category-card">
+                <h3>📖 Fiction</h3>
+            </div>
+
+            <div class="category-card">
+                <h3>🏛 Mythology</h3>
+            </div>
+
+            <div class="category-card">
+                <h3>🧠 Self Help</h3>
+            </div>
+
+            <div class="category-card">
+                <h3>🌟 Bestsellers</h3>
+            </div>
+
+            <div class="category-card">
+                <h3>🧒 Kids</h3>
+            </div>
+
+            <div class="category-card">
+                <h3>🔥 New Arrivals</h3>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- BESTSELLERS -->
+    <section class="bestsellers scroll-reveal"
+             id="bestsellers">
+
+        <h2 class="section-title">
+            Bestsellers
+        </h2>
+
+        <div class="book-grid">
+
+            <!-- BOOK 1 -->
+            <div class="book-card">
+
+                <!-- 📌 UPLOAD BOOK IMAGE -->
+                <img src="images/book1.jpg"
+                     alt="Atomic Habits">
+
+                <div class="book-info">
+
+                    <h3>Atomic Habits</h3>
+
+                    <p>James Clear</p>
+
+                    <div class="book-price">
+                        ₹499
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BOOK 2 -->
+            <div class="book-card">
+
+                <img src="images/book2.jpg"
+                     alt="Ikigai">
+
+                <div class="book-info">
+
+                    <h3>Ikigai</h3>
+
+                    <p>Héctor García</p>
+
+                    <div class="book-price">
+                        ₹399
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BOOK 3 -->
+            <div class="book-card">
+
+                <img src="images/book3.jpg"
+                     alt="The Alchemist">
+
+                <div class="book-info">
+
+                    <h3>The Alchemist</h3>
+
+                    <p>Paulo Coelho</p>
+
+                    <div class="book-price">
+                        ₹450
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="why-choose scroll-reveal">
+
+        <h2 class="section-title">
+            Why Choose StoryGems?
+        </h2>
+
+        <div class="features">
+
+            <!-- FEATURE 1 -->
+            <div class="feature-card">
+
+                <i class="fas fa-shipping-fast"></i>
+
+                <h3>Fast Delivery</h3>
+
+                <p>
+                    Quick and reliable delivery
+                    to your doorstep.
+                </p>
+
+            </div>
+
+            <!-- FEATURE 2 -->
+            <div class="feature-card">
+
+                <i class="fas fa-book"></i>
+
+                <h3>Original Books</h3>
+
+                <p>
+                    100% authentic books
+                    from trusted publishers.
+                </p>
+
+            </div>
+
+            <!-- FEATURE 3 -->
+            <div class="feature-card">
+
+                <i class="fas fa-lock"></i>
+
+                <h3>Secure Payments</h3>
+
+                <p>
+                    Safe and secure checkout
+                    experience.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter scroll-reveal">
+
+        <div class="newsletter-box">
+
+            <h2>Stay in the Loop</h2>
+
+            <p>
+
+                Subscribe for new arrivals,
+                offers, and premium collections.
+
             </p>
 
-            <div class="hero-buttons">
+            <div class="newsletter-form">
 
-                <a href="books.html" class="btn">
-                    Shop Now
+                <input type="email"
+                       placeholder="Enter your email">
+
+                <button>
+                    Subscribe
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="scroll-reveal">
+
+        <div class="footer-grid">
+
+            <!-- STORYGEMS -->
+            <div class="footer-column">
+
+                <h3>📚 StoryGems</h3>
+
+                <p>
+
+                    StoryGems is your one-stop
+                    destination for the best books.
+
+                </p>
+
+                <p>
+
+                    Read more,
+                    learn more,
+                    discover more.
+
+                </p>
+
+            </div>
+
+            <!-- QUICK LINKS -->
+            <div class="footer-column">
+
+                <h4>Quick Links</h4>
+
+                <a href="index.html">
+                    Home
                 </a>
 
-                <a href="#categories" class="btn btn-secondary">
-                    Explore Categories
+                <a href="#categories">
+                    Categories
+                </a>
+
+                <a href="#bestsellers">
+                    Bestsellers
+                </a>
+
+                <a href="offers.html">
+                    Offers
                 </a>
 
             </div>
 
-        </div>
+            <!-- COMPANY -->
+            <div class="footer-column">
 
-        <!-- RIGHT -->
-        <div class="hero-right">
+                <h4>Company</h4>
 
-            <!-- 📌 UPLOAD YOUR GENERATED IMAGE HERE -->
-            <img src="images/hidden-gems.png"
-                 alt="StoryGems Hero">
+                <a href="about.html">
+                    About Us
+                </a>
 
-        </div>
+                <a href="contact.html">
+                    Contact
+                </a>
 
-    </div>
+                <a href="career.html">
+                    Career
+                </a>
 
-</section>
+                <a href="stores.html">
+                    Our Stores
+                </a>
 
-<!-- SHOP CATEGORIES -->
-<section class="categories scroll-reveal"
-         id="categories">
+            </div>
 
-    <h2 class="section-title">
-        Shop Categories
-    </h2>
+            <!-- CUSTOMER SERVICE -->
+            <div class="footer-column">
 
-    <div class="category-grid">
+                <h4>Customer Service</h4>
 
-        <div class="category-card">
-            <h3>📖 Fiction</h3>
-        </div>
+                <a href="orders.html">
+                    Orders
+                </a>
 
-        <div class="category-card">
-            <h3>🏛 Mythology</h3>
-        </div>
+                <a href="returns.html">
+                    Returns
+                </a>
 
-        <div class="category-card">
-            <h3>🧠 Self Help</h3>
-        </div>
+                <a href="checkout.html">
+                    Checkout
+                </a>
 
-        <div class="category-card">
-            <h3>🌟 Bestsellers</h3>
-        </div>
+                <a href="help.html">
+                    Help Center
+                </a>
 
-        <div class="category-card">
-            <h3>🧒 Kids</h3>
-        </div>
+            </div>
 
-        <div class="category-card">
-            <h3>🔥 New Arrivals</h3>
-        </div>
+            <!-- SOCIAL -->
+            <div class="footer-column">
 
-    </div>
+                <h4>Follow Us</h4>
 
-</section>
+                <div class="social-icons">
 
-<!-- BESTSELLERS -->
-<section class="bestsellers scroll-reveal"
-         id="bestsellers">
+                    <a href="https://www.instagram.com/story_gems_official/"
+                       target="_blank">
 
-    <h2 class="section-title">
-        Bestsellers
-    </h2>
+                        <i class="fab fa-instagram"></i>
 
-    <div class="book-grid">
+                    </a>
 
-        <!-- BOOK 1 -->
-        <div class="book-card">
+                    <a href="#">
 
-            <!-- UPLOAD BOOK IMAGE -->
-            <img src="images/book1.jpg"
-                 alt="Book">
+                        <i class="fab fa-youtube"></i>
 
-            <div class="book-info">
+                    </a>
 
-                <h3>Atomic Habits</h3>
+                    <a href="#">
 
-                <p>James Clear</p>
+                        <i class="fab fa-facebook"></i>
 
-                <div class="book-price">
-                    ₹499
+                    </a>
+
+                    <a href="#">
+
+                        <i class="fab fa-twitter"></i>
+
+                    </a>
+
                 </div>
+
+                <br>
+
+                <h4>Payment Methods</h4>
+
+                <p>
+
+                    Visa • UPI • Paytm • Cards
+
+                </p>
 
             </div>
 
         </div>
 
-        <!-- BOOK 2 -->
-        <div class="book-card">
-
-            <img src="images/book2.jpg"
-                 alt="Book">
-
-            <div class="book-info">
-
-                <h3>Ikigai</h3>
-
-                <p>Héctor García</p>
-
-                <div class="book-price">
-                    ₹399
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- BOOK 3 -->
-        <div class="book-card">
-
-            <img src="images/book3.jpg"
-                 alt="Book">
-
-            <div class="book-info">
-
-                <h3>The Alchemist</h3>
-
-                <p>Paulo Coelho</p>
-
-                <div class="book-price">
-                    ₹450
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- WHY CHOOSE US -->
-<section class="why-choose scroll-reveal">
-
-    <h2 class="section-title">
-        Why Choose StoryGems?
-    </h2>
-
-    <div class="features">
-
-        <div class="feature-card">
-
-            <i class="fas fa-shipping-fast"></i>
-
-            <h3>Fast Delivery</h3>
+        <!-- BOTTOM -->
+        <div class="footer-bottom">
 
             <p>
-                Quick and reliable book delivery
-                to your doorstep.
+                © 2026 StoryGems.
+                All rights reserved.
             </p>
 
         </div>
 
-        <div class="feature-card">
+    </footer>
 
-            <i class="fas fa-book"></i>
+</body>
 
-            <h3>Original Books</h3>
-
-            <p>
-                100% authentic books from trusted
-                publishers.
-            </p>
-
-        </div>
-
-        <div class="feature-card">
-
-            <i class="fas fa-lock"></i>
-
-            <h3>Secure Payments</h3>
-
-            <p>
-                Safe and secure checkout experience.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- NEWSLETTER -->
-<section class="newsletter scroll-reveal">
-
-    <div class="newsletter-box">
-
-        <h2>Stay in the Loop</h2>
-
-        <p>
-            Subscribe for new arrivals,
-            offers, and premium collections.
-        </p>
-
-        <div class="newsletter-form">
-
-            <input type="email"
-                   placeholder="Enter your email">
-
-            <button>
-                Subscribe
-            </button>
-
-        </div>
-
-    </div>
-
-</section>
+</html>
