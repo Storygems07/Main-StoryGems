@@ -52,7 +52,7 @@ overflow-x:hidden;
 }
 
 /* =========================
-   NAVBAR
+   NAVBAR - STORYGEMS OLIVE THEME
 ========================= */
 
 .navbar{
@@ -62,9 +62,7 @@ align-items:center;
 
 padding:18px 45px;
 
-background:rgba(31,61,43,0.96);
-
-backdrop-filter:blur(12px);
+background:#1f3d2b; /* OLIVE GREEN */
 
 position:fixed;
 top:0;
@@ -73,16 +71,14 @@ width:100%;
 
 z-index:1000;
 
-box-shadow:var(--shadow-soft);
-border-bottom:1px solid rgba(0,0,0,0.05);
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 /* LOGO */
-
 .nav-left .logo{
-font-size:1.9rem;
+font-size:1.8rem;
 font-weight:700;
-color:var(--primary);
+color:#ffffff;
 line-height:1.2;
 cursor:pointer;
 }
@@ -91,202 +87,144 @@ cursor:pointer;
 display:block;
 font-size:0.75rem;
 font-weight:400;
-color:var(--text-light);
-margin-top:3px;
+opacity:0.8;
 }
 
-/* CENTER NAV */
-
+/* CENTER */
 .nav-center{
 display:flex;
-gap:28px;
+gap:25px;
 align-items:center;
 }
 
-.nav-center a{
+.nav-center a,
+.dropbtn{
+color:white;
 text-decoration:none;
-color:var(--text);
 font-weight:500;
-font-size:0.98rem;
+font-size:1rem;
+cursor:pointer;
 position:relative;
-transition:0.3s;
 }
 
-.nav-center a::after{
+/* hover underline */
+.nav-center a::after,
+.dropbtn::after{
 content:"";
 position:absolute;
 left:0;
 bottom:-6px;
-
 width:0%;
 height:2px;
-
-background:var(--secondary);
-
+background:#c6a15b; /* gold accent */
 transition:0.3s;
 }
 
-.nav-center a:hover{
-color:var(--primary);
-}
-
-.nav-center a:hover::after{
+.nav-center a:hover::after,
+.dropbtn:hover::after{
 width:100%;
 }
 
-/* RIGHT NAV */
-
+/* RIGHT */
 .nav-right{
 display:flex;
 align-items:center;
 gap:15px;
 }
 
-/* SEARCH */
-
 .nav-search{
-padding:10px 16px;
-border-radius:12px;
+padding:10px 15px;
+border-radius:10px;
 border:none;
 outline:none;
-
-background:#f3f3f3;
-width:220px;
-
-transition:0.3s;
+width:200px;
 }
 
-.nav-search:focus{
-background:white;
-box-shadow:var(--shadow-soft);
-}
-
-/* LOGIN */
-
-.nav-right a{
-text-decoration:none;
-color:var(--text);
-font-weight:500;
-transition:0.3s;
-}
-
-.nav-right a:hover{
-color:var(--primary);
-}
-
-/* SIGNUP BUTTON */
-
+/* SIGNUP */
 .signup{
-background:var(--primary);
-padding:10px 18px;
-border-radius:12px;
+background:#c6a15b;
+padding:10px 16px;
+border-radius:10px;
 color:white !important;
-transition:0.3s;
+text-decoration:none;
 }
 
 .signup:hover{
-background:var(--primary-dark);
-transform:translateY(-2px);
-}
-
-/* LOGOUT */
-
-#logoutBtn{
-padding:10px 18px;
-
-background:#ff5a6e;
-color:white;
-
-border:none;
-border-radius:12px;
-
-cursor:pointer;
-
-transition:0.3s;
-}
-
-#logoutBtn:hover{
-transform:translateY(-2px);
+background:#b8944f;
 }
 
 /* CART */
-
 .cart-link{
 position:relative;
+color:white;
+text-decoration:none;
 }
 
 .cart-badge{
-background:#ff4d4d;
+background:red;
+color:white;
 padding:3px 7px;
 border-radius:50%;
 font-size:12px;
-color:white;
 
 position:absolute;
 top:-10px;
-right:-15px;
+right:-12px;
 }
 
 /* =========================
-   DROPDOWN
+   DROPDOWN FIX (IMPORTANT)
+   prevents disappearing issue
 ========================= */
 
 .dropdown{
 position:relative;
+display:inline-block;
 }
 
+/* dropdown button */
 .dropbtn{
 background:none;
 border:none;
-cursor:pointer;
-
-font-size:0.98rem;
-font-weight:500;
-
-color:var(--text);
-transition:0.3s;
+font:inherit;
 }
 
-.dropbtn:hover{
-color:var(--primary);
-}
-
+/* menu */
 .dropdown-content{
 display:none;
-
 position:absolute;
-top:38px;
+
+top:35px;
 left:0;
 
-min-width:200px;
-
 background:white;
+min-width:180px;
 
-border-radius:14px;
-
+border-radius:12px;
 overflow:hidden;
 
-box-shadow:var(--shadow-soft);
-
-animation:fadeDown 0.25s ease;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+z-index:999;
 }
 
+/* links */
 .dropdown-content a{
 display:block;
-padding:14px 18px;
+padding:12px 15px;
 
+color:#1f3d2b;
 text-decoration:none;
-color:var(--text);
 
-transition:0.3s;
+transition:0.2s;
 }
 
 .dropdown-content a:hover{
-background:#f6f6f6;
-color:var(--primary);
+background:#f2f2f2;
 }
 
-.dropdown:hover .dropdown-content{
+/* 🔥 IMPORTANT FIX */
+.dropdown:hover .dropdown-content,
+.dropdown-content:hover{
 display:block;
 }
 
