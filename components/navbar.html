@@ -1,18 +1,11 @@
 <nav class="navbar">
 
-    <!-- LEFT: LOGO -->
+    <!-- LEFT -->
     <div class="nav-left">
 
-        <!-- 📌 LOGO REPLACE HERE -->
         <div class="logo">
-
-            <!-- OPTION 1: IMAGE LOGO -->
-            <!-- UPLOAD YOUR LOGO IMAGE HERE -->
-            <img src="images/storygems-logo.png" class="logo-img">
-
-            <!-- OPTION 2: TEXT LOGO -->
-            StoryGems
-
+             StoryGems
+            <small>Every Story, A Precious Gem</small>
         </div>
 
     </div>
@@ -21,9 +14,51 @@
     <div class="nav-center">
 
         <a href="index.html">Home</a>
-        <a href="books.html">Books</a>
 
-        <!-- DROPDOWN COMPANY -->
+        <a href="shop.html">Shop</a>
+
+        <!-- CATEGORIES DROPDOWN -->
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                Categories ▾
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="books.html?category=fiction">
+                    Fiction
+                </a>
+
+                <a href="books.html?category=non-fiction">
+                    Non-Fiction
+                </a>
+
+                <a href="books.html?category=mythology">
+                    Mythology
+                </a>
+
+                <a href="books.html?category=self-help">
+                    Self Help
+                </a>
+
+                <a href="books.html?category=kids">
+                    Kids
+                </a>
+
+                <a href="books.html?category=young-adult">
+                    Young Adult
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="#bestsellers">Bestsellers</a>
+
+        <a href="#offers">Offers</a>
+
+        <!-- COMPANY DROPDOWN -->
         <div class="dropdown">
 
             <button class="dropbtn">
@@ -32,34 +67,73 @@
 
             <div class="dropdown-content">
 
-                <a href="about.html">About Us</a>
-                <a href="contact.html">Contact</a>
-                <a href="career.html">Career</a>
-                <a href="stores.html">Our Stores</a>
+                <a href="about.html">
+                    About Us
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+                <a href="career.html">
+                    Career
+                </a>
+
+                <a href="stores.html">
+                    Our Stores
+                </a>
 
             </div>
 
         </div>
-
-        <a href="#bestsellers">Bestsellers</a>
-        <a href="#offers">Offers</a>
 
     </div>
 
     <!-- RIGHT -->
     <div class="nav-right">
 
-        <input type="text"
-               class="nav-search"
-               placeholder="Search books...">
+        <!-- SEARCH -->
+        <input
+            type="text"
+            class="nav-search"
+            placeholder="Search books..."
+        >
 
-        <a href="login.html">Login</a>
-        <a href="signup.html" class="signup">Sign Up</a>
+        <!-- USER -->
+        <span id="userGreeting"></span>
 
-        <a href="cart.html" class="cart-link">
-            🛒 Cart
-            <span class="cart-badge">0</span>
+        <!-- LOGIN -->
+        <a href="login.html" id="loginBtn">
+            Login
         </a>
+
+        <!-- SIGNUP -->
+        <a href="signup.html"
+           id="signupBtn"
+           class="signup">
+
+            Sign Up
+
+        </a>
+
+        <!-- CART -->
+        <a href="cart.html" class="cart-link">
+
+            🛒 Cart
+
+            <span id="cartCount"
+                  class="cart-badge">
+
+                0
+
+            </span>
+
+        </a>
+
+        <!-- LOGOUT -->
+        <button id="logoutBtn">
+            Logout
+        </button>
 
     </div>
 
