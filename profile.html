@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Profile | StoryGems</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Poppins,sans-serif;
+background:#f5f7ff;
+}
+
+.header{
+background:white;
+padding:25px;
+text-align:center;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.header h1{
+color:#6c4ab6;
+}
+
+.profile{
+max-width:700px;
+margin:40px auto;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.info{
+margin:20px 0;
+padding:15px;
+background:#f7f7ff;
+border-radius:10px;
+}
+
+.info b{
+display:block;
+margin-bottom:5px;
+color:#6c4ab6;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:15px;
+border:none;
+border-radius:10px;
+background:#6c4ab6;
+color:white;
+cursor:pointer;
+font-size:16px;
+}
+
+button:hover{
+background:#5636a5;
+}
+
+.logout{
+background:#e53935;
+}
+
+.logout:hover{
+background:#c62828;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h1>👤 My Profile</h1>
+</div>
+
+<div class="profile">
+
+<div class="info">
+<b>Name</b>
+<div id="name"></div>
+</div>
+
+<div class="info">
+<b>Email</b>
+<div id="email"></div>
+</div>
+
+<div class="info">
+<b>Phone</b>
+<div id="phone"></div>
+</div>
+
+<div class="info">
+<b>Address</b>
+<div id="address"></div>
+</div>
+
+<button onclick="window.location='orders.html'">
+📦 My Orders
+</button>
+
+<button class="logout" id="logoutBtn">
+Logout
+</button>
+
+</div>
+
+<script type="module" src="js/profile.js"></script>
+
+</body>
+
+</html>
