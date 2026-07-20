@@ -1,20 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>StoryGems Admin</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>StoryGems Admin Dashboard</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
 </head>
 
 <body>
 
-<h1>StoryGems Admin Panel</h1>
+<div class="sidebar">
 
-<h2>Users</h2>
+<h2>📚 StoryGems</h2>
+
+<a href="#dashboard">Dashboard</a>
+<a href="#books">Books</a>
+<a href="#orders">Orders</a>
+<a href="#users">Users</a>
+
+</div>
+
+<div class="main">
+
+<section id="dashboard">
+
+<h1>Admin Dashboard</h1>
+
+<div class="cards">
+
+<div class="card">
+<h2 id="usersCount">0</h2>
+<p>Total Users</p>
+</div>
+
+<div class="card">
+<h2 id="booksCount">0</h2>
+<p>Total Books</p>
+</div>
+
+<div class="card">
+<h2 id="ordersCount">0</h2>
+<p>Total Orders</p>
+</div>
+
+<div class="card">
+<h2 id="revenue">₹0</h2>
+<p>Total Revenue</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="books">
+
+<h2>📚 Books</h2>
+
+<button id="addBookBtn">
++ Add Book
+</button>
+
+<div id="booksList"></div>
+
+</section>
+
+<section id="orders">
+
+<h2>📦 Orders</h2>
+
+<div id="ordersList"></div>
+
+</section>
+
+<section id="users">
+
+<h2>👥 Users</h2>
+
 <div id="usersList"></div>
 
-<h2>Orders</h2>
-<div id="ordersList"></div>
+</section>
+
+</div>
 
 <script type="module" src="js/admin.js"></script>
 
 </body>
+
 </html>
