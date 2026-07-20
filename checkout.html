@@ -13,7 +13,6 @@ font-family:'Poppins',sans-serif;
 background:#f5f7ff;
 }
 
-/* HEADER */
 .header{
 text-align:center;
 padding:30px;
@@ -25,7 +24,6 @@ box-shadow:0 5px 20px rgba(0,0,0,0.05);
 color:#4b3ac7;
 }
 
-/* LAYOUT */
 .container{
 display:flex;
 flex-wrap:wrap;
@@ -33,7 +31,6 @@ gap:30px;
 padding:30px;
 }
 
-/* LEFT - ITEMS */
 .left{
 flex:2;
 }
@@ -46,7 +43,6 @@ margin-bottom:15px;
 box-shadow:0 8px 20px rgba(0,0,0,0.05);
 }
 
-/* RIGHT - BILL */
 .right{
 flex:1;
 }
@@ -76,7 +72,6 @@ border-top:1px solid #eee;
 padding-top:10px;
 }
 
-/* BUTTON */
 button{
 width:100%;
 padding:12px;
@@ -98,17 +93,22 @@ margin-top:15px;
 
 <div class="container">
 
-<!-- ITEMS -->
 <div class="left" id="items"></div>
 
-<!-- BILL -->
 <div class="right">
 <div class="bill">
 
 <h3>Bill Details</h3>
 
-<div class="row"><span>Items Total</span><span id="itemsTotal">₹0</span></div>
-<div class="row"><span>Delivery</span><span id="delivery">₹0</span></div>
+<div class="row">
+<span>Items Total</span>
+<span id="itemsTotal">₹0</span>
+</div>
+
+<div class="row">
+<span>Delivery</span>
+<span id="delivery">₹50</span>
+</div>
 
 <div class="row total">
 <span>Total</span>
@@ -123,79 +123,170 @@ margin-top:15px;
 </div>
 
 <script type="module">
-import { db, auth, onAuthStateChanged } from './js/firebase.js';
+
+import { db, auth, onAuthStateChanged } from "./js/firebase.js";
+
 import {
-    collection,
-    getDocs,
-    query,
-    where
+collection,
+getDocs,
+query,
+where,
+addDoc,
+deleteDoc,
+doc
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
 const itemsDiv = document.getElementById("items");
 
-onAuthStateChanged(auth, async (user) => {
+let cartItems = [];
+let books = [];
+let total = 0;
+let currentUser = null;
 
-    if (!user) {
-        alert("Please login first");
-        window.location.href = "login.html";
+onAuthStateChanged(auth, async(user)=>{
+
+if(!user){
+window.location.href="login.html";
+return;
+}
+
+currentUser=user;
+
+const booksSnap=await getDocs(collection(db,"books"));
+
+books=booksSnap.docs.map(d=>({
+id:d.id,
+...d.data()
+}));
+
+const q=query(
+collection(db,"cart"),
+where("userId","==",user.uid)
+);
+
+const cartSnap=await getDocs(q);
+
+itemsDiv.innerHTML="";
+cartItems=[];
+total=0;
+
+cartSnap.forEach(docSnap=>{
+
+const cart=docSnap.data();
+
+cartItems.push({
+id:docSnap.id,
+...cart
+});
+
+const book=books.find(b=>b.id===cart.bookId);
+
+if(!book)return;
+
+const price=
+book.paperbackPrice||
+book.hardcoverPrice||
+book.price||
+0;
+
+total+=price;
+
+const div=document.createElement("div");
+div.className="item";
+
+div.innerHTML=`
+<h3>${book.title}</h3>
+<p>${book.author}</p>
+<p>₹${price}</p>
+`;
+
+itemsDiv.appendChild(div);
+
+});
+
+const delivery=50;
+
+document.getElementById("itemsTotal").innerText="₹"+total;
+document.getElementById("delivery").innerText="₹"+delivery;
+document.getElementById("finalTotal").innerText="₹"+(total+delivery);
+
+});
+
+// PLACE ORDER
+window.placeOrder = async function () {
+
+    if (!currentUser) {
+        alert("Please login first.");
         return;
     }
 
-    // 🔥 GET BOOKS
-    const booksSnap = await getDocs(collection(db, "books"));
-    const books = booksSnap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }));
+    if (cartItems.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
 
-    // 🔥 GET CART
-    const q = query(
-        collection(db, "cart"),
-        where("userId", "==", user.uid)
-    );
+    try {
 
-    const cartSnap = await getDocs(q);
+        // Build order items
+        const orderItems = [];
 
-    let itemsTotal = 0;
-    itemsDiv.innerHTML = "";
+        cartItems.forEach(cart => {
 
-    cartSnap.forEach(docSnap => {
+            const book = books.find(b => b.id === cart.bookId);
 
-        const cartItem = docSnap.data();
+            if (!book) return;
 
-        const book = books.find(b => b.id === cartItem.bookId);
-        if (!book) return;
+            orderItems.push({
+                bookId: book.id,
+                title: book.title,
+                author: book.author,
+                price:
+                    book.paperbackPrice ||
+                    book.hardcoverPrice ||
+                    book.price ||
+                    0
+            });
 
-        const price = book.paperbackPrice || book.hardcoverPrice;
+        });
 
-        itemsTotal += price;
+        // Create order
+        const orderRef = await addDoc(
+            collection(db, "orders"),
+            {
+                userId: currentUser.uid,
+                items: orderItems,
+                total: total + 50,
+                deliveryCharge: 50,
+                status: "Processing",
+                createdAt: Date.now()
+            }
+        );
 
-        const div = document.createElement("div");
-        div.className = "item";
+        console.log("Order Created:", orderRef.id);
 
-        div.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>${book.author}</p>
-            <p>₹${price}</p>
-        `;
+        // Clear cart
+        for (const item of cartItems) {
+            await deleteDoc(
+                doc(db, "cart", item.id)
+            );
+        }
 
-        itemsDiv.appendChild(div);
-    });
+                alert("🎉 Order placed successfully!");
 
-    const delivery = 50;
-    const finalTotal = itemsTotal + delivery;
+        // Redirect to confirmation page
+        window.location.href = "confirmation.html";
 
-    document.getElementById("itemsTotal").innerText = "₹" + itemsTotal;
-    document.getElementById("delivery").innerText = "₹" + delivery;
-    document.getElementById("finalTotal").innerText = "₹" + finalTotal;
-});
+    } catch (error) {
 
-// 🚀 PLACE ORDER (BASIC VERSION)
-window.placeOrder = function () {
-    alert("🎉 Order placed successfully!");
-    window.location.href = "index.html";
+        console.error("Order Error:", error);
+        alert("Failed to place order. Please try again.");
+
+    }
+
 };
+
 </script>
 
 </body>
 </html>
+                   
