@@ -1,3 +1,12 @@
+// js/shop.js
+
+import { db, auth } from "./firebase.js";
+
+import {
+  addDoc,
+  collection
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
 const age = localStorage.getItem("ageGroup");
 
 const container = document.getElementById("booksContainer");
@@ -16,11 +25,12 @@ async function loadBooks() {
     renderBooks(allBooks);
 
   } catch (err) {
+    console.error(err);
     container.innerHTML = "<p>Error loading books 😢</p>";
   }
 }
 
-// RENDER
+// RENDER BOOKS
 function renderBooks(data) {
 
   container.innerHTML = "";
@@ -37,18 +47,24 @@ function renderBooks(data) {
 
     div.innerHTML = `
       <div class="img" onclick="openProduct('${book.id}')">
-        <img src="${book.image || 'https://via.placeholder.com/150'}">
+        <img src="${book.image || 'https://via.placeholder.com/150'}" alt="${book.title}">
       </div>
 
       <div class="title" onclick="openProduct('${book.id}')">
         ${book.title}
       </div>
 
-      <div class="author">by ${book.author}</div>
+      <div class="author">
+        by ${book.author}
+      </div>
 
-      <div class="rating">${getStars(book.rating)}</div>
+      <div class="rating">
+        ${getStars(book.rating)}
+      </div>
 
-      <div class="price">₹${book.price}</div>
+      <div class="price">
+        ₹${book.price}
+      </div>
 
       <button onclick="addToCart('${book.id}')">
         Add to Cart 🛒
@@ -59,57 +75,62 @@ function renderBooks(data) {
   });
 }
 
-// STARS
+// STAR RATING
 function getStars(rating = 4) {
+
   let stars = "";
+
   for (let i = 1; i <= 5; i++) {
     stars += i <= rating ? "⭐" : "☆";
   }
+
   return stars;
 }
 
 // SEARCH
 searchInput.addEventListener("input", () => {
+
   const value = searchInput.value.toLowerCase();
 
-  const filtered = allBooks.filter(b =>
-    b.title.toLowerCase().includes(value)
+  const filtered = allBooks.filter(book =>
+    book.title.toLowerCase().includes(value)
   );
 
   renderBooks(filtered);
+
 });
 
-// CART
-function addToCart(id){
+// ADD TO CART
+async function addToCart(id) {
 
-import { db, auth } from './firebase.js';
-import { addDoc, collection } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  const user = auth.currentUser;
 
-async function addToCart(id){
+  if (!user) {
+    alert("Please login first.");
+    window.location.href = "login.html";
+    return;
+  }
 
-const user = auth.currentUser;
+  try {
 
-if(!user){
-alert("Please login first");
-return;
+    await addDoc(collection(db, "cart"), {
+      userId: user.uid,
+      bookId: id,
+      createdAt: Date.now()
+    });
+
+    alert("🛒 Book added to cart!");
+
+  } catch (err) {
+
+    console.error(err);
+    alert("Failed to add book to cart.");
+
+  }
+
 }
 
-await addDoc(collection(db,"cart"),{
-userId: user.uid,
-bookId: id
-});
-
-alert("Added to cart 🛒");
-}
-
-// UPDATE BADGE
-window.updateCartCount();
-
-alert("Added to cart 🛒");
-
-}
-
-// OPEN PRODUCT
+// OPEN PRODUCT PAGE
 function openProduct(id) {
   window.location.href = `product.html?id=${id}`;
 }
@@ -117,4 +138,5 @@ function openProduct(id) {
 window.addToCart = addToCart;
 window.openProduct = openProduct;
 
+// START
 loadBooks();
