@@ -206,61 +206,74 @@ right:-12px;
 }
 
 /* =========================
-   DROPDOWN FIX (IMPORTANT)
-   prevents disappearing issue
+   DROPDOWN
 ========================= */
 
 .dropdown{
 position:relative;
 display:inline-block;
+padding-bottom:12px; /* prevents hover gap */
 }
 
-/* dropdown button */
+/* Button */
 .dropbtn{
 background:none;
 border:none;
 font:inherit;
+cursor:pointer;
 }
 
-/* menu */
+/* Menu */
 .dropdown-content{
-display:none;
 position:absolute;
 
-top:35px;
+top:100%;
 left:0;
 
-background:white;
-min-width:180px;
+min-width:190px;
+
+background:var(--white);
 
 border-radius:12px;
 overflow:hidden;
 
-box-shadow:0 10px 20px rgba(0,0,0,0.2);
-z-index:999;
+box-shadow:0 12px 25px rgba(0,0,0,.18);
+
+opacity:0;
+visibility:hidden;
+transform:translateY(8px);
+
+transition:.25s ease;
+
+z-index:9999;
 }
 
-/* links */
+/* Links */
 .dropdown-content a{
 display:block;
-padding:12px 15px;
+padding:13px 16px;
 
-color:#1f3d2b;
+background:var(--white);
+color:var(--primary) !important;
+
+font-weight:500;
 text-decoration:none;
 
-transition:0.2s;
+transition:.25s;
 }
 
 .dropdown-content a:hover{
-background:#f2f2f2;
+background:var(--card);
+color:var(--primary-dark) !important;
+padding-left:22px;
 }
 
-/* 🔥 IMPORTANT FIX */
-.dropdown:hover .dropdown-content,
-.dropdown-content:hover{
-display:block;
+/* Show Menu */
+.dropdown:hover .dropdown-content{
+opacity:1;
+visibility:visible;
+transform:translateY(0);
 }
-
 /* =========================
    HERO SECTION
 ========================= */
